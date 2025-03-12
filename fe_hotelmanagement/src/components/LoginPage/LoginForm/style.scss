@@ -1,0 +1,42 @@
+.custom-input-container {
+    margin-bottom: 100px;
+}
+
+.custom-input {
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.custom-input:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+}
+
+.custom-button {
+    border-radius: 20px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.custom-button:hover {
+    background-color: #1725a0;
+}
+
+.create-new-button {
+    margin-left: 10px;
+    border-radius: 20px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.create-new-button:hover {
+    transform: scale(1.1);
+}
+
+.arrow-icon {
+    margin-left: 5px;
+    font-size: 1.2em;
+}
