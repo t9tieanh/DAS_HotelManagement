@@ -29,33 +29,33 @@ const LoginForm = () => {
               alt="logo"
             />
             <h4 className="mt-1 mb-5 pb-1">Chào mừng đến với DAS Hotel</h4>
-            </div>
+          </div>
 
           <form>
-          <p>Vui lòng đăng nhập vào tài khoản của bạn</p>
+            <p>Vui lòng nhập tài khoản của bạn</p>
 
-            <div className="form-outline mb-4 custom-input-container">
+            <div className="form-outline mb-4 custom-input">
               <input
                 type="email"
                 id="form2Example11"
-                className="form-control custom-input"
-                placeholder="Số điện thoại hoặc địa chỉ email"
+                className="form-control"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
               />
+              <label className="form-label" htmlFor="form2Example11">Tên đăng nhập</label>
             </div>
 
-            <div className="form-outline mb-4 custom-input-container">
+            <div className="form-outline mb-4 custom-input">
               <input
                 type="password"
                 id="form2Example22"
-                className="form-control custom-input"
-                placeholder="Mật khẩu"
+                className="form-control"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
               />
+              <label className="form-label" htmlFor="form2Example22">Mật khẩu</label>
             </div>
 
             <div className="text-center pt-1 mb-5 pb-1">
@@ -65,15 +65,15 @@ const LoginForm = () => {
                 onClick={handleLogin}
               >
                 Đăng nhập
-                </button>
-                <a className="text-muted" href="#!">Quên mật khẩu?</a>
-                </div>
+              </button>
+              <a className="text-muted" href="#!">Quên mật khẩu?</a>
+            </div>
 
             <div className="d-flex align-items-center justify-content-center pb-4">
-            <p className="mb-0 me-2">Bạn chưa có tài khoản?</p>
-            <button type="button" className="btn btn-outline-danger create-new-button">
-            Đăng ký<span className="arrow-icon">→</span>
-            </button>
+              <p className="mb-0 me-2">Bạn chưa có tài khoản?</p>
+              <button type="button" className="btn btn-outline-danger create-new-button">
+                Đăng ký <span className="arrow-icon">→</span>
+              </button>
             </div>
           </form>
         </div>

@@ -11,6 +11,9 @@ import RoomsPage from './pages/RoomList/index.jsx';
 import RoomDetail from './pages/RoomDetail/index.jsx';
 import NotFoundPage from './pages/NotFoundPage/index.jsx';
 import LoginPage from './pages/LoginPage/index.jsx';
+import RegisterPage from './pages/RegisterPage/index.jsx';
+import HotelSearchPage from './pages/HotelSearchPage/index.jsx';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -23,7 +26,9 @@ const router = createBrowserRouter([
         { index: true, element: <HomePage /> },
         { path: 'rooms', element: <RoomsPage /> },
         { path: 'login', element: <LoginPage /> },
-        { path: 'room/:id', element: <RoomDetail /> }
+        { path: 'register', element: <RegisterPage /> },
+        { path: 'room/:id', element: <RoomDetail /> },
+        { path: 'hotel-result', element: <HotelSearchPage /> }
       ]},
     ],
   },
