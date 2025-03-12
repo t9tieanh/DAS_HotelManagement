@@ -1,8 +1,11 @@
 .login-page-component {
-    .col-lg-6.d-flex.align-items-center.gradient-custom-2 {
-        background: black;
+
+    .custom-width {
+        width: 90%;
+    }
+
+    .custom-width {
+        border-radius: 20px;
+        /* Adjust the value as needed */
     }
 }
-
-
-
