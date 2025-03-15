@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatusCode;
 @Getter
 public enum ErrorCode {
     INVALID_KEY(123,"Invalid request body", HttpStatus.BAD_REQUEST),
-    USER_EXISTED(1001,"User exitsted",HttpStatus.BAD_REQUEST),
+    USER_EXISTED(1001,"Người dùng đã tồn tại !",HttpStatus.BAD_REQUEST),
     USER_NOT_FOUND(1002,"User not found",HttpStatus.NOT_FOUND),
     WRONG_PASSWORD(1003,"Wrong password",HttpStatus.UNAUTHORIZED),
     UNCATEGORIZED_EXEPTION(999,"Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
@@ -16,6 +16,7 @@ public enum ErrorCode {
     PASSWORD_INVALID(1005,"password must be at least 8 characters",HttpStatus.BAD_REQUEST),
     INVALID_DOB(1008,"dob must least {min}",HttpStatus.BAD_REQUEST),
     UN_AUTHENTICATED(1009,"Unauthenticated",HttpStatus.UNAUTHORIZED),
+    ACCOUNT_UN_ACTIVE(1009,"Tài khoản chưa được kích hoạt !",HttpStatus.UNAUTHORIZED),
     OTP_SEND(1010,"Cannot send otp",HttpStatus.INTERNAL_SERVER_ERROR),
 
 

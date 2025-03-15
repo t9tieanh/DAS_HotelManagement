@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
-import store from './redux/store';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomeLayout from './layouts/HomeLayout';
 import HomePage from './pages/HomePage/index.jsx';
@@ -13,6 +11,12 @@ import NotFoundPage from './pages/NotFoundPage/index.jsx';
 import LoginPage from './pages/LoginPage/index.jsx';
 import RegisterPage from './pages/RegisterPage/index.jsx';
 import HotelSearchPage from './pages/HotelSearchPage/index.jsx';
+
+//redux persit 
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
+import {store, persistor} from './redux/store';
+import AuthenticatePage from './pages/GGAuth/Authenticate/index.jsx';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -26,6 +30,7 @@ const router = createBrowserRouter([
         { index: true, element: <HomePage /> },
         { path: 'rooms', element: <RoomsPage /> },
         { path: 'login', element: <LoginPage /> },
+        { path: 'authentication', element: <AuthenticatePage /> },
         { path: 'register', element: <RegisterPage /> },
         { path: 'room/:id', element: <RoomDetail /> },
         { path: 'hotel-result', element: <HotelSearchPage /> }
@@ -42,9 +47,9 @@ const router = createBrowserRouter([
 
 root.render(
   <Provider store={store}>
-    <React.StrictMode>
-    <RouterProvider router={router} />
-    </React.StrictMode>
+    <PersistGate loading={null} persistor={persistor}>
+      <RouterProvider router={router} />
+    </PersistGate>
   </Provider>
 );
 

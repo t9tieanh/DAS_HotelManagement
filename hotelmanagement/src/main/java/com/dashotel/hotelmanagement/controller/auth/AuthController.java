@@ -28,6 +28,29 @@ public class AuthController {
     AuthenticationService authenticationService;
     UserService userService;
 
+    @PostMapping("outbound/authentication")
+    ApiResponse<AuthenticationResponse> outBoundAuthentication(@RequestParam("code") String code) throws JOSEException {
+        var result = authenticationService.outBoundAuthentication(code);
+        return ApiResponse.<AuthenticationResponse>builder()
+                .code(200)
+                .result(result)
+                .build();
+    }
+
+    @PostMapping(value="outbound/active-account", consumes = "multipart/form-data")
+    public ApiResponse<Boolean> activeAccount(@ModelAttribute CreationUserRequest request) throws IOException {
+
+        Boolean response = userService.activeAccount(request);
+
+        String message = (response) ? "Account has been created" : "Account not be created";
+
+        return ApiResponse.<Boolean>builder()
+                .code(200)
+                .message(message)
+                .result(true)
+                .build();
+    }
+
     @PostMapping(value="sign-up", consumes = "multipart/form-data")
     public ApiResponse<CreationUserResponse> signUp(@ModelAttribute CreationUserRequest request) throws IOException {
 

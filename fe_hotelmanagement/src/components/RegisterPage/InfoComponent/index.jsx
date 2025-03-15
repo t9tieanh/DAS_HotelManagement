@@ -37,7 +37,7 @@ const InfoComponent = () => {
                 </div>
 
                 <div className="text-center">
-                    <button type="submit" className="btn btn-success btn-lg mb-1">Đăng ký</button>
+                    <button type="submit" className="btn btn-primary btn-lg mb-1">Đăng ký</button>
                 </div>
             </form>
         </div>

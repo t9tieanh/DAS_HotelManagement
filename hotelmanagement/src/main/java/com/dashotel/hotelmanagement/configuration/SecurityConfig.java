@@ -37,7 +37,13 @@ public class SecurityConfig {
     @Value("${spring.jwt.signerKey}")
     protected String SIGNER_KEY;
 
-    private final String[] PUBLIC_ENDPOINTS = {"/auth/**", "/api/files"};
+    private final String[] PUBLIC_ENDPOINTS = {"/auth/outbound/authentication"
+            ,"/auth/sign-up"
+            ,"/auth/login"
+            ,"/auth/logout"
+            ,"/auth/introspect"
+            , "/api/files"
+    };
 
     private final CustomJwtDecoder customJwtDecoder;
 

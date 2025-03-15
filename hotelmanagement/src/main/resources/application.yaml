@@ -15,9 +15,9 @@ file:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3300/hotel_management
+    url: jdbc:mysql://localhost:3306/hotel_management
     username: root
-    password: 1234
+    password: 1942004anh
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -27,8 +27,16 @@ spring:
 
   jwt:
     signerKey: BvniRriiBDSsZEp8ZpkLqOnOuCfRhi+l8JVPmMzFim31u8SR2aYV1Nk0yvYSlIiy
-
-
+    access-token-expiration: 7200000    # 2 tiếng (2 * 60 * 60 * 1000 ms)
+    refresh-token-expiration: 604800000 # 7 ngày (7 * 24 * 60 * 60 * 1000 ms)
+    short-lived-token : 3600000
   logging:
     level:
       org.springframework.security: DEBUG
+
+
+outbound:
+  identity:
+    client-id: ${GOOGLE_CLIENT_ID}
+    client-secret: ${GOOGLE_CLIENT_SECRET}
+    redirect-uri : "http://localhost:3000/authentication"

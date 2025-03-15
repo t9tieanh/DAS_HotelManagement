@@ -1,23 +1,36 @@
 import { useNavigate } from "react-router-dom";
 import flag from "../../../assets/img/flag.jpg";
 import logo from "../../../assets/img/logo.png";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { doDeleteUser } from "../../../redux/action/updateUserAction";
+import './style.scss'
 
 const Header = () => {
 
+    const dispatch = useDispatch()
+    const isAuthentication = useSelector(state => state.user.isAuthentication)
+    const account = useSelector(state => state.user.account)
+
     const navigate = useNavigate();
+
+    const handleLogOut = () => {
+        dispatch(doDeleteUser())
+        navigate('/login')
+    }
 
     return <>
         <header className="header-section">
             <div className="top-nav">
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-6">
+                        <div className="col-lg-4">
                             <ul className="tn-left">
-                                <li><i className="fa fa-phone"></i> (12) 345 67890</li>
-                                <li><i className="fa fa-envelope"></i> info.colorlib@gmail.com</li>
+                                <li><i className="fa fa-phone"></i> (12) 3456789</li>
+                                <li><i className="fa fa-envelope"></i> phama9162@gmail.com</li>
                             </ul>
                         </div>
-                        <div className="col-lg-6">
+                        <div className="col-lg-8">
                             <div className="tn-right">
                                 <div className="top-social">
                                     <a href="#"><i className="fa fa-facebook"></i></a>
@@ -25,7 +38,13 @@ const Header = () => {
                                     <a href="#"><i className="fa fa-tripadvisor"></i></a>
                                     <a href="#"><i className="fa fa-instagram"></i></a>
                                 </div>
-                                <a href="#" className="bk-btn">Booking Now</a>
+                                {isAuthentication && (
+                                    <>
+                                        <a href="#" className="bk-btn">Hello {account?.username}</a>
+                                        <button href="#" onClick={handleLogOut} className="bk-btn btn-logout ml-1">Logout</button>
+                                    </>
+                                )}
+                                {!isAuthentication && <a href="#" onClick={() => {navigate('/login')}} className="bk-btn">Login</a>}
                                 <div className="language-option">
                                     <img src={flag} alt=""/>
                                     <span>EN <i className="fa fa-angle-down"></i></span>
@@ -46,7 +65,7 @@ const Header = () => {
                     <div className="row">
                         <div className="col-lg-2">
                             <div className="logo">
-                                <a href="./index.html">
+                                <a href="#" onClick={() => {navigate('/')}}>
                                     <img src={logo} alt=""/>
                                 </a>
                             </div>

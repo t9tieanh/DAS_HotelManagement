@@ -1,13 +1,17 @@
 import { useState } from "react";
 import "./style.scss";
-import authService from "../../../services/authService";
+import {login} from '../../../services/authService'
 import { useNavigate } from "react-router-dom";
 import {toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { OAuthConfig } from "../../../conf/conf";
+import { useDispatch } from "react-redux";
+import { doUpdateUser } from "../../../redux/action/updateUserAction";
 
 const LoginForm = () => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -23,18 +27,19 @@ const LoginForm = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Login info:", formData);
 
     setLoading(true);
     setErrorMessage("");
 
     try {
-      const result = await authService.login(formData.username, formData.password);
-      console.log("Login success:", result);
 
-      localStorage.setItem("token", result.token);
-      toast.success("Đăng nhập thành công!");
-      navigate("/");
+      const data = await login(formData.username, formData.password) // gọi api
+
+      if (data && data.code && data.code == 200 && data.result) {
+        dispatch(doUpdateUser(data.result))
+        toast.success("Đăng nhập thành công !"); 
+        navigate('/')
+      }
 
     } catch (error) {
       setErrorMessage(error.message);
@@ -43,6 +48,25 @@ const LoginForm = () => {
 
     setLoading(false);
   };
+
+  // login with gg 
+  const handleLoginWithGoogle = () => {
+    try {
+      const callbackUrl = OAuthConfig.redirectUri;
+      const authUrl = OAuthConfig.authUri;
+      const googleClientId = OAuthConfig.clientId;
+  
+      const targetUrl = `${authUrl}?redirect_uri=${encodeURIComponent(
+        callbackUrl
+      )}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile`;
+  
+      console.log(targetUrl);
+
+      window.location.href = targetUrl;
+    } catch (error) {
+      console.error("OAuth error:", error);
+    }
+  }
 
 
   return (
@@ -56,6 +80,17 @@ const LoginForm = () => {
               alt="logo"
             />
             <h4 className="mt-1 mb-5 pb-1">Chào mừng đến với DAS Hotel</h4>
+          </div>
+
+          <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start mt-3 mb-3">
+            <p className="fw-normal mb-0 me-3">Đăng nhập với</p>
+            <a
+              href="#"
+              onClick={handleLoginWithGoogle}
+              className="btn btn-primary btn-floating mx-1"
+            >
+              <i className="fab fa-google"></i>
+            </a>
           </div>
 
           <form>
@@ -91,7 +126,7 @@ const LoginForm = () => {
               <button
                 className="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3 custom-button"
                 type="button"
-                onClick={handleLogin}
+                onClick={(e) => {handleLogin(e)}}
                 disabled={loading}
               >
                 Đăng nhập

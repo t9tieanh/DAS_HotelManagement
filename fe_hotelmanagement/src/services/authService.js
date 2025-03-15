@@ -1,21 +1,7 @@
-import axios from "axios";
+import axios from "../utils/CustomAxios";
 
-const API_BASE_URL = "http://localhost:8080";
+const login = async (username, password) => {
+    return await axios.post(`auth/login`, {username, password})
+}
 
-const authService = {
-    login: async (username, password) => {
-        try {
-            const response = await axios.post(`${API_BASE_URL}/auth/login`, {
-                username,
-                password,
-            })
-
-            return response.data;
-        } catch (error) {
-            console.error("Login failed", error);
-            throw error.response?.data || "Có lỗi xảy ra!";
-        }
-    },
-};
-
-export default authService;
+export {login}

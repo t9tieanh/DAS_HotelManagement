@@ -12,8 +12,17 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthenticationResponse {
-    String token;
+    String accessToken;
+    String refreshToken;
     String username;
     RoleAccountEnum role;
     boolean valid = true;
+
+    // dùng cho gg authentication
+    String id;
+    boolean verifiedEmail;
+    String name;
+    String imageUrl;
+    boolean isActive;
+    String email;
 }

@@ -1,6 +1,7 @@
 package com.dashotel.hotelmanagement.utils;
 
 import com.dashotel.hotelmanagement.entity.account.AccountEntity;
+import com.dashotel.hotelmanagement.enums.TokenEnum;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -22,17 +23,37 @@ public class JwtUtils {
     protected String SIGNER_KEY;
 
 
-    public String generateToken (AccountEntity account) throws JOSEException {
+    @Value("${spring.jwt.access-token-expiration}")
+    private Long accessTokenExpiration;
+
+    @Value("${spring.jwt.refresh-token-expiration}")
+    private Long refreshTokenExpiration;
+
+    @Value("${spring.jwt.short-lived-token}")
+    private Long shortLiveTokenExpiration;
+
+
+
+    public String generateToken (AccountEntity account, TokenEnum tokenType) throws JOSEException {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
+
+        Long date = (tokenType.equals(TokenEnum.ACCESS_TOKEN)) ? accessTokenExpiration : refreshTokenExpiration;
+        if (tokenType.equals(TokenEnum.ACCESS_TOKEN)) {
+            date = accessTokenExpiration;
+        } else if (tokenType.equals(TokenEnum.RESFESH_TOKEN))
+            date = refreshTokenExpiration;
+        else if (tokenType.equals(TokenEnum.SHORT_LIVED_TOKEN))
+            date = shortLiveTokenExpiration; // dành cho những token cos thời gian sống gắng
 
         //payload
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
                 .jwtID(UUID.randomUUID().toString())
                 .subject(account.getUsername()) // sub
-                .issuer("das-hotel.com") // iss
+                .issuer("freeclassroom.com") // iss
                 .issueTime(new Date()) // iat
-                .expirationTime(new Date(System.currentTimeMillis() + 3600 * 1000)) // exp (1 giờ)
-                .claim("scope", account.getRole().toString())
+                .expirationTime(new Date(System.currentTimeMillis() + date))
+                .claim("scope", account.getRole()) // Custom claim
+                .claim("type",tokenType.name())
                 .build();
 
         Payload payload = new Payload(claimsSet.toJSONObject());
@@ -45,15 +66,20 @@ public class JwtUtils {
     }
 
 
-    public Boolean validToken (String token) throws JOSEException, ParseException {
+    public Boolean validToken (String token, TokenEnum tokenType) throws JOSEException, ParseException {
         JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
 
         SignedJWT signedJWT = SignedJWT.parse(token);
         Date expirationDate = signedJWT.getJWTClaimsSet().getExpirationTime();
+        TokenEnum tokenTypeEnum = TokenEnum.valueOf(signedJWT.getJWTClaimsSet().getClaim("type").toString());
 //        String jwtId = signedJWT.getJWTClaimsSet().getJWTID();
 
-        if (!(expirationDate.after(new Date())
-                && signedJWT.verify(verifier)))
+//        String tokenvalue = tokenTypeEnum.getValue();
+//        String tmp = tokenType.getValue();
+        boolean flag = tokenTypeEnum.getValue().equals(tokenType.getValue());
+
+        if (!(expirationDate.after(new Date()))
+                || !signedJWT.verify(verifier) || !flag)
             return false;
 
         return true;

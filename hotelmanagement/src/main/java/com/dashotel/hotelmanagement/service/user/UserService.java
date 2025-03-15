@@ -7,6 +7,7 @@ import com.dashotel.hotelmanagement.entity.peple.AdminEntity;
 import com.dashotel.hotelmanagement.entity.peple.CustomerEntity;
 import com.dashotel.hotelmanagement.entity.peple.OwnerEntity;
 import com.dashotel.hotelmanagement.entity.peple.UserEntity;
+import com.dashotel.hotelmanagement.enums.AccountStatusEnum;
 import com.dashotel.hotelmanagement.enums.RoleAccountEnum;
 import com.dashotel.hotelmanagement.exception.CustomException;
 import com.dashotel.hotelmanagement.exception.ErrorCode;
@@ -38,6 +39,32 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     FileStorageService fileStorageService;
+
+    // chỉ dùng cho
+    @Transactional
+    public boolean activeAccount (CreationUserRequest request) throws IOException {
+        AccountEntity accountEntity = accountRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        // không cho trùng username
+        if (accountRepository.existsByUsername(request.getUsername()))
+            throw new CustomException(ErrorCode.USER_EXISTED);
+
+        // tiến hành lưu ảnh
+        request.setImgUrl(fileStorageService.storeImage(request.getImg()));
+
+        request.setRole(RoleAccountEnum.CUSTOMER); // chỉ có customer mới được tạo tài khoản google
+        updateAccount(request, accountEntity);
+
+        //update password
+        accountEntity.setPassword(passwordEncoder.encode(request.getPassword()));
+        accountEntity.setStatus(AccountStatusEnum.ACTIVE); // set status -> active
+        accountMapper.updateAccountEntity(request, accountEntity);
+
+        accountRepository.save(accountEntity);
+        return true;
+    }
+
 
     @Transactional
     public CreationUserResponse addUser (CreationUserRequest request) throws IOException {
@@ -73,6 +100,7 @@ public class UserService {
                 userEntity = new CustomerEntity();
                 accountEntity.setCustomer((CustomerEntity) userEntity);
                 ((CustomerEntity) userEntity).setAccount(accountEntity);
+                ((CustomerEntity) userEntity).setLoyaltyPoints(0L); // xét điểm ban đầu = 0
                 break;
 
             case RoleAccountEnum.OWNER:
