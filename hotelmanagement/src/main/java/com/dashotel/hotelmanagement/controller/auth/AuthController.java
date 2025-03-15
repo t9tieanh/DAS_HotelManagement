@@ -40,8 +40,8 @@ public class AuthController {
                 .build();
     }
 
-    @PostMapping(value="login")
-    public ApiResponse<AuthenticationResponse> signUp(@RequestBody AuthenticationRequest request) throws  JOSEException {
+    @PostMapping(value="/login")
+    public ApiResponse<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) throws JOSEException {
 
         AuthenticationResponse response = authenticationService.authentication(request);
 

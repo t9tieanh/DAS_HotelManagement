@@ -1,20 +1,45 @@
 import { useState } from "react";
-import "./style.scss"; // Import the CSS file
+import "./style.scss";
+import authService from "../../../services/authService";
+import { useNavigate } from "react-router-dom";
+// import ToastNotification from "../../common/ToastNotification";
 
 const LoginForm = () => {
 
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: "",
   });
+
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     console.log("Login info:", formData);
-    // Xử lý đăng nhập ở đây
+
+    setLoading(true);
+    setErrorMessage("");
+
+    try {
+      const result = await authService.login(formData.username, formData.password);
+      console.log("Login success:", result);
+
+      localStorage.setItem("token", result.token);
+      alert("Đăng nhập thành công!");
+
+
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
+
+    setLoading(false);
   };
 
 
@@ -34,13 +59,15 @@ const LoginForm = () => {
           <form>
             <p>Vui lòng nhập tài khoản của bạn</p>
 
+            {errorMessage && <p className="text-danger">{errorMessage}</p>}
+
             <div className="form-outline mb-4 custom-input">
               <input
-                type="email"
+                type="text"
                 id="form2Example11"
                 className="form-control"
-                name="email"
-                value={formData.email}
+                name="username"
+                value={formData.username}
                 onChange={handleChange}
               />
               <label className="form-label" htmlFor="form2Example11">Tên đăng nhập</label>
@@ -63,6 +90,7 @@ const LoginForm = () => {
                 className="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3 custom-button"
                 type="button"
                 onClick={handleLogin}
+                disabled={loading}
               >
                 Đăng nhập
               </button>
