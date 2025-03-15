@@ -1,42 +1,44 @@
-.custom-input-container {
-    margin-bottom: 100px;
-}
+.loginform-container {
+    .custom-input-container {
+        margin-bottom: 100px !important;
+    }
 
-.custom-input {
-    border-radius: 10px;
-    padding: 10px;
-    border: 1px solid #ced4da;
-    transition: border-color 0.3s ease-in-out;
-}
+    .custom-input {
+        border-radius: 20px !important;
+        padding: 3px !important;
+        border: 1px solid #ced4da !important;
+        transition: border-color 0.3s ease-in-out !important;
+    }
 
-.custom-input:focus {
-    border-color: #80bdff;
-    outline: 0;
-    box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
-}
+    .custom-input:focus {
+        border-color: #80bdff !important;
+        outline: 0 !important;
+        box-shadow: 0 0 5px rgba(128, 189, 255, 0.5) !important;
+    }
 
-.custom-button {
-    border-radius: 20px;
-    padding: 10px 20px;
-    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
+    .custom-button {
+        border-radius: 20px !important;
+        padding: 10px 20px !important;
+        transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out !important;
+    }
 
-.custom-button:hover {
-    background-color: #1725a0;
-}
+    .custom-button:hover {
+        background-color: #1725a0 !important;
+    }
 
-.create-new-button {
-    margin-left: 10px;
-    border-radius: 20px;
-    padding: 10px 20px;
-    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
+    .create-new-button {
+        margin-left: 10px !important;
+        border-radius: 20px !important;
+        padding: 10px 20px !important;
+        transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out !important;
+    }
 
-.create-new-button:hover {
-    transform: scale(1.1);
-}
+    .create-new-button:hover {
+        transform: scale(1.1) !important;
+    }
 
-.arrow-icon {
-    margin-left: 5px;
-    font-size: 1.2em;
+    .arrow-icon {
+        margin-left: 5px !important;
+        font-size: 1.2em !important;
+    }
 }

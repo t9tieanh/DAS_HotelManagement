@@ -1,0 +1,11 @@
+.Toastify__toast-body {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1px !important;
+    /* Điều chỉnh khoảng cách giữa icon và message */
+    justify-content: left !important;
+}
+
+.Toastify__toast {
+    justify-content: flex-start !important;
+}
