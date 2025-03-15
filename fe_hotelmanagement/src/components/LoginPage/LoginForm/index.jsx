@@ -2,7 +2,8 @@ import { useState } from "react";
 import "./style.scss";
 import authService from "../../../services/authService";
 import { useNavigate } from "react-router-dom";
-// import ToastNotification from "../../common/ToastNotification";
+import {toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginForm = () => {
 
@@ -32,11 +33,12 @@ const LoginForm = () => {
       console.log("Login success:", result);
 
       localStorage.setItem("token", result.token);
-      alert("Đăng nhập thành công!");
-
+      toast.success("Đăng nhập thành công!");
+      navigate("/");
 
     } catch (error) {
       setErrorMessage(error.message);
+      toast.error("Đăng nhập thất bại!"); 
     }
 
     setLoading(false);
@@ -45,7 +47,7 @@ const LoginForm = () => {
 
   return (
     <>
-      <div className="col-lg-6">
+      <div className="col-lg-6 loginform-container">
         <div className="card-body p-md-5 mx-md-4">
           <div className="text-center">
             <img
