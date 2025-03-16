@@ -6,16 +6,25 @@ const instance = axios.create({
     withCredentials: true,
 });
 
-const excludedUrls = ["/auth/login", "/auth/register", "/auth/refresh-token"];
-
+const excludedUrls = [
+    "/auth/login",
+    "/auth/register",
+    "/auth/refresh-token",
+    "/auth/outbound/authentication"
+];
 
 instance.interceptors.request.use(
     (config) => {
-
         const accessToken = store.getState()?.user?.account?.accessToken;
-        const shouldAttachToken = !excludedUrls.some((url) => config.url.includes(url));
+
+        // Lấy phần URL trước dấu "?" để tránh bị ảnh hưởng bởi query params
+        const cleanUrl = new URL(config.url, window.location.origin).pathname;
+
+        // Kiểm tra nếu URL có trong danh sách loại trừ
+        const shouldAttachToken = !excludedUrls.includes(cleanUrl);
 
         if (shouldAttachToken && accessToken) {
+            console.log("Đính kèm Authorization header");
             config.headers["Authorization"] = `Bearer ${accessToken}`;
         }
 
@@ -23,6 +32,7 @@ instance.interceptors.request.use(
     },
     (error) => Promise.reject(error)
 );
+
 
 
 instance.interceptors.response.use(

@@ -28,7 +28,7 @@ const LoginForm = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    setLoading(true);
+    // setLoading(true);
     setErrorMessage("");
 
     try {
@@ -39,7 +39,13 @@ const LoginForm = () => {
         dispatch(doUpdateUser(data.result))
         toast.success("Đăng nhập thành công !"); 
         navigate('/')
+      } else if (data.response && data.response.data) {
+        console.log(data)
+        toast.error(data.response.data.message)
+        return
       }
+
+      else toast.error(data?.message)
 
     } catch (error) {
       setErrorMessage(error.message);

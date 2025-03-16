@@ -4,7 +4,9 @@ import logo from "../../../assets/img/logo.png";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { doDeleteUser } from "../../../redux/action/updateUserAction";
+import { logout } from "../../../services/authService";
 import './style.scss'
+import { toast } from "react-toastify";
 
 const Header = () => {
 
@@ -14,9 +16,15 @@ const Header = () => {
 
     const navigate = useNavigate();
 
-    const handleLogOut = () => {
+    const handleLogOut = async() => {
+        const data = await logout();
+
         dispatch(doDeleteUser())
-        navigate('/login')
+        
+        if (data && data.code == 200) {
+            navigate('/login')
+            toast.success("Đăng xuất thành công !")
+        }
     }
 
     return <>

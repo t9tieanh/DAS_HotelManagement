@@ -129,13 +129,7 @@ public class AuthenticationService {
             throw new CustomException(ErrorCode.ACCOUNT_UN_ACTIVE);
         }
 
-//        boolean result = passwordEncoder.matches(request.getPassword(), account.getPassword());
-
-        // test
-        boolean result = false;
-        if (account != null) {
-            result = true;
-        }
+        boolean result = passwordEncoder.matches(request.getPassword(), account.getPassword());
 
         if (result) {
             return AuthenticationResponse.builder()
@@ -150,8 +144,11 @@ public class AuthenticationService {
         throw new CustomException (ErrorCode.UN_AUTHENTICATED);
     }
 
-    public void logOut (LogoutRequest request) throws ParseException {
-        SignedJWT signedJWT = SignedJWT.parse(request.getToken());
+    public void logOut () throws ParseException {
+
+        String token = jwtUtils.getTokenFromSecurityContext();
+
+        SignedJWT signedJWT = SignedJWT.parse(token);
         String jwtId = signedJWT.getJWTClaimsSet().getJWTID().toString();
         Date expirationDate = signedJWT.getJWTClaimsSet().getExpirationTime();
 

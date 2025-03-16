@@ -40,7 +40,6 @@ public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS = {"/auth/outbound/authentication"
             ,"/auth/sign-up"
             ,"/auth/login"
-            ,"/auth/logout"
             ,"/auth/introspect"
             , "/api/files"
     };
