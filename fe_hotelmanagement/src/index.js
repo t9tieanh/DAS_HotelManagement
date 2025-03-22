@@ -17,6 +17,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import {store, persistor} from './redux/store';
 import AuthenticatePage from './pages/GGAuth/Authenticate/index.jsx';
+import HotelDetail from './pages/HotelDetail/index.jsx';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       { path: '/', element: <HomeLayout />, children: [
         { index: true, element: <HomePage /> },
         { path: 'rooms', element: <RoomsPage /> },
+        { path: 'hotel-detail', element: <HotelDetail /> },
         { path: 'login', element: <LoginPage /> },
         { path: 'authentication', element: <AuthenticatePage /> },
         { path: 'register', element: <RegisterPage /> },
