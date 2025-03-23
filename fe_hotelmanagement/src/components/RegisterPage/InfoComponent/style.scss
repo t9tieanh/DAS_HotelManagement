@@ -1,0 +1,43 @@
+.info-card-body {
+    .form-outline {
+        margin-bottom: 1.5rem;
+        position: relative;
+        border: 2px solid #ced4da;
+        border-radius: 8px;
+        padding: 0.5rem;
+        background-color: #ffffff;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .form-outline:hover {
+        border-color: #007bff;
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+    }
+
+    .form-control {
+        border: none;
+        border-radius: 5px;
+        padding: 0.75rem;
+        font-size: 1rem;
+        width: 100%;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .form-control:focus {
+        background-color: #ffffff;
+        box-shadow: none;
+        outline: none;
+    }
+
+    .form-label {
+        font-size: 1rem;
+        color: #6c757d;
+        position: absolute;
+        top: -15px;
+        left: 15px;
+        // background: #ffffff;
+        padding: 0 5px;
+        margin-top: 10px;
+        font-weight: 500;
+    }
+}

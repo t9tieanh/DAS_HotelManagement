@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Booking with MDB Bootstrap</title>
+    <!-- MDB CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <style>
+        .room-section {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .room-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .room-details {
+            padding: 20px;
+        }
+        .room-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .room-details table td {
+            padding: 10px;
+            vertical-align: middle;
+        }
+        .room-details table tr:not(:last-child) {
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .price-old {
+            text-decoration: line-through;
+            color: #999;
+        }
+        .price-new {
+            color: #e91e63;
+            font-weight: bold;
+        }
+        .select-btn {
+            width: 100px;
+        }
+        .amenities i {
+            margin-right: 5px;
+        }
+        .filters {
+            margin-bottom: 20px;
+        }
+        .filters .form-check {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        .new-room {
+            float: right;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Filters -->
+        <div class="filters">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="freeCancel">
+                <label class="form-check-label" for="freeCancel">Miễn phí hủy phòng</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="payAtHotel">
+                <label class="form-check-label" for="payAtHotel">Thanh Toán Tại Khách Sạn <span class="badge bg-primary rounded-pill">?</span></label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="freeBreakfast">
+                <label class="form-check-label" for="freeBreakfast">Miễn phí bữa sáng</label>
+            </div>
+            <a href="#" class="new-room">Mở phòng mới đêm (chưa bao gồm thuế và phí)</a>
+        </div>
+
+        <!-- Room Section -->
+        <div class="room-section">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <div class="room-image">
+                        <img src="https://dyf.vn/wp-content/uploads/2021/10/goc-kham-pha-3-khach-san-co-tuoi-doi-gia-nhat-sai-gon_6172680405e4f.jpeg" alt="Superior City View Room">
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="room-details">
+                        <h5>Superior City View</h5>
+                        <table>
+                            <tr>
+                                <td>
+                                    <strong>Superior Room City View – Special Rate</strong><br>
+                                    <span class="text-muted">Không gồm bữa sáng</span><br>
+                                    <i class="fas fa-bed"></i> 1 giường cỡ queen<br>
+                                    <span class="text-success">Áp dụng chính sách hủy phòng</span>
+                                </td>
+                                <td class="text-center"><i class="fas fa-user"></i> x2</td>
+                                <td class="text-end">
+                                    <span class="price-old">492,133 VND</span><br>
+                                    <span class="price-new">369,100 VND</span><br>
+                                    <small class="text-muted">Chưa bao gồm thuế và phí</small><br>
+                                    <span class="badge bg-warning text-dark">EARN 1,465 Points</span>
+                                </td>
+                                <td class="text-end">
+                                    <button class="btn btn-primary select-btn">Chọn</button><br>
+                                    <small class="text-muted">Chỉ còn 1 phòng</small>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MDB JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        document.querySelectorAll('.select-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                alert('Phòng đã được chọn!');
+                // Add your logic for selecting the room here
+            });
+        });
+    </script>
+</body>
+</html>
