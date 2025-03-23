@@ -5,7 +5,7 @@
 
     .custom-input {
         border-radius: 20px !important;
-        padding: 3px !important;
+        padding: 5px !important;
         border: 1px solid #ced4da !important;
         transition: border-color 0.3s ease-in-out !important;
     }
@@ -17,28 +17,53 @@
     }
 
     .custom-button {
-        border-radius: 20px !important;
-        padding: 10px 20px !important;
-        transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out !important;
+        background: linear-gradient(90deg, #007bff, #0056b3);
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 18px 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .custom-button:hover {
-        background-color: #1725a0 !important;
+        background: linear-gradient(90deg, #0056b3, #003f7f);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
     }
 
-    .create-new-button {
+    .custom-button:disabled {
+        background: #cccccc;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+    .register-button {
         margin-left: 10px !important;
         border-radius: 20px !important;
         padding: 10px 20px !important;
         transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out !important;
     }
 
-    .create-new-button:hover {
-        transform: scale(1.1) !important;
+    .register-button:hover {
+        background-color: #DB4437 !important;
+        color: white !important;
     }
 
     .arrow-icon {
         margin-left: 5px !important;
         font-size: 1.2em !important;
     }
+
+    .form-check-label {
+        color: #6b6b6b;
+    }
+
+    .form-label {
+        margin-top: 4px;
+    }
+
 }

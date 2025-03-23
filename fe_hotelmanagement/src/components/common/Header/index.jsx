@@ -53,7 +53,7 @@ const Header = () => {
                                     </>
                                 )}
                                 {!isAuthentication && <a href="#" onClick={() => { navigate('/login') }} className="bk-btn">Login</a>}
-                                <div className="language-option">
+                                <div className="user-profile">
                                     <img src={userAvatar} alt="User Avatar" />
                                     <div className="flag-dropdown">
                                         <ul>

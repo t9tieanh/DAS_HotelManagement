@@ -1,0 +1,94 @@
+/* Nội dung chính */
+.customer-profile__main {
+    flex: 1;
+    padding: 20px 40px;
+    margin: 30px 50px 30px 10px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-left: 1px solid #e0e0e0;
+    border-radius: 10px;
+}
+
+.customer-profile__main h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.customer-profile__main .tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.customer-profile__main .tabs button {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: bold;
+    color: #007bff;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s;
+}
+
+.customer-profile__main .tabs button:hover,
+.customer-profile__main .tabs button:focus {
+    color: #0056b3;
+    border-bottom: 2px solid #007bff;
+}
+
+.customer-profile__main section {
+    margin-top: 20px;
+}
+
+.customer-profile__main section h2 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #333;
+}
+
+.customer-profile__main section label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.customer-profile__main section input,
+.customer-profile__main section select {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.customer-profile__main section input:focus,
+.customer-profile__main section select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.customer-profile__main section p {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+}
+
+.customer-profile__main .edit-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    float: right;
+    margin-top: 10px;
+    font-weight: bold;
+}

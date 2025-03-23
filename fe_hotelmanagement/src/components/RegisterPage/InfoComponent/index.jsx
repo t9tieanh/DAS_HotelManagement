@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { register } from "../../../services/RegisterService/registerService"; // Import the service
 import "./style.scss";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 

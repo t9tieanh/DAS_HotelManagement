@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "./style.scss";
-import {login} from '../../../services/authService'
+import { login } from '../../../services/authService'
 import { useNavigate } from "react-router-dom";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { OAuthConfig } from "../../../conf/conf";
 import { useDispatch } from "react-redux";
@@ -37,7 +37,7 @@ const LoginForm = () => {
 
       if (data && data.code && data.code == 200 && data.result) {
         dispatch(doUpdateUser(data.result))
-        toast.success("Đăng nhập thành công !"); 
+        toast.success("Đăng nhập thành công !");
         navigate('/')
       } else if (data.response && data.response.data) {
         console.log(data)
@@ -49,7 +49,7 @@ const LoginForm = () => {
 
     } catch (error) {
       setErrorMessage(error.message);
-      toast.error("Đăng nhập thất bại!"); 
+      toast.error("Đăng nhập thất bại!");
     }
 
     setLoading(false);
@@ -61,11 +61,11 @@ const LoginForm = () => {
       const callbackUrl = OAuthConfig.redirectUri;
       const authUrl = OAuthConfig.authUri;
       const googleClientId = OAuthConfig.clientId;
-  
+
       const targetUrl = `${authUrl}?redirect_uri=${encodeURIComponent(
         callbackUrl
       )}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile`;
-  
+
       console.log(targetUrl);
 
       window.location.href = targetUrl;
@@ -86,17 +86,6 @@ const LoginForm = () => {
               alt="logo"
             />
             <h4 className="mt-1 mb-5 pb-1">Chào mừng đến với DAS Hotel</h4>
-          </div>
-
-          <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start mt-3 mb-3">
-            <p className="fw-normal mb-0 me-3">Đăng nhập với</p>
-            <a
-              href="#"
-              onClick={handleLoginWithGoogle}
-              className="btn btn-primary btn-floating mx-1"
-            >
-              <i className="fab fa-google"></i>
-            </a>
           </div>
 
           <form>
@@ -128,24 +117,61 @@ const LoginForm = () => {
               <label className="form-label" htmlFor="form2Example22">Mật khẩu</label>
             </div>
 
-            <div className="text-center pt-1 mb-5 pb-1">
+            <div className="text-center pt-1 mb-3 pb-1">
               <button
-                className="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3 custom-button"
+                className="btn btn-primary btn-block fa-lg mb-3 custom-button"
                 type="button"
-                onClick={(e) => {handleLogin(e)}}
+                onClick={(e) => { handleLogin(e) }}
                 disabled={loading}
               >
                 Đăng nhập
               </button>
-              <a className="text-muted" href="#!">Quên mật khẩu?</a>
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="form-check">
+                  <input className="form-check-input" type="checkbox" id="rememberMe" />
+                  <label className="form-check-label" htmlFor="rememberMe">
+                    Ghi nhớ tài khoản
+                  </label>
+                </div>
+                <a className="text-muted" href="#!">Quên mật khẩu?</a>
+              </div>
+            </div>
+
+            <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start mt-1 mb-3">
+              <p className="fw-normal mb-0 me-3">Hoặc đăng nhập với</p>
+              <a
+                href="#"
+                onClick={handleLoginWithGoogle}
+                className="btn btn-floating mx-1"
+                style={{
+                  backgroundColor: "#DB4437", // Màu Google
+                  color: "white",
+                  borderColor: "#DB4437"
+                }}
+              >
+                <i className="fab fa-google"></i>
+              </a>
+
+
+              <a
+                href="#"
+                className="btn btn-floating mx-1"
+                style={{
+                  backgroundColor: "#1877F2", 
+                  color: "white",
+                  borderColor: "#1877F2"
+                }}
+              >
+                <i className="fab fa-facebook-f"></i>
+              </a>
             </div>
 
             <div className="d-flex align-items-center justify-content-center pb-4">
               <p className="mb-0 me-2">Bạn chưa có tài khoản?</p>
-              <button 
-              type="button" 
-              className="btn btn-outline-danger create-new-button"
-              onClick={() => navigate('/register')}>
+              <button
+                type="button"
+                className="btn btn-outline-danger register-button"
+                onClick={() => navigate('/register')}>
                 Đăng ký <span className="arrow-icon">→</span>
               </button>
             </div>
