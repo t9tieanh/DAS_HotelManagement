@@ -18,6 +18,7 @@ import { Provider } from 'react-redux';
 import {store, persistor} from './redux/store';
 import AuthenticatePage from './pages/GGAuth/Authenticate/index.jsx';
 import HotelDetail from './pages/HotelDetail/index.jsx';
+import CustomerProfile from './pages/CustomerProfile/index.jsx';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -35,7 +36,8 @@ const router = createBrowserRouter([
         { path: 'authentication', element: <AuthenticatePage /> },
         { path: 'register', element: <RegisterPage /> },
         { path: 'room/:id', element: <RoomDetail /> },
-        { path: 'hotel-result', element: <HotelSearchPage /> }
+        { path: 'hotel-result', element: <HotelSearchPage /> },
+        { path: 'profile', element: <CustomerProfile /> }
       ]},
     ],
   },
