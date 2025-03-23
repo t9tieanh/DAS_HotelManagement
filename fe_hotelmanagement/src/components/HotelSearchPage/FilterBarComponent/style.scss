@@ -1,74 +1,130 @@
+/* filepath: d:\Term II Third Year\OOAD\fe_hotelmanagement\src\components\HotelSearchPage\FilterBarComponent\style.scss */
+
+/* General sidebar styling */
 .sidebar {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-  
-    h3 {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-  
-    p {
-      font-size: 14px;
-      color: #6c757d;
-      margin-bottom: 20px;
-    }
-  
-    .price-filter {
-      margin-bottom: 20px;
-  
-      input[type="range"] {
-        width: 100%;
-        margin-bottom: 10px;
-      }
-  
-      .range-labels {
-        display: flex;
-        justify-content: space-between;
-        font-size: 14px;
-        color: #6c757d;
-      }
-  
-      .reset-link {
-        color: #007bff;
-        cursor: pointer;
-        font-size: 14px;
-        text-align: right;
-        display: block;
-        margin-top: -10px;
-        margin-bottom: 10px;
-      }
-    }
-  
-    .popular-filters,
-    .promotions {
-      margin-bottom: 20px;
-  
-      label {
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-        margin-bottom: 10px;
-        cursor: pointer;
-  
-        input[type="checkbox"] {
-          margin-right: 10px;
-        }
-  
-        .filter-count {
-          color: #6c757d;
-          margin-left: auto;
-        }
-      }
-  
-      a {
-        color: #007bff;
-        font-size: 14px;
-        text-decoration: none;
-        display: block;
-        margin-top: 10px;
-      }
-    }
-  }
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Khoảng giá section */
+.price-filter {
+  margin-bottom: 24px;
+}
+
+.price-filter h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.price-filter p {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.price-filter input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #ddd;
+  border-radius: 5px;
+  outline: none;
+  margin-bottom: 8px;
+}
+
+/* filepath: d:\Term II Third Year\OOAD\fe_hotelmanagement\src\components\HotelSearchPage\FilterBarComponent\style.scss */
+
+/* Tăng kích thước nút tròn trên thanh trượt */
+.price-filter input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 32px; /* Tăng kích thước chiều rộng */
+  height: 32px; /* Tăng kích thước chiều cao */
+  background: #007bff;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #fff; /* Thêm viền trắng để nổi bật */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Thêm hiệu ứng đổ bóng */
+}
+
+.price-filter input[type="range"]::-moz-range-thumb {
+  width: 32px; /* Tăng kích thước chiều rộng */
+  height: 32px; /* Tăng kích thước chiều cao */
+  background: #007bff;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #fff; /* Thêm viền trắng để nổi bật */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Thêm hiệu ứng đổ bóng */
+}
+
+.price-filter .range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+}
+
+/* Lọc phổ biến section */
+.popular-filters {
+  margin-bottom: 24px;
+}
+
+.popular-filters h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.popular-filters label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.popular-filters input[type="checkbox"] {
+  margin-right: 8px;
+  accent-color: #007bff;
+}
+
+.popular-filters a {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.popular-filters a:hover {
+  text-decoration: underline;
+}
+
+/* Khuyến mãi & Giảm giá section */
+.promotions {
+  margin-bottom: 24px;
+}
+
+.promotions h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.promotions label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.promotions input[type="checkbox"] {
+  margin-right: 8px;
+  accent-color: #007bff;
+}
