@@ -8,7 +8,7 @@ const instance = axios.create({
 
 const excludedUrls = [
     "/auth/login",
-    "/auth/register",
+    "/auth/sign-up",
     "/auth/refresh-token",
     "/auth/outbound/authentication"
 ];
@@ -40,7 +40,7 @@ instance.interceptors.response.use(
         return response?.data;
     },
     async (error) => {
-        console.log("lỗi từ axios : " ,error)
+        console.log("lỗi từ axios : ", error)
         return error;
     }
 );

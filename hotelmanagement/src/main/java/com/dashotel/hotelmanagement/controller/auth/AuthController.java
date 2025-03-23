@@ -51,7 +51,8 @@ public class AuthController {
                 .build();
     }
 
-    @PostMapping(value="sign-up", consumes = "multipart/form-data")
+    @PostMapping(value="/sign-up", consumes = "multipart/form-data")
+
     public ApiResponse<CreationUserResponse> signUp(@ModelAttribute CreationUserRequest request) throws IOException {
 
         CreationUserResponse response = userService.addUser(request);
@@ -93,7 +94,7 @@ public class AuthController {
 
         return ApiResponse.<Void>builder()
                 .code(200)
-                .message("login successly")
+                .message("login successfully")
                 .build();
     }
 }

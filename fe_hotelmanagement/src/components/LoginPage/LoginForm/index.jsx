@@ -142,7 +142,10 @@ const LoginForm = () => {
 
             <div className="d-flex align-items-center justify-content-center pb-4">
               <p className="mb-0 me-2">Bạn chưa có tài khoản?</p>
-              <button type="button" className="btn btn-outline-danger create-new-button">
+              <button 
+              type="button" 
+              className="btn btn-outline-danger create-new-button"
+              onClick={() => navigate('/register')}>
                 Đăng ký <span className="arrow-icon">→</span>
               </button>
             </div>

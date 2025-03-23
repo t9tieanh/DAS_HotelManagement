@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import flag from "../../../assets/img/flag.jpg";
+import userAvatar from "../../../assets/img/user.png";
 import logo from "../../../assets/img/logo.png";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -16,11 +16,11 @@ const Header = () => {
 
     const navigate = useNavigate();
 
-    const handleLogOut = async() => {
+    const handleLogOut = async () => {
         const data = await logout();
 
         dispatch(doDeleteUser())
-        
+
         if (data && data.code == 200) {
             navigate('/login')
             toast.success("Đăng xuất thành công !")
@@ -35,7 +35,7 @@ const Header = () => {
                         <div className="col-lg-4">
                             <ul className="tn-left">
                                 <li><i className="fa fa-phone"></i> (12) 3456789</li>
-                                <li><i className="fa fa-envelope"></i> phama9162@gmail.com</li>
+                                <li><i className="fa fa-envelope"></i> sona@gmail.com</li>
                             </ul>
                         </div>
                         <div className="col-lg-8">
@@ -52,14 +52,14 @@ const Header = () => {
                                         <button href="#" onClick={handleLogOut} className="bk-btn btn-logout ml-1">Logout</button>
                                     </>
                                 )}
-                                {!isAuthentication && <a href="#" onClick={() => {navigate('/login')}} className="bk-btn">Login</a>}
+                                {!isAuthentication && <a href="#" onClick={() => { navigate('/login') }} className="bk-btn">Login</a>}
                                 <div className="language-option">
-                                    <img src={flag} alt=""/>
-                                    <span>EN <i className="fa fa-angle-down"></i></span>
+                                    <img src={userAvatar} alt="User Avatar" />
                                     <div className="flag-dropdown">
                                         <ul>
-                                            <li><a href="#">Zi</a></li>
-                                            <li><a href="#">Fr</a></li>
+                                            <li><a href="#">Hồ sơ</a></li>
+                                            <li><a href="#">Cài đặt</a></li>
+                                            <li><a href="#">Đăng xuất</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -73,8 +73,8 @@ const Header = () => {
                     <div className="row">
                         <div className="col-lg-2">
                             <div className="logo">
-                                <a href="#" onClick={() => {navigate('/')}}>
-                                    <img src={logo} alt=""/>
+                                <a href="#" onClick={() => { navigate('/') }}>
+                                    <img src={logo} alt="" />
                                 </a>
                             </div>
                         </div>
@@ -82,8 +82,8 @@ const Header = () => {
                             <div className="nav-menu">
                                 <nav className="mainmenu">
                                     <ul>
-                                        <li onClick={() => {navigate('/')}} className="active"><a>Home</a></li>
-                                        <li onClick={() => {navigate('/rooms')}} ><a>Rooms</a></li>
+                                        <li onClick={() => { navigate('/') }} className="active"><a>Home</a></li>
+                                        <li onClick={() => { navigate('/rooms') }} ><a>Rooms</a></li>
                                         <li><a href="./about-us.html">About Us</a></li>
                                         <li><a href="./pages.html">Pages</a>
                                             <ul className="dropdown">
@@ -108,6 +108,5 @@ const Header = () => {
         </header>
     </>
 }
- 
 
 export default Header;

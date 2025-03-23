@@ -72,16 +72,18 @@ public class UserService {
                 || accountRepository.existsByEmail(request.getEmail())) {
             throw new CustomException(ErrorCode.USER_EXISTED); // user đã tồn tại
         }
-
+        request.setRole(RoleAccountEnum.CUSTOMER);
         AccountEntity accountEntity = accountMapper.toAccountEntity(request);
-
         // tiến hành lưu ảnh
-        request.setImgUrl(fileStorageService.storeImage(request.getImg()));
+        if(request.getImgUrl() != null) {
+            request.setImgUrl(fileStorageService.storeImage(request.getImg()));
+        }
 
         updateAccount(request, accountEntity);
 
         //update password
         accountEntity.setPassword(passwordEncoder.encode(accountEntity.getPassword()));
+        accountEntity.setStatus(AccountStatusEnum.ACTIVE);
 
         return accountMapper.toResponse(accountRepository.save(accountEntity));
     }
