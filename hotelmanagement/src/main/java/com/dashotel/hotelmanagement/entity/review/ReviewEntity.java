@@ -2,7 +2,7 @@ package com.dashotel.hotelmanagement.entity.review;
 
 import com.dashotel.hotelmanagement.entity.AbstractEntity;
 import com.dashotel.hotelmanagement.entity.hotel.HotelEntity;
-import com.dashotel.hotelmanagement.entity.peple.CustomerEntity;
+import com.dashotel.hotelmanagement.entity.user.CustomerEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;

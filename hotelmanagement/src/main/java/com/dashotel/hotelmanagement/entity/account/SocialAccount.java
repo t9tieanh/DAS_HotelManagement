@@ -1,7 +1,7 @@
 package com.dashotel.hotelmanagement.entity.account;
 
 import com.dashotel.hotelmanagement.entity.AbstractEntity;
-import com.dashotel.hotelmanagement.entity.peple.CustomerEntity;
+import com.dashotel.hotelmanagement.entity.user.CustomerEntity;
 import com.dashotel.hotelmanagement.enums.AccountStatusEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;

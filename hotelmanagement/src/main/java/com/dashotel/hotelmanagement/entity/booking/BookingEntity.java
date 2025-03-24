@@ -1,7 +1,7 @@
 package com.dashotel.hotelmanagement.entity.booking;
 
 import com.dashotel.hotelmanagement.entity.AbstractEntity;
-import com.dashotel.hotelmanagement.entity.peple.CustomerEntity;
+import com.dashotel.hotelmanagement.entity.user.CustomerEntity;
 import com.dashotel.hotelmanagement.entity.promotion.PromotionEntity;
 import com.dashotel.hotelmanagement.entity.room.RoomEntity;
 import com.dashotel.hotelmanagement.entity.service.ServiceEntity;

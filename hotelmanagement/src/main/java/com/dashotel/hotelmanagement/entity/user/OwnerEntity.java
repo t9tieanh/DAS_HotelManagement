@@ -1,10 +1,9 @@
-package com.dashotel.hotelmanagement.entity.peple;
+package com.dashotel.hotelmanagement.entity.user;
 
 
 import com.dashotel.hotelmanagement.entity.account.AccountEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 
 
 @Entity

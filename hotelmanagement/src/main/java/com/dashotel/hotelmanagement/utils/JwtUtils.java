@@ -11,13 +11,17 @@ import lombok.experimental.NonFinal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -60,6 +64,7 @@ public class JwtUtils {
                 .expirationTime(new Date(System.currentTimeMillis() + date))
                 .claim("scope", account.getRole()) // Custom claim
                 .claim("type",tokenType.name())
+                .claim("userId", account.getId())
                 .build();
 
         Payload payload = new Payload(claimsSet.toJSONObject());
@@ -98,11 +103,50 @@ public class JwtUtils {
 
     public String getTokenFromSecurityContext() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null ) {
-            Jwt token = (Jwt) authentication.getCredentials();
-            return token.getTokenValue();
+        if (authentication != null && authentication.getDetails() instanceof String) {
+            return (String) authentication.getDetails();
         }
         return null;
+    }
+
+    public String getUserIdFromToken(String token) throws ParseException {
+        SignedJWT signedJWT = SignedJWT.parse(token);
+        return signedJWT.getJWTClaimsSet().getStringClaim("userId");
+    }
+
+    public String getCurrentUserId() {
+        try {
+            String token = getTokenFromSecurityContext();
+            return (token != null) ? getUserIdFromToken(token) : null;
+        } catch (ParseException e) {
+            log.error("Error extracting user ID from token", e);
+            return null;
+        }
+    }
+
+    public void setAuthenticationFromToken(String token) throws ParseException {
+        if (token == null) return;
+
+        SignedJWT signedJWT = SignedJWT.parse(token);
+        String username = signedJWT.getJWTClaimsSet().getSubject();
+        String role = signedJWT.getJWTClaimsSet().getStringClaim("scope");
+
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(username, null,
+                        Collections.singletonList(new SimpleGrantedAuthority(role)));
+        authentication.setDetails(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    public String getUsernameFromToken(String token) throws ParseException {
+        SignedJWT signedJWT = SignedJWT.parse(token);
+        return signedJWT.getJWTClaimsSet().getSubject();
+    }
+
+    public List<SimpleGrantedAuthority> getAuthoritiesFromToken(String token) throws ParseException {
+        SignedJWT signedJWT = SignedJWT.parse(token);
+        String role = signedJWT.getJWTClaimsSet().getStringClaim("scope");
+        return Collections.singletonList(new SimpleGrantedAuthority(role));
     }
 
 }

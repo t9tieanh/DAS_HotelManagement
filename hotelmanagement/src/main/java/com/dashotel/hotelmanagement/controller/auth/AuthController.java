@@ -65,7 +65,7 @@ public class AuthController {
     }
 
     @PostMapping(value="/login")
-    public ApiResponse<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) throws JOSEException {
+    public ApiResponse<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) throws JOSEException, ParseException {
 
         AuthenticationResponse response = authenticationService.authentication(request);
 
