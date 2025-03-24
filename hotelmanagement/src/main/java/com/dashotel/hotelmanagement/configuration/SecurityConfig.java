@@ -1,5 +1,7 @@
 package com.dashotel.hotelmanagement.configuration;
 
+import com.dashotel.hotelmanagement.filter.JwtAuthenticationFilter;
+import com.dashotel.hotelmanagement.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -37,13 +40,9 @@ public class SecurityConfig {
     @Value("${spring.jwt.signerKey}")
     protected String SIGNER_KEY;
 
-    private final String[] PUBLIC_ENDPOINTS = {"/auth/outbound/authentication"
-            ,"/auth/sign-up"
-            ,"/auth/login"
-            ,"/auth/introspect"
-            , "/api/files"
-    };
+    private final String[] PUBLIC_ENDPOINTS = {"/**"};
 
+    private JwtUtils jwtUtils;
     private final CustomJwtDecoder customJwtDecoder;
 
     @Bean
@@ -56,9 +55,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINTS).permitAll()
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(new JwtAuthenticationFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
+
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwt -> jwt.decoder(customJwtDecoder))

@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.entity.peple;
+package com.dashotel.hotelmanagement.entity.user;
 
 import com.dashotel.hotelmanagement.entity.AbstractEntity;
 import jakarta.persistence.*;

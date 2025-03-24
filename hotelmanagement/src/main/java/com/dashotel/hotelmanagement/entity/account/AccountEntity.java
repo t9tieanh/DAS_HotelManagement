@@ -1,21 +1,20 @@
 package com.dashotel.hotelmanagement.entity.account;
 
 import com.dashotel.hotelmanagement.entity.AbstractEntity;
-import com.dashotel.hotelmanagement.entity.peple.AdminEntity;
-import com.dashotel.hotelmanagement.entity.peple.CustomerEntity;
-import com.dashotel.hotelmanagement.entity.peple.OwnerEntity;
+import com.dashotel.hotelmanagement.entity.user.AdminEntity;
+import com.dashotel.hotelmanagement.entity.user.CustomerEntity;
+import com.dashotel.hotelmanagement.entity.user.OwnerEntity;
 import com.dashotel.hotelmanagement.enums.AccountStatusEnum;
 import com.dashotel.hotelmanagement.enums.RoleAccountEnum;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@Data
+@Getter
+@Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
