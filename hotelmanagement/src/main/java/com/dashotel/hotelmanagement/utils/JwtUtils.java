@@ -64,7 +64,6 @@ public class JwtUtils {
                 .expirationTime(new Date(System.currentTimeMillis() + date))
                 .claim("scope", account.getRole()) // Custom claim
                 .claim("type",tokenType.name())
-                .claim("userId", account.getId())
                 .build();
 
         Payload payload = new Payload(claimsSet.toJSONObject());
@@ -103,25 +102,19 @@ public class JwtUtils {
 
     public String getTokenFromSecurityContext() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getDetails() instanceof String) {
-            return (String) authentication.getDetails();
+        if (authentication != null ) {
+            Jwt token = (Jwt) authentication.getCredentials();
+            return token.getTokenValue();
         }
         return null;
     }
 
-    public String getUserIdFromToken(String token) throws ParseException {
-        SignedJWT signedJWT = SignedJWT.parse(token);
-        return signedJWT.getJWTClaimsSet().getStringClaim("userId");
-    }
-
     public String getCurrentUserId() {
-        try {
-            String token = getTokenFromSecurityContext();
-            return (token != null) ? getUserIdFromToken(token) : null;
-        } catch (ParseException e) {
-            log.error("Error extracting user ID from token", e);
-            return null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null ) {
+            return authentication.getName();
         }
+        return null;
     }
 
     public void setAuthenticationFromToken(String token) throws ParseException {
