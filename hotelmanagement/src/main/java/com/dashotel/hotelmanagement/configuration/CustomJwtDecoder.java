@@ -3,6 +3,7 @@ package com.dashotel.hotelmanagement.configuration;
 import com.dashotel.hotelmanagement.exception.CustomException;
 import com.dashotel.hotelmanagement.exception.ErrorCode;
 import com.dashotel.hotelmanagement.service.auth.AuthenticationService;
+import com.dashotel.hotelmanagement.utils.JwtUtils;
 import jakarta.annotation.PostConstruct;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ public class CustomJwtDecoder implements JwtDecoder {
     @Value("${spring.jwt.signerKey}")
     protected String SIGNER_KEY;
 
+
     @PostConstruct
     public void initDecoder() {
         SecretKeySpec secretKeySpec = new SecretKeySpec(SIGNER_KEY.getBytes(), "HmacSHA512");
@@ -42,6 +44,7 @@ public class CustomJwtDecoder implements JwtDecoder {
     public Jwt decode(String token) throws JwtException {
 
         try {
+
             if (!authenticationService.introspect(token))
                 throw new CustomException(ErrorCode.UN_AUTHENTICATED);
 

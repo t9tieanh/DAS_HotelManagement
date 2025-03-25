@@ -1,5 +1,7 @@
 package com.dashotel.hotelmanagement.service.other;
 
+import com.dashotel.hotelmanagement.exception.CustomException;
+import com.dashotel.hotelmanagement.exception.ErrorCode;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.coobird.thumbnailator.Thumbnails;
@@ -104,10 +106,14 @@ public class FileStorageService {
         Path filePath = imageDir.resolve(fileName).normalize();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-        Thumbnails.of(filePath.toFile())
-                .size(width, height)
-                .outputFormat("jpg")
-                .toOutputStream(outputStream);
+        try {
+            Thumbnails.of(filePath.toFile())
+                    .size(width, height)
+                    .outputFormat("jpg")
+                    .toOutputStream(outputStream);
+        } catch (IOException e) {
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
 
         return outputStream.toByteArray();
     }
