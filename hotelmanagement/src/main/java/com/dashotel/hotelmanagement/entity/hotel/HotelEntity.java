@@ -2,6 +2,7 @@ package com.dashotel.hotelmanagement.entity.hotel;
 
 import com.dashotel.hotelmanagement.entity.AbstractEntity;
 import com.dashotel.hotelmanagement.entity.review.ReviewEntity;
+import com.dashotel.hotelmanagement.entity.service.HotelFacilityEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -19,6 +20,9 @@ import java.util.List;
 public class HotelEntity extends AbstractEntity {
     String id;
     String name;
+    String subName;
+    String description;
+
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", nullable = false)
@@ -27,4 +31,15 @@ public class HotelEntity extends AbstractEntity {
 
     @OneToMany(mappedBy = "hotel")
     List<ReviewEntity> reviews;
+
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    List<HotelImageEntity> images;
+
+    @ManyToMany
+    @JoinTable(
+            name = "hotel_facility_mapping",
+            joinColumns = @JoinColumn(name = "hotel_id"),
+            inverseJoinColumns = @JoinColumn(name = "facility_id")
+    )
+    private List<HotelFacilityEntity> facilities;
 }
