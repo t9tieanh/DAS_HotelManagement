@@ -13,6 +13,7 @@ import com.dashotel.hotelmanagement.exception.ErrorCode;
 import com.dashotel.hotelmanagement.repository.*;
 import com.dashotel.hotelmanagement.repository.httpclient.OutboundAuthenticateClient;
 import com.dashotel.hotelmanagement.repository.httpclient.OutboundUserInfoClient;
+import com.dashotel.hotelmanagement.service.user.CustomerService;
 import com.dashotel.hotelmanagement.utils.JwtUtils;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jwt.SignedJWT;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +43,8 @@ public class AuthenticationService {
     InvalidTokenRepository invalidTokenRepository;
     OutboundAuthenticateClient outboundAuthenticateClient;
     OutboundUserInfoClient outboundUserInfoClient;
-
+    AccountService accountService;
+    CustomerService customerService;
     PasswordEncoder passwordEncoder;
 
     JwtUtils jwtUtils;
@@ -151,6 +154,21 @@ public class AuthenticationService {
         String jwtId = jwtUtils.getJwtId(token);
         return !invalidTokenRepository.existsById(jwtId) &&
                 (jwtUtils.validToken(token,TokenEnum.ACCESS_TOKEN) || jwtUtils.validToken(token,TokenEnum.SHORT_LIVED_TOKEN));
+    }
+
+    public String getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if(authentication == null || authentication.getName().isEmpty()) {
+            throw new RuntimeException("User not login yet!");
+        }
+
+        String username = authentication.getName();
+        String accountId = Optional.ofNullable(accountService.getAccountIdByUsername(username))
+                .orElseThrow(() -> new RuntimeException("Not found account for this username"));
+
+        return Optional.ofNullable(customerService.getCustomerIdByAccountId(accountId))
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
     }
 
 }

@@ -92,3 +92,21 @@
     margin-top: 10px;
     font-weight: bold;
 }
+.customer-profile__main .save-btn,
+.customer-profile__main .cancel-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.customer-profile__main .button-group {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 10px;
+}
