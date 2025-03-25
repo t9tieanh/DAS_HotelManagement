@@ -21,13 +21,20 @@ public class HotelEntity extends AbstractEntity {
     String id;
     String name;
     String subName;
+
+
+    @Lob
+    @Column(columnDefinition = "TEXT")
     String description;
 
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", nullable = false)
     AddressEntity address;
+
     int rating;
+
+    String avartar;
 
     @OneToMany(mappedBy = "hotel")
     List<ReviewEntity> reviews;
@@ -35,7 +42,7 @@ public class HotelEntity extends AbstractEntity {
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     List<HotelImageEntity> images;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "hotel_facility_mapping",
             joinColumns = @JoinColumn(name = "hotel_id"),

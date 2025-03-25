@@ -109,7 +109,6 @@ public class FileStorageService {
         try {
             Thumbnails.of(filePath.toFile())
                     .size(width, height)
-                    .outputFormat("jpg")
                     .toOutputStream(outputStream);
         } catch (IOException e) {
             throw new CustomException(ErrorCode.USER_NOT_FOUND);

@@ -50,7 +50,7 @@ public class HotelService {
 
         // lấy image
         hotelDestailResponse.setImgs( hotelEntity.getImages()
-                .stream().limit(5)
+                .stream().limit(4)
                 .map(HotelImageEntity::getImgUrl)
                 .collect(Collectors.toList()));
 
@@ -101,6 +101,11 @@ public class HotelService {
         hotelImageEntity.setImgUrl(fileStorageService.storeImage(request.getImg()));
 
         hotelEntity.getImages().add(hotelImageEntity);
+        hotelImageEntity.setHotel(hotelEntity);
+
+        // nếu ảnh là ảnh đại diện
+        if (request.getIsAvartar())
+            hotelEntity.setAvartar(hotelImageEntity.getImgUrl());
 
         hotelEntity = hotelRepository.save(hotelEntity);
 
