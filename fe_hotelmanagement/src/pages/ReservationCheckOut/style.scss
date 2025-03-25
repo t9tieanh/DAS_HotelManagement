@@ -1,0 +1,170 @@
+/* General styles */
+.container {
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    /* Giữ phần steps căn giữa */
+    align-items: center;
+    width: 100%;
+    padding: 1rem 2rem;
+    background-color: #fff;
+
+    .logo {
+        position: absolute;
+        left: 2rem;
+    }
+
+    .steps {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 14px;
+            color: #6c757d;
+
+            .circle {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                background-color: #e9ecef;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: bold;
+                color: #6c757d;
+                margin-bottom: 0.5rem;
+            }
+
+            &.active .circle {
+                background-color: #007bff;
+                color: #fff;
+            }
+
+            &.active {
+                color: #007bff;
+                font-weight: bold;
+            }
+        }
+
+        .line {
+            width: 50px;
+            height: 2px;
+            background-color: #e9ecef;
+        }
+
+        .step.active+.line {
+            background-color: #007bff;
+        }
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 14px;
+        color: #6c757d;
+
+        .user-name {
+            font-weight: bold;
+        }
+
+        .dropdown-icon {
+            font-size: 12px;
+        }
+    }
+}
+
+/* Timer bar styles */
+.timer-bar {
+    width: 100%;
+    background-color: #fadfdf;
+    color: #f88e86;
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid #af4c3b;
+    border-radius: 8px;
+}
+
+/* Greeting styles */
+.greeting h2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.greeting p {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+/* Payment options */
+.payment-options {
+    h5 {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .payment-icons {
+        display: flex;
+        gap: 10px;
+
+        .payment-icon {
+            width: 40px;
+            height: auto;
+        }
+    }
+}
+
+.trip-summary {
+
+    border-radius: 20px !important;
+    border: 5px solid #ff1100;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+
+    h6 {
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    span {
+        font-size: 12px;
+        color: #6c757d;
+    }
+
+    .arrow {
+        font-size: 20px;
+        color: #6c757d;
+    }
+}
+
+/* Property cards */
+.property-card {
+    .badge {
+        font-size: 12px;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+
+    h5 {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    p {
+        font-size: 14px;
+        color: #6c757d;
+    }
+}
