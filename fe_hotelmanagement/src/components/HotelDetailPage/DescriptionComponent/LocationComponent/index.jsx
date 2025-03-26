@@ -11,9 +11,7 @@ const HotelLocationBody = ({location}) => {
 
 const HotelLocation = ({location}) => {
     return (
-        <>
-            <CustomCard subTitle={location} name={'Vị trí của khách sạn'} children={<HotelLocationBody location={location} />} className={'col-4'} />
-        </>
+        <CustomCard subTitle={location} name={'Vị trí của khách sạn'} children={<HotelLocationBody location={location} />} className={'col-4 location-component'} />
     )
 }
 

@@ -18,6 +18,4 @@ public class UserEntity extends AbstractEntity {
     String name;
 
     String phone;
-
-    String imgUrl;
 }

@@ -26,6 +26,7 @@ public class AccountEntity extends AbstractEntity {
     RoleAccountEnum role;
     AccountStatusEnum status;
     String email;
+    String imgUrl;
 
     @OneToOne(mappedBy = "account",cascade = CascadeType.ALL)
     AdminEntity admin;
@@ -35,5 +36,4 @@ public class AccountEntity extends AbstractEntity {
 
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     OwnerEntity owner;
-
 }

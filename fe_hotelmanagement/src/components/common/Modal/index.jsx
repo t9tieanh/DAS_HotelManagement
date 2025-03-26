@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-function CustomModal({show, setShow, title, content}) {
+function CustomModal({show, setShow, title, content, icon}) {
 
   const handleClose = () => setShow(false);
 
@@ -12,9 +12,9 @@ function CustomModal({show, setShow, title, content}) {
       aria-labelledby="contained-modal-title-vcenter"
       centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title><h5>{title}</h5></Modal.Title>
+          <Modal.Title><h5 className='d-flex align-items-center gap-1'>{icon}{title}</h5></Modal.Title>
         </Modal.Header>
-        <Modal.Body><h6 className='text-muted'>{content}</h6></Modal.Body>
+        <Modal.Body><span className='text-muted'>{content}</span></Modal.Body>
         <Modal.Footer>
             <Button onClick={handleClose} variant="primary">Khám phá thêm</Button>
         </Modal.Footer>

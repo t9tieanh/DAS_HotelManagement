@@ -47,7 +47,6 @@ const HotelDetail = () => {
       if (data && data.code && data.code === 200 && data.result) {
         setHotelDetail(data.result)
         console.log(data.result)
-        console.log(hotelDetail)
       }
   } 
 
@@ -57,15 +56,15 @@ const HotelDetail = () => {
   return (
     <>
 
-        <div className="hotel-detail-container container ">
-        Hình ảnh khách sạn
-        <ImageComponent imgs={hotelDetail?.imgs} avatar={hotelDetail?.avartar} />
+        <div className="hotel-detail-container container shadow-3">
 
-        <div className="main-info-hotel">
+        <ImageComponent imgs={hotelDetail?.imgs} avatar={hotelDetail?.avartar} hotelId = {hotelDetail?.id} />
+
+        <div className="main-info-hotel pt-0">
 
         <HotelName name = {hotelDetail?.name} subname = {hotelDetail?.subName} />
 
-        <HotelDescription address = {hotelDetail.address} description={hotelDetail?.description} />
+        <HotelDescription address = {hotelDetail.address} description={hotelDetail?.description} facilities = {hotelDetail?.facilities} />
 
 
         </div>

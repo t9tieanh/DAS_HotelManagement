@@ -2,6 +2,7 @@ import CustomCard from "../../../common/Card"
 import ArrowButton from "../../../common/button/button-arrow"
 import { useState } from "react";
 import CustomModal from "../../../common/Modal";
+import { FaInfo } from "react-icons/fa";
 
 const DescriptionBody = ({ text, maxLength = 400 }) => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -18,9 +19,9 @@ const DescriptionBody = ({ text, maxLength = 400 }) => {
         <div className="g-3">
             {isExpanded ? text : `${text?.slice(0, maxLength)}${text?.length > maxLength ? "..." : ""}`}
             {text?.length > maxLength && (
-                <ArrowButton onClickFunc={handleShowDescription} text={isExpanded ? "Thu gọn" : "Xem thêm"} />
+                <ArrowButton style={{fontSize : "13px"}} onClickFunc={handleShowDescription} text={isExpanded ? "Thu gọn" : "Xem thêm"} />
             )}
-            <CustomModal show={show} setShow={setShow} title={'Mô tả về khách sạn này'} content={text}  />
+            <CustomModal icon={<FaInfo />} show={show} setShow={setShow} title={'Mô tả về khách sạn này'} content={text}  />
         </div>
     );
 };

@@ -1,0 +1,7 @@
+.image-gallery-container {
+    img {
+        &:hover {
+            opacity: 50% !important;
+        }
+    }
+}

@@ -17,6 +17,7 @@ const RegisterForm = ({ name, email, imgUrl , setImgUrl }) => {
     const navigator = useNavigate()
 
     const [isLoadingVerify,setIsLoadingVerify] = useState(false)
+    const [imageSrc, setImageSrc] = useState(imgUrl);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -37,7 +38,8 @@ const RegisterForm = ({ name, email, imgUrl , setImgUrl }) => {
 
     useEffect(() => {
         if (imgUrl) {
-        convertImageUrlToFile(imgUrl);
+            convertImageUrlToFile(imgUrl);
+            setImageSrc(imgUrl);
         }
     }, [imgUrl]);
 
@@ -82,7 +84,7 @@ const RegisterForm = ({ name, email, imgUrl , setImgUrl }) => {
                 <div className="w-100"></div>
                 <div className="col-4 mx-auto " style={{ marginTop: "15px", marginBottom: "15px" }}>
                     <img
-                        src={imgUrl}
+                        src={imageSrc}
                         className="img-responsive product-img" alt="Image" 
                     />
                 </div>
