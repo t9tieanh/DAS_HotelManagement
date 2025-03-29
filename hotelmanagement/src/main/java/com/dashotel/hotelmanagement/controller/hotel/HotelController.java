@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/hotel")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class HotelControler {
+public class HotelController {
 
     HotelService hotelService;
 

@@ -23,5 +23,5 @@ public class HotelDestailResponse {
     List<FacilitiesResponse> facilities;
     List<String> imgs;
 
-    String avartar;
+    String avatar;
 }

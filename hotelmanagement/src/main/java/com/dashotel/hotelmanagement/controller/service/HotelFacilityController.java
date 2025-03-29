@@ -20,10 +20,9 @@ import org.springframework.web.bind.annotation.*;
 public class HotelFacilityController {
 
     HotelFacilityService hotelFacilityService;
-
     @PostMapping
     ApiResponse<CreationResponse> addHotelFacility (@RequestBody HotelFacilityRequest request) {
-        request.setCategory(HotelFacilityCategory.valueOf(request.getCategoryName()));
+        request.setCategory(HotelFacilityCategory.PUBLIC_FACILITIES);
 
         var response = hotelFacilityService.addHotelFacility(request);
         return ApiResponse.<CreationResponse>builder()

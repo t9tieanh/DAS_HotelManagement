@@ -137,7 +137,7 @@ public class HotelService {
 
         // nếu ảnh là ảnh đại diện
         if (request.getIsAvartar())
-            hotelEntity.setAvartar(hotelImageEntity.getImgUrl());
+            hotelEntity.setAvatar(hotelImageEntity.getImgUrl());
 
         hotelEntity = hotelRepository.save(hotelEntity);
 

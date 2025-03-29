@@ -28,5 +28,5 @@ public class PaymentEntity extends AbstractEntity {
 
     @OneToOne
     @JoinColumn(name = "booking_id")
-    BookingEntity booking;
+    ReservationEntity booking;
 }

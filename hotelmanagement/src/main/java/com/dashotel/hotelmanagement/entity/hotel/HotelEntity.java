@@ -2,6 +2,7 @@ package com.dashotel.hotelmanagement.entity.hotel;
 
 import com.dashotel.hotelmanagement.entity.AbstractEntity;
 import com.dashotel.hotelmanagement.entity.review.ReviewEntity;
+import com.dashotel.hotelmanagement.entity.room.RoomTypeEntity;
 import com.dashotel.hotelmanagement.entity.service.HotelFacilityEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,7 +35,7 @@ public class HotelEntity extends AbstractEntity {
 
     int rating;
 
-    String avartar;
+    String avatar;
 
     @OneToMany(mappedBy = "hotel")
     List<ReviewEntity> reviews;
@@ -49,4 +50,7 @@ public class HotelEntity extends AbstractEntity {
             inverseJoinColumns = @JoinColumn(name = "facility_id")
     )
     private List<HotelFacilityEntity> facilities;
+
+    @OneToMany(mappedBy = "hotel")
+    private List<RoomTypeEntity> rooms;
 }
