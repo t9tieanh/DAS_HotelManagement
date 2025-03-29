@@ -14,4 +14,5 @@ import lombok.experimental.FieldDefaults;
 public class FacilitiesResponse {
     String name;
     HotelFacilityCategory category;
+    String categoryName;
 }

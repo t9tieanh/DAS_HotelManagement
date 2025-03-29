@@ -1,5 +1,7 @@
 .hotel-detail-container {
 
+    background-color: white;
+
     .main-info-hotel {
         background-color: white !important;
         padding: 20px;
@@ -49,32 +51,6 @@
 
     }
 
-
-    .gallery img {
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-    }
-
-    .gallery .main-img {
-        height: 400px;
-    }
-    .gallery .small-img {
-        height: 190px;
-    }
-    .gallery .small-img-container {
-        position: relative;
-    }
-    .gallery .view-all {
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-        background-color: rgba(0, 0, 0, 0.5);
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-size: 0.9rem;
-    }
 
 
     .room-list-container {

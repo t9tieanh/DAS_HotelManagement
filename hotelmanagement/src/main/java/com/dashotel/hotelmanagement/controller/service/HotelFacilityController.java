@@ -5,6 +5,7 @@ import com.dashotel.hotelmanagement.dto.request.service.HotelFacilityRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.dto.response.AuthenticationResponse;
 import com.dashotel.hotelmanagement.dto.response.CreationResponse;
+import com.dashotel.hotelmanagement.enums.HotelFacilityCategory;
 import com.dashotel.hotelmanagement.service.service.HotelFacilityService;
 import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;
@@ -21,7 +22,9 @@ public class HotelFacilityController {
     HotelFacilityService hotelFacilityService;
 
     @PostMapping
-    ApiResponse<CreationResponse> outBoundAuthentication(@RequestBody HotelFacilityRequest request) {
+    ApiResponse<CreationResponse> addHotelFacility (@RequestBody HotelFacilityRequest request) {
+        request.setCategory(HotelFacilityCategory.valueOf(request.getCategoryName()));
+
         var response = hotelFacilityService.addHotelFacility(request);
         return ApiResponse.<CreationResponse>builder()
                 .code(200)

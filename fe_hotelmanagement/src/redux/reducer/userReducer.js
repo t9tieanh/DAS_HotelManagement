@@ -6,11 +6,13 @@ const INITIAL_STATE = {
         accessToken: "",
         refreshToken : "",
         username: "",
+        imageUrl: "",
     },
     isAuthentication : false
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
+    console.log(action.payload)
     switch (action.type) {
         case UPDATE_USER:
             return {
@@ -18,6 +20,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     accessToken: action.payload.accessToken,
                     refreshToken : action.payload.refreshToken,
                     username : action.payload.username, 
+                    imageUrl : action.payload.imageUrl
                 }, 
                 isAuthentication : true
             };
@@ -29,6 +32,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                         accessToken: "",
                         refreshToken: "",
                         username: "",
+                        imageUrl : undefined
                     },
                     isAuthentication: false
                 };

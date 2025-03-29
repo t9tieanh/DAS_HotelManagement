@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./style.scss";
 import room1 from "../../assets/img/room/room-1.jpg";
 import room2 from "../../assets/img/room/room-2.jpg";
@@ -6,7 +6,11 @@ import room3 from "../../assets/img/room/room-3.jpg";
 import ImageComponent from "../../components/HotelDetailPage/ImageComponent/index.jsx";
 import map from '../../assets/img/background/map.png'
 import RoomSection from "../../components/HotelDetailPage/RoomCard/index.jsx";
-import ArrowButton from "../../components/common/button/button-arrow/index.jsx";
+import HotelName from "../../components/HotelDetailPage/NameComponent/index.jsx";
+import HotelDescription from "../../components/HotelDetailPage/DescriptionComponent/index.jsx";
+import { getHotelDetail } from "../../services/HotelService/hotelService.js";
+import MapComponent from "../../components/common/MapComponent/index.jsx";
+import GoogleMapIframe from "../../components/common/MapComponent/index.jsx";
 
 const hotelInfo = {
   name: "Khách sạn Gold",
@@ -29,89 +33,38 @@ const hotelInfo = {
 
 const HotelDetail = () => {
 
+  const id = 'adaaa110-e548-460e-bb08-79858487c89f'
+
+  const [hotelDetail,setHotelDetail] = useState({})
+
+  useEffect(() => {
+      fetchHotelDetail(id)
+  }, []);
+
+  const fetchHotelDetail = async () => {
+      const data = await getHotelDetail(id)
+
+      if (data && data.code && data.code === 200 && data.result) {
+        setHotelDetail(data.result)
+        console.log(data.result)
+      }
+  } 
+
+
+
+
   return (
     <>
 
-        <div className="hotel-detail-container container ">
+        <div className="hotel-detail-container container shadow-3">
 
-        {/* Hình ảnh khách sạn */}
-        <ImageComponent />
+        <ImageComponent imgs={hotelDetail?.imgs} avatar={hotelDetail?.avartar} hotelId = {hotelDetail?.id} />
 
-        <div className="main-info-hotel">
+        <div className="main-info-hotel pt-0">
 
-        <div className="container mt-4 name-hotel">
-            <div className="row">
-            <div className="col-md-8 infomation-section">
-                <h1 className="hotel-header">{hotelInfo.name}</h1>
-                <p className="text-muted">{hotelInfo.description}</p>
-                <p><span className="rating">{hotelInfo.rating}</span> Rất tốt | {hotelInfo.reviewsCount} đánh giá</p>
-            </div>
+        <HotelName name = {hotelDetail?.name} subname = {hotelDetail?.subName} />
 
-                {/* Giá và tiện ích */}
-                <div className="col-md-4 booking-section">
-                    <h3 className="price">{hotelInfo.price}</h3>
-                    <button className="btn btn-warning w-100 mb-3">Chọn phòng</button>
-                </div>
-            </div>
-        </div>
-
-        <div className="container info-section" >
-            <div className="row p-2 g-3">
-
-                <div className="col-md-4">
-                    <div className="service-section p-3 section-detail">
-                        <h5>Khoảng cách từ khách sạn</h5>
-                        <ul>
-                            {hotelInfo.distances.map((distance, index) => (
-                                <div key={index}>
-                                    <i className="fa-solid fa-location-dot"></i>
-                                    <span>{distance}</span>
-                                </div>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-
-                <div className="col-md-4">
-                    <div className="service-section p-3 section-detail">
-                        <h5>Khoảng cách từ khách sạn</h5>
-                        <ul>
-                            {hotelInfo.distances.map((distance, index) => (
-                                <div key={index}>
-                                    <i className="fa-solid fa-location-dot"></i>
-                                    <span>{distance}</span>
-                                </div>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-
-                <div className="col-md-4">
-                    <div className="service-section p-3 section-detail">
-                        <h5>Khoảng cách từ khách sạn</h5>
-                        <ul>
-                            {hotelInfo.distances.map((distance, index) => (
-                                <div key={index}>
-                                    <i className="fa-solid fa-location-dot"></i>
-                                    <span>{distance}</span>
-                                </div>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-
-
-            </div>
-
-            <div className="p-2 g-3">
-                <div className="section-detail p-3">
-                    Lưu trú tại Khách sạn Gold là một lựa chọn đúng đắn khi quý khách đến thăm Hòa Thuận Đông. Quầy tiếp tân 24 giờ luôn sẵn sàng phục vụ quý khách từ thủ tục nhận phòng đến trả phòng hay bất kỳ yêu cầu nào.
-                    Nếu cần giúp đỡ xin hãy liên hệ đội ngũ tiếp tân, chúng tôi luôn sẵn sàng hỗ trợ quý khách. Sóng WiFi phủ khắp các khu vực chung của khách sạn cho phép quý khách luôn kết nối với gia đình và bè bạn.
-                    <ArrowButton text={'Xem thêm'}/>
-                </div>
-            </div>
-
-        </div>
+        <HotelDescription address = {hotelDetail.address} description={hotelDetail?.description} facilities = {hotelDetail?.facilities} />
 
 
         </div>

@@ -4,6 +4,9 @@ import com.dashotel.hotelmanagement.dto.request.hotel.HotelImageRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.dto.response.CreationResponse;
 import com.dashotel.hotelmanagement.dto.response.hotel.HotelDestailResponse;
+import com.dashotel.hotelmanagement.dto.response.hotel.HotelImageResponse;
+import com.dashotel.hotelmanagement.dto.response.hotel.HotelImageTypeCountReponse;
+import com.dashotel.hotelmanagement.enums.HotelImageEnum;
 import com.dashotel.hotelmanagement.service.hotel.HotelService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +14,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/hotel")
@@ -24,6 +28,25 @@ public class HotelControler {
     ApiResponse<HotelDestailResponse> getHotelDetail(@PathVariable String hotelId) {
         var result = hotelService.getHotelDetail(hotelId);
         return ApiResponse.<HotelDestailResponse>builder()
+                .code(200)
+                .result(result)
+                .build();
+    }
+
+    @GetMapping("image-category")
+    ApiResponse<HotelImageResponse> getImage(@RequestParam String hotelId,
+                                             @RequestParam String imageType) {
+        var result = hotelService.getHotelImages(hotelId,HotelImageEnum.fromValue(imageType));
+        return ApiResponse.<HotelImageResponse>builder()
+                .code(200)
+                .result(result)
+                .build();
+    }
+
+    @GetMapping("image-category/{hotelId}")
+    ApiResponse<List<HotelImageTypeCountReponse>> getImageCategory(@PathVariable String hotelId) {
+        var result = hotelService.getHotelImageCategory(hotelId);
+        return ApiResponse.<List<HotelImageTypeCountReponse>>builder()
                 .code(200)
                 .result(result)
                 .build();

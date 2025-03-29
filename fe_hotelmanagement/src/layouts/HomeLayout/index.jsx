@@ -7,7 +7,9 @@ const HomeLayout = () => {
   return (
     <div className="home-layout">
       <Header />
+      <div style={{backgroundColor : "rgb(253, 251, 251)"}}>
         <Outlet />
+      </div>
       <Footer />
     </div>
   );

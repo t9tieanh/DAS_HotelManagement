@@ -103,6 +103,7 @@ public class AuthenticationService {
                         .email(account.getEmail())
                         .username(account.getUsername())
                         .role(account.getRole())
+                        .imageUrl(account.getImgUrl())
                         .isActive(account.getStatus() == AccountStatusEnum.ACTIVE)
                         .valid(true)
                         .build();
@@ -133,6 +134,7 @@ public class AuthenticationService {
                     .username(account.getUsername())
                     .role(account.getRole())
                     .valid(true)
+                    .imageUrl(account.getImgUrl())
                     .build();
         }
 

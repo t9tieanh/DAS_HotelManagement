@@ -7,12 +7,17 @@ import { doDeleteUser } from "../../../redux/action/updateUserAction";
 import { logout } from "../../../services/authService";
 import './style.scss'
 import { toast } from "react-toastify";
+import { BASE_URL } from "../../../conf/baseUrl";
 
 const Header = () => {
+
+    const fileUrl = 'files/image'
 
     const dispatch = useDispatch()
     const isAuthentication = useSelector(state => state.user.isAuthentication)
     const account = useSelector(state => state.user.account)
+
+    const imageUrl = account && account.imageUrl ? `${BASE_URL}/${fileUrl}/${account.imageUrl}` : userAvatar;
 
     const navigate = useNavigate();
 
@@ -54,7 +59,7 @@ const Header = () => {
                                 )}
                                 {!isAuthentication && <a href="#" onClick={() => { navigate('/login') }} className="bk-btn">Login</a>}
                                 <div className="user-profile">
-                                    <img src={userAvatar} alt="User Avatar" />
+                                    <img src={imageUrl} alt="User Avatar" />
                                     <div className="flag-dropdown">
                                         <ul>
                                             <li><a href="/profile">Hồ sơ</a></li>
