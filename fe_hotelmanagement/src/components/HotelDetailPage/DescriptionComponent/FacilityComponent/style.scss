@@ -7,7 +7,36 @@
 }
 
 .card-facilities-detail {
-    border: solid 1px rgb(223, 220, 220);
-    border-radius: 20px;
     padding: 16px;
 }
+
+.background-img {
+    height: 230px; 
+    overflow: hidden;
+    position: relative;
+    padding: 20px;
+    background-image: url("https://images.unsplash.com/photo-1517840901100-8179e982acb7?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aG90ZWwlMjBib29raW5nfGVufDB8fDB8fHww");
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat;
+
+    h1 {
+        color: white;
+        max-width: 70%;
+        font-weight: 100 !important;
+    }
+
+    p {
+        color: rgb(232, 228, 228) !important;
+    }
+
+    .name-hotel {
+        position: absolute;
+        bottom: 0; /* Cách đáy 0px */
+        right: 0; /* Cách phải 0px */
+        width: 100%;
+        height: 100%;
+    }
+
+}
+
