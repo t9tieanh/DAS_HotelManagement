@@ -15,7 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "hotel")
 public class HotelEntity extends AbstractEntity {

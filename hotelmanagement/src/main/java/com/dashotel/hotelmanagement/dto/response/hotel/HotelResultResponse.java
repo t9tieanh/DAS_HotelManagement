@@ -1,29 +1,26 @@
 package com.dashotel.hotelmanagement.dto.response.hotel;
 
 import com.dashotel.hotelmanagement.dto.common.AddressDTO;
-import com.dashotel.hotelmanagement.dto.response.room.RoomTypeResponse;
+import com.dashotel.hotelmanagement.dto.request.room.RoomTypeRequest;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class HotelDestailResponse {
+public class HotelResultResponse {
     String id;
     String name;
-    String subName;
-    String description;
-
     AddressDTO address;
-    List<FacilitiesResponse> facilities;
-    List<String> imgs;
-
+    int rating;
+    List<RoomTypeRequest> roomType;
     String avatar;
-    List<RoomTypeResponse> rooms;
+    double minRoomPrice;
 }

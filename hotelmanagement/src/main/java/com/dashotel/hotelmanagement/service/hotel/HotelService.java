@@ -3,13 +3,13 @@ package com.dashotel.hotelmanagement.service.hotel;
 import com.dashotel.hotelmanagement.dto.request.hotel.HotelCreationRequest;
 import com.dashotel.hotelmanagement.dto.request.hotel.HotelImageRequest;
 import com.dashotel.hotelmanagement.dto.request.hotel.HotelImageUpdationRequest;
+import com.dashotel.hotelmanagement.dto.request.hotel.HotelResultRequest;
 import com.dashotel.hotelmanagement.dto.response.CreationResponse;
-import com.dashotel.hotelmanagement.dto.response.hotel.FacilitiesResponse;
-import com.dashotel.hotelmanagement.dto.response.hotel.HotelDestailResponse;
-import com.dashotel.hotelmanagement.dto.response.hotel.HotelImageResponse;
-import com.dashotel.hotelmanagement.dto.response.hotel.HotelImageTypeCountReponse;
+import com.dashotel.hotelmanagement.dto.response.hotel.*;
+import com.dashotel.hotelmanagement.dto.response.room.RoomTypeResponse;
 import com.dashotel.hotelmanagement.entity.hotel.HotelEntity;
 import com.dashotel.hotelmanagement.entity.hotel.HotelImageEntity;
+import com.dashotel.hotelmanagement.entity.room.RoomTypeEntity;
 import com.dashotel.hotelmanagement.entity.service.HotelFacilityEntity;
 import com.dashotel.hotelmanagement.enums.HotelImageEnum;
 import com.dashotel.hotelmanagement.exception.CustomException;
@@ -22,6 +22,8 @@ import com.dashotel.hotelmanagement.repository.HotelFacilityRepository;
 import com.dashotel.hotelmanagement.repository.hotel.HotelImageRepository;
 import com.dashotel.hotelmanagement.repository.hotel.HotelRepository;
 import com.dashotel.hotelmanagement.service.other.FileStorageService;
+import com.dashotel.hotelmanagement.service.room.RoomAvailabilityService;
+import com.dashotel.hotelmanagement.service.room.RoomTypeService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -29,8 +31,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,6 +48,7 @@ public class HotelService {
     HotelImageMapper hotelImageMapper;
     HotelFacilityMapper hotelFacilityMapper;
 
+    RoomTypeService roomTypeService;
     FileStorageService fileStorageService;
 
     // lấy list category của tất cả image mà hotel đó có
@@ -91,6 +94,8 @@ public class HotelService {
                     hotelDestailResponse.getFacilities().add(facilitiesResponse);
                 }
         );
+
+        hotelDestailResponse.setRooms(roomTypeService.getRoomByHotelId(hotelId));
 
         return hotelDestailResponse;
     }
@@ -145,5 +150,50 @@ public class HotelService {
                 .id(hotelEntity.getId())
                 .isSuccess(true)
                 .build();
+    }
+
+
+    public List<HotelResultResponse> getHotelBySearch(LocalDate checkIn, LocalDate checkOut, Long numAdults, Long numRooms) {
+
+        if (checkIn == null || checkOut == null || numAdults == null || numRooms == null) {
+            throw new IllegalArgumentException("Các tham số không được để null");
+        }
+
+        List<RoomTypeEntity> roomList = roomTypeService.getRoomAvailable(checkIn, checkOut, numAdults, numRooms);
+        if(roomList == null || roomList.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        Set<String> hotelIds = roomList.stream()
+                .map(RoomTypeEntity::getHotel)
+                .filter(Objects::nonNull)
+                .map(HotelEntity::getId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        List<HotelEntity> hotelEntities = hotelRepository.findAllById(hotelIds);
+        if(hotelEntities.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return hotelEntities.stream().map(entity -> {
+            HotelResultResponse hotel = new HotelResultResponse();
+            hotel.setId(entity.getId());
+            hotel.setRating(entity.getRating());
+            hotel.setAddress(entity.getAddress() != null ? addressMapper.toDTO(entity.getAddress()) : null);
+            hotel.setName(entity.getName());
+            hotel.setAvatar(entity.getAvatar());
+
+            OptionalDouble minPriceOpt = entity.getRooms().stream()
+                    .mapToDouble(RoomTypeEntity::getPrice)
+                    .min();
+
+            double minPrice = minPriceOpt.orElse(0.0);
+            hotel.setMinRoomPrice(minPrice);
+
+            return hotel;
+        }).collect(Collectors.toList());
+
+
     }
 }

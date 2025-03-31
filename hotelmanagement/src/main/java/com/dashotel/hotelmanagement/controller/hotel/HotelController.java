@@ -6,14 +6,17 @@ import com.dashotel.hotelmanagement.dto.response.CreationResponse;
 import com.dashotel.hotelmanagement.dto.response.hotel.HotelDestailResponse;
 import com.dashotel.hotelmanagement.dto.response.hotel.HotelImageResponse;
 import com.dashotel.hotelmanagement.dto.response.hotel.HotelImageTypeCountReponse;
+import com.dashotel.hotelmanagement.dto.response.hotel.HotelResultResponse;
 import com.dashotel.hotelmanagement.enums.HotelImageEnum;
 import com.dashotel.hotelmanagement.service.hotel.HotelService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -23,6 +26,19 @@ import java.util.List;
 public class HotelController {
 
     HotelService hotelService;
+
+    @GetMapping("/result")
+    ApiResponse<List<HotelResultResponse>> getListHotelToReservation(@RequestParam LocalDate checkIn,
+                                                               @RequestParam LocalDate checkOut,
+                                                               @RequestParam Long numAdults,
+                                                               @RequestParam Long numRooms) {
+        List<HotelResultResponse> hotelResult = hotelService.getHotelBySearch(checkIn, checkOut, numAdults, numRooms);
+
+        return ApiResponse.<List<HotelResultResponse>>builder()
+                .code(HttpStatus.OK.value())
+                .result(hotelResult)
+                .build();
+    }
 
     @GetMapping("detail/{hotelId}")
     ApiResponse<HotelDestailResponse> getHotelDetail(@PathVariable String hotelId) {

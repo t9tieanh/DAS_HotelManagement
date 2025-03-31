@@ -1,6 +1,8 @@
 package com.dashotel.hotelmanagement.entity.room;
 
 import com.dashotel.hotelmanagement.entity.AbstractEntity;
+import com.dashotel.hotelmanagement.entity.hotel.HotelEntity;
+import com.dashotel.hotelmanagement.enums.HotelImageEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -9,26 +11,19 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
-import java.util.Date;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter
 @Setter
+@Getter
 @Entity
-@Table(name = "room_availability")
-public class RoomAvailability extends AbstractEntity {
-
-    Long totalRoom;
-    Long bookedRoom;
-    LocalDate availableDate;
-    Boolean status;
+@Table(name = "room_type_image")
+public class RoomImageEntity extends AbstractEntity {
+    String imgUrl;
+    Boolean isAvatar;
 
     @ManyToOne
     @JoinColumn(name = "room_type_id")
     RoomTypeEntity roomType;
-
 }
