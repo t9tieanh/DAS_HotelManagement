@@ -109,13 +109,6 @@ public class JwtUtils {
         return null;
     }
 
-    public String getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null ) {
-            return authentication.getName();
-        }
-        return null;
-    }
 
     public void setAuthenticationFromToken(String token) throws ParseException {
         if (token == null) return;

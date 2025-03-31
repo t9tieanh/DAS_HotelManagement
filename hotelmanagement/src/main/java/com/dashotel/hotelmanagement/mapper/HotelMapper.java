@@ -2,6 +2,7 @@ package com.dashotel.hotelmanagement.mapper;
 
 import com.dashotel.hotelmanagement.dto.request.hotel.HotelCreationRequest;
 import com.dashotel.hotelmanagement.dto.response.hotel.HotelDestailResponse;
+import com.dashotel.hotelmanagement.dto.response.hotel.HotelResultResponse;
 import com.dashotel.hotelmanagement.entity.hotel.HotelEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;

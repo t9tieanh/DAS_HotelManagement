@@ -1,10 +1,9 @@
 package com.dashotel.hotelmanagement.entity.service;
 
 import com.dashotel.hotelmanagement.entity.AbstractEntity;
-import com.dashotel.hotelmanagement.entity.booking.BookingEntity;
+import com.dashotel.hotelmanagement.entity.booking.ReservationEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -25,5 +24,5 @@ public class ServiceEntity extends AbstractEntity {
     String description;
 
     @ManyToMany(mappedBy = "services")
-    List<BookingEntity> bookings;
+    List<ReservationEntity> bookings;
 }

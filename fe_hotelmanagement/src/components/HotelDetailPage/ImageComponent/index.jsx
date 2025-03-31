@@ -30,6 +30,7 @@ const ImageComponent = ({imgs, avatar, hotelId}) => {
 
     useEffect(
         () => {
+
             if (show && !hasFetched && hotelId) {
                 fetchImageCategory();
             }

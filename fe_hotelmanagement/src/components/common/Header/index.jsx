@@ -62,7 +62,7 @@ const Header = () => {
                                     <img src={imageUrl} alt="User Avatar" />
                                     <div className="flag-dropdown">
                                         <ul>
-                                            <li><a href="#">Hồ sơ</a></li>
+                                            <li><a href="/profile">Hồ sơ</a></li>
                                             <li><a href="#">Cài đặt</a></li>
                                             <li><a href="#">Đăng xuất</a></li>
                                         </ul>

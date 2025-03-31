@@ -8,4 +8,5 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface AddressMapper {
     AddressEntity toEntity (AddressDTO address);
+    AddressDTO toDTO (AddressEntity entity);
 }

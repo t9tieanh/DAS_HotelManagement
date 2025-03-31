@@ -33,71 +33,51 @@ const hotelInfo = {
 
 const HotelDetail = () => {
 
-  const id = 'adaaa110-e548-460e-bb08-79858487c89f'
+  const id = '7205e75d-0cae-11f0-b44f-0242ac110002'
 
-  const [hotelDetail,setHotelDetail] = useState({})
+  const [hotelDetail, setHotelDetail] = useState({})
 
   useEffect(() => {
-      fetchHotelDetail(id)
+    fetchHotelDetail(id)
   }, []);
 
   const fetchHotelDetail = async () => {
-      const data = await getHotelDetail(id)
+    const data = await getHotelDetail(id)
 
-      if (data && data.code && data.code === 200 && data.result) {
-        setHotelDetail(data.result)
-        console.log(data.result)
-      }
-  } 
-
-
-
+    if (data && data.code && data.code === 200 && data.result) {
+      setHotelDetail(data.result)
+      console.log(data.result)
+    }
+  }
 
   return (
     <>
 
-        <div className="hotel-detail-container container shadow-3">
+      <div className="hotel-detail-container container shadow-3">
 
-        <ImageComponent imgs={hotelDetail?.imgs} avatar={hotelDetail?.avartar} hotelId = {hotelDetail?.id} />
+        <ImageComponent imgs={hotelDetail?.imgs} avatar={hotelDetail?.avatar} hotelId={hotelDetail?.id} />
 
         <div className="main-info-hotel pt-0">
 
-        <HotelName name = {hotelDetail?.name} subname = {hotelDetail?.subName} />
+          <HotelName name={hotelDetail?.name} subname={hotelDetail?.subName} />
 
-        <HotelDescription address = {hotelDetail.address} description={hotelDetail?.description} facilities = {hotelDetail?.facilities} />
-
+          <HotelDescription address={hotelDetail.address} description={hotelDetail?.description} facilities={hotelDetail?.facilities} />
 
         </div>
 
         <div className="card room-list-container">
-            <div className="card-body">
-                <h5 className="card-title room-header">Những phòng còn trống tại Khách sạn Gold</h5>
-                
-                <div className="warning-title">
-                    Phải đặt phòng trong thời điểm không chắc chắn này? Hãy chọn phòng có thể hủy miễn phí!
-                </div>
+          <div className="card-body">
+            <h5 className="card-title room-header">Những phòng còn trống tại Khách sạn Gold</h5>
 
-
-
-                <RoomSection/>
-
-                <RoomSection/>
-
-                
-
-
-
+            <div className="warning-title">
+              Phải đặt phòng trong thời điểm không chắc chắn này? Hãy chọn phòng có thể hủy miễn phí!
             </div>
-        </div>
 
-        </div>
+            <RoomSection rooms={hotelDetail?.rooms || []} />
 
-    
-    
-    
-    
-    
-    
+          </div>
+        </div>
+      </div>
     </>
   );
 };
