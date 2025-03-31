@@ -18,7 +18,7 @@ public enum ErrorCode {
     UN_AUTHENTICATED(1009,"Unauthenticated",HttpStatus.UNAUTHORIZED),
     ACCOUNT_UN_ACTIVE(1009,"Tài khoản chưa được kích hoạt !",HttpStatus.UNAUTHORIZED),
     OTP_SEND(1010,"Cannot send otp",HttpStatus.INTERNAL_SERVER_ERROR),
-
+    ROOM_NOT_FOUND(1012, "Không tìm thấy phòng", HttpStatus.NOT_FOUND),
 
     // dùng cho xác thực otp
     NOT_VERIFY_OTP (1011,"Otp code invalid, try again",HttpStatus.BAD_REQUEST),

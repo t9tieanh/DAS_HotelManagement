@@ -1,6 +1,7 @@
 package com.dashotel.hotelmanagement.dto.response.hotel;
 
 import com.dashotel.hotelmanagement.dto.common.AddressDTO;
+import com.dashotel.hotelmanagement.dto.response.room.RoomTypeResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -23,5 +24,6 @@ public class HotelDestailResponse {
     List<FacilitiesResponse> facilities;
     List<String> imgs;
 
-    String avartar;
+    String avatar;
+    List<RoomTypeResponse> rooms;
 }

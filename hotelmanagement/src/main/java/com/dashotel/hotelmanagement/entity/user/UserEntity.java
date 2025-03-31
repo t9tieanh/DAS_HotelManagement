@@ -12,10 +12,15 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @MappedSuperclass
-@Data
+@Getter
+@Setter
 public class UserEntity extends AbstractEntity {
 
     String name;
 
     String phone;
+
+    String email;
+
+    String imgUrl;
 }

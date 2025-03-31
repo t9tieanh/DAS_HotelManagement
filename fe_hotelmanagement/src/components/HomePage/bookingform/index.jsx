@@ -1,12 +1,31 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import hero1 from "../../../assets/img/hero/hero-1.jpg";
 import hero2 from "../../../assets/img/hero/hero-2.jpg";
 import hero3 from "../../../assets/img/hero/hero-3.jpg";
+import { findRoomInHotel } from "../../../services/HotelService/findHotelService";
 
 const images = [hero1, hero2, hero3];
 
 const BookingForm = () => {
     const [currentImage, setCurrentImage] = useState(0);
+    const [checkIn, setCheckIn] = useState("");
+    const [checkOut, setCheckOut] = useState("");
+    const [numAdults, setNumAdults] = useState(1);
+    const [numRooms, setNumRooms] = useState(1);
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            navigate(`/hotel-result?checkIn=${checkIn}&checkOut=${checkOut}&numAdults=${numAdults}&numRooms=${numRooms}`);
+        } catch (error) {
+            console.error("Lỗi khi tìm phòng:", error);
+            alert("Đã xảy ra lỗi khi tìm phòng.");
+        }
+    };
+
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -36,29 +55,31 @@ const BookingForm = () => {
                         <div className="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
                             <div className="booking-form">
                                 <h3>Booking Your Hotel</h3>
-                                <form action="#">
+                                <form onSubmit={handleSubmit}>
                                     <div className="check-date">
                                         <label htmlFor="date-in">Check In:</label>
-                                        <input type="text" className="date-input" id="date-in" />
-                                        <i className="icon_calendar"></i>
+                                        <input type="date" className="date-input" id="date-in" value={checkIn}
+                                            onChange={(e) => setCheckIn(e.target.value)} />
                                     </div>
                                     <div className="check-date">
                                         <label htmlFor="date-out">Check Out:</label>
-                                        <input type="text" className="date-input" id="date-out" />
-                                        <i className="icon_calendar"></i>
+                                        <input type="date" className="date-input" id="date-out" value={checkOut}
+                                            onChange={(e) => setCheckOut(e.target.value)} />
                                     </div>
                                     <div className="select-option">
                                         <label htmlFor="guest">Guests:</label>
-                                        <select id="guest">
-                                            <option value="2">2 Adults</option>
-                                            <option value="3">3 Adults</option>
+                                        <select id="guest" value={numAdults} onChange={(e) => setNumAdults(e.target.value)}>
+                                            {[...Array(5)].map((_, i) => (
+                                                <option key={i + 1} value={i + 1}>{i + 1} Adults</option>
+                                            ))}
                                         </select>
                                     </div>
                                     <div className="select-option">
                                         <label htmlFor="room">Room:</label>
-                                        <select id="room">
-                                            <option value="1">1 Room</option>
-                                            <option value="2">2 Rooms</option>
+                                        <select id="room" value={numRooms} onChange={(e) => setNumRooms(e.target.value)}>
+                                            {[...Array(5)].map((_, i) => (
+                                                <option key={i + 1} value={i + 1}>{i + 1} Room</option>
+                                            ))}
                                         </select>
                                     </div>
                                     <button type="submit">Check Availability</button>

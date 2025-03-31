@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import './style.scss';
+import { ProfileContext } from "../../../context/ProfileContext";
 
 const NavigationMenuComponent = () => {
+
+    const { profile } = useContext(ProfileContext);
+
     return (
         <>
             {/* Sidebar bên trái */}
             <aside className="customer-profile__sidebar">
                 <div className="user-info">
                     <div className="user-avatar">DS</div>
-                    <div className="user-name">Dē Shuāng Ruǎn (Google)</div>
+                    <div className="user-name">{profile.name}</div>
                     <div className="user-status">
                         Bạn là thành viên <b>Bronze Priority</b>
                     </div>

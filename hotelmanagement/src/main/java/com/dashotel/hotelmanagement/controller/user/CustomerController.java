@@ -3,6 +3,7 @@ package com.dashotel.hotelmanagement.controller.user;
 import com.dashotel.hotelmanagement.dto.request.CustomerRequestDTO;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.dto.response.CustomerResponseDTO;
+import com.dashotel.hotelmanagement.service.auth.AuthenticationService;
 import com.dashotel.hotelmanagement.service.user.CustomerService;
 import com.dashotel.hotelmanagement.utils.JwtUtils;
 import lombok.AccessLevel;
@@ -17,11 +18,11 @@ import org.springframework.web.bind.annotation.*;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CustomerController {
     CustomerService customerService;
-    JwtUtils jwtUtils;
+    AuthenticationService authService;
 
     @GetMapping("/profile")
     public ApiResponse<CustomerResponseDTO> getCustomerProfile() {
-        String customerId = jwtUtils.getCurrentUserId();
+        String customerId = authService.getCurrentUserId();
         CustomerResponseDTO customer = customerService.getCustomerById(customerId);
 
         String message = "Get profile successfully";
@@ -35,7 +36,7 @@ public class CustomerController {
 
     @PostMapping("/edit-profile")
     public ApiResponse<CustomerResponseDTO> editCustomerProfile(@ModelAttribute CustomerRequestDTO request) {
-        String customerId = jwtUtils.getCurrentUserId();
+        String customerId = authService.getCurrentUserId();
         CustomerResponseDTO response = customerService.editProfile(customerId, request);
 
         String message = "Update profile successfully";

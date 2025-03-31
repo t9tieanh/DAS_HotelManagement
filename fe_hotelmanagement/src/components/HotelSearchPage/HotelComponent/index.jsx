@@ -1,100 +1,105 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { BASE_URL } from "../../../conf/baseUrl";
 import './style.scss';
+import { useLocation } from "react-router-dom";
+import { findRoomInHotel } from "../../../services/HotelService/findHotelService";
 
 const HotelComponent = () => {
+
+
+    const fileUrl = 'files/image'
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+
+    const checkIn = searchParams.get("checkIn");
+    const checkOut = searchParams.get("checkOut");
+    const numAdults = searchParams.get("numAdults");
+    const numRooms = searchParams.get("numRooms");
+
+    const [hotels, setHotels] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchHotels = async () => {
+            try {
+                const result = await findRoomInHotel(checkIn, checkOut, numAdults, numRooms);
+                setHotels(result);
+            } catch (error) {
+                setError("Có lỗi xảy ra khi tải dữ liệu khách sạn.");
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchHotels();
+    }, [checkIn, checkOut, numAdults, numRooms]);
+
+    if (loading) {
+        return <p>Đang tải danh sách khách sạn...</p>;
+    }
+
+    if (error) {
+        return <p>{error}</p>;
+    }
+
     return (
         <>
-            {/* Danh sách khách sạn bên phải */}
             <section className="hotel-list">
-                {/* Ví dụ 1 */}
-                <div className="hotel-card">
-                    <div className="hotel-image">
-                        {/* Thay ảnh thật nếu muốn */}
-                        <img
-                            src="https://bluejaypms.com/data_news/art-0688.jpg"
-                            alt="Orchide'es Ocean Hotel"
-                        />
-                    </div>
-                    <div className="hotel-info">
-                        <div className="hotel-title">
-                            <h2>Orchide'es Ocean Hotel</h2>
-                            <p>
-                                Khách sạn <span className="hotel-stars">★ ★ ★</span>
-                            </p>
-                            <p>Phước Mỹ, Đà Nẵng • Quầy bar</p>
-                        </div>
-                        <div className="hotel-rating">
-                            <span className="rating-score">168 đánh giá</span>
-                        </div>
-                    </div>
-                    <div className="hotel-price">
-                        <p className="original-price">4.056.437 VND</p>
-                        <p className="sale-price">486.772 VND</p>
-                        <p className="price-note">
-                            Chỉ còn 1 phòng có giá này! <br /> Chưa bao gồm thuế và phí
-                        </p>
-                        <button className="select-room-button">Chọn phòng</button>
-                    </div>
-                </div>
+                {hotels && hotels.length > 0 ? (
+                    hotels.map((hotel) => (
 
-                {/* Ví dụ 2 */}
-                <div className="hotel-card">
-                    <div className="hotel-image">
-                        <img
-                            src="https://bluejaypms.com/data_news/art-0688.jpg"
-                            alt="Muong Thanh Grand Da Nang Hotel"
-                        />
-                    </div>
-                    <div className="hotel-info">
-                        <div className="hotel-title">
-                            <h2>Muong Thanh Grand Da Nang Hotel</h2>
-                            <p>
-                                Khách sạn <span className="hotel-stars">★ ★ ★ ★</span>
-                            </p>
-                            <p>An Hải Tây, Đà Nẵng • Quầy bar, Máy sấy quần áo, Sân thượng...</p>
-                        </div>
-                        <div className="hotel-rating">
-                            <span className="rating-score">168 đánh giá</span>
-                        </div>
-                    </div>
-                    <div className="hotel-price">
-                        <p className="coupon">+COUPON 500K</p>
-                        <p className="original-price">1.349.206 VND</p>
-                        <p className="sale-price">1.011.905 VND</p>
-                        <p className="price-note">Chưa bao gồm thuế và phí</p>
-                        <button className="select-room-button">Chọn phòng</button>
-                    </div>
-                </div>
+                        <div className="hotel-card" key={hotel.id}>
+                            <div className="hotel-image">
+                                <img
+                                    src={`${BASE_URL}/${fileUrl}/${hotel.avatar}`}
+                                    alt={hotel.name}
+                                    style={{
+                                        width: "300px",
+                                        height: "200px",
+                                        objectFit: "cover"
+                                    }}
+                                />
+                            </div>
+                            <div className="hotel-info">
+                                <div className="hotel-title">
+                                    <h2>{hotel.name}</h2>
+                                    <p>
+                                        Khách sạn <span className="hotel-stars">
+                                            {"★".repeat(hotel.rating)}
+                                        </span>
+                                    </p>
+                                    <p>
+                                    📍{hotel.address.concrete}, {hotel.address.district}, {hotel.address.city}
+                                    </p>
+                                </div>
+                                <div className="hotel-rating">
+                                    {/* Nếu có số lượng đánh giá, hiển thị ở đây */}
+                                    <span className="rating-score">
+                                        {hotel.rating} sao
+                                    </span>
+                                </div>
+                                <div>
+                                    co so luu tru nay co
+                                </div>
+                            </div>
+                            <div className="hotel-price">
+                                {/* Nếu API có thông tin giá, hiển thị ở đây */}
 
-                {/* Ví dụ 3 */}
-                <div className="hotel-card">
-                    <div className="hotel-image">
-                        <img
-                            src="https://bluejaypms.com/data_news/art-0688.jpg"
-                            alt="Khách sạn Alibaba Đà Nẵng"
-                        />
-                    </div>
-                    <div className="hotel-info">
-                        <div className="hotel-title">
-                            <h2>Khách sạn Alibaba Đà Nẵng</h2>
-                            <p>
-                                Khách sạn <span className="hotel-stars">★ ★ ★</span>
-                            </p>
-                            <p>Phước Mỹ, Đà Nẵng</p>
+                                <p className="original-price">{hotel.minRoomPrice} VND</p>
+                                <p className="sale-price">{hotel.minRoomPrice} VND</p>
+                                <p className="price-note">
+                                    Chỉ còn {hotel.roomType ? hotel.roomType.length : 0} phòng có giá này! <br />
+                                </p>
+                                <button className="select-room-button">Chọn phòng</button>
+                            </div>
                         </div>
-                        <div className="hotel-rating">
-                            <span className="rating-score">168 đánh giá</span>
-                        </div>
-                    </div>
-                    <div className="hotel-price">
-                        <p className="original-price">590.637 VND</p>
-                        <p className="price-note">Chưa bao gồm thuế và phí</p>
-                        <button className="select-room-button">Chọn phòng</button>
-                    </div>
-                </div>
+                    ))
+                ) : (
+                    <p>Không tìm thấy khách sạn phù hợp.</p>
+                )}
             </section>
         </>
-    )
-}
+    );
+};
 
 export default HotelComponent;

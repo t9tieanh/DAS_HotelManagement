@@ -1,0 +1,210 @@
+/* General styles */
+.container1 {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: whitesmoke;
+}
+
+.header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    /* Giữ phần steps căn giữa */
+    align-items: center;
+    width: 100%;
+    padding: 1rem 2rem;
+    background-color: #fff;
+
+    .logo {
+        position: absolute;
+        left: 2rem;
+    }
+
+    .steps {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 14px;
+            color: #6c757d;
+
+            .circle {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                background-color: #e9ecef;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: bold;
+                color: #6c757d;
+                margin-bottom: 0.5rem;
+            }
+
+            &.active .circle {
+                background-color: #007bff;
+                color: #fff;
+            }
+
+            &.active {
+                color: #007bff;
+                font-weight: bold;
+            }
+        }
+
+        .line {
+            width: 50px;
+            height: 2px;
+            background-color: #e9ecef;
+        }
+
+        .step.active+.line {
+            background-color: #007bff;
+        }
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 14px;
+        color: #6c757d;
+
+        .user-name {
+            font-weight: bold;
+        }
+
+        .dropdown-icon {
+            font-size: 12px;
+        }
+    }
+}
+
+/* Timer bar styles */
+.timer-bar {
+    width: 100%;
+    background-color: #fadfdf;
+    color: #f88e86;
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid #af4c3b;
+}
+
+/* Greeting styles */
+.greeting h2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.greeting p {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.payment-options {
+    background-color: #fff; // Màu nền trắng
+    margin-left: 1.5rem;
+
+    // Từng option
+    .option-wrapper {
+        padding: 1rem 1rem 0rem 0rem;
+        border-radius: 4px;
+
+    }
+
+    .form-check {
+        margin-bottom: 20px;
+    }
+
+
+    // Style cho radio
+    .form-check-input {
+        margin-right: 8px;
+    }
+
+    // Style cho label
+    .form-check-label {
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    // Thông tin mô tả
+    .riskfree-details {
+        font-size: 0.9rem;
+        color: #333;
+        background-color: #e0f7e0;
+        padding: 10px 10px 10px 10px;
+        border-radius: 15px;
+    }
+
+    // Payment icons
+    .payment-icons {
+
+        margin-left: 2rem;
+
+        .payment-icon {
+            width: 30px;
+            height: auto;
+            margin-right: 8px;
+        }
+    }
+
+    .text-note {
+        margin-left: 0.5rem;
+        font-size: small;
+    }
+}
+
+
+.trip-summary {
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 20px;
+
+    .trip-details {
+        display: flex;
+        align-items: center;
+
+        .check-in,
+        .check-out {
+            margin-right: 10px;
+        }
+
+        .arrow {
+            margin: 0 5px;
+        }
+    }
+
+    .nights {
+        text-align: center;
+        margin-right: 10px;
+
+        h6 {
+            margin-right: 10px;
+        }
+    }
+
+    .text-muted {
+        font: 13px "Lora", serif;
+    }
+}
+
+/* Property cards */
+.property-card {
+    background-color: #fff;
+  
+    // Nếu muốn thêm box-shadow nhẹ:
+    // box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  
+    .alert {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+  }
+  

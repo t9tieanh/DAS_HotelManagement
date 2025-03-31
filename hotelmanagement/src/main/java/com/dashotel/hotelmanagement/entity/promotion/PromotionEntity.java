@@ -1,10 +1,9 @@
 package com.dashotel.hotelmanagement.entity.promotion;
 
 import com.dashotel.hotelmanagement.entity.AbstractEntity;
-import com.dashotel.hotelmanagement.entity.booking.BookingEntity;
+import com.dashotel.hotelmanagement.entity.booking.ReservationEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -31,5 +30,5 @@ public class PromotionEntity extends AbstractEntity {
     int minloyaltyPoints;
 
     @ManyToMany(mappedBy = "promotions")
-    List<BookingEntity> bookings = new ArrayList<>();
+    List<ReservationEntity> bookings = new ArrayList<>();
 }
