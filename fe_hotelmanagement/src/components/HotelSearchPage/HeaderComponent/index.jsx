@@ -1,30 +1,23 @@
 import React from "react";
 import "./style.scss";
+import { IoMdSearch } from "react-icons/io";
 
-const HeaderComponent = () => {
+const HeaderComponent = ({count}) => {
     return (
         <>
             {/* Header */}
             <div className="booking-header">
                 <div className="header-left">
-                    <h1>Đà Nẵng</h1>
-                    <p>1420 nơi lưu trú được tìm thấy</p>
+                    <h1>DAS Hotel</h1>
+                    <p><IoMdSearch /><span className="hotel-count">{count}</span> nơi lưu trú được tìm thấy</p>
                 </div>
 
                 <div className="header-filters">
                     <label>
                         Xếp theo:
                         <select>
-                            <option>Độ phổ biến</option>
                             <option>Giá thấp đến cao</option>
                             <option>Giá cao đến thấp</option>
-                        </select>
-                    </label>
-                    <label>
-                        Hiển thị giá:
-                        <select>
-                            <option>Mỗi phòng mỗi đêm</option>
-                            <option>Tổng giá</option>
                         </select>
                     </label>
                 </div>

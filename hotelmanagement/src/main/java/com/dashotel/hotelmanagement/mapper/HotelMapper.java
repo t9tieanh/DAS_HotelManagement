@@ -11,4 +11,5 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface HotelMapper {
     HotelEntity toEntity(HotelCreationRequest hotel);
     HotelDestailResponse toResponse(HotelEntity hotel);
+    HotelResultResponse toSearchResponse(HotelEntity hotel);
 }

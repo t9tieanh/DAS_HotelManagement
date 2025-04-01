@@ -1,17 +1,7 @@
-import axios from "axios";
-import { BASE_URL } from "../../conf/baseUrl";
+import axios from "../../utils/CustomAxios";
 
-export const findRoomInHotel = async (checkIn, checkOut, numAdults, numRooms) => {
-    try {
-        const response = await axios.get(`${BASE_URL}/hotel/result`, {
-            params: { checkIn, checkOut, numAdults, numRooms }
-        });
-
-        console.log(response.data.result)
-        return response.data.result
-    }
-    catch (error) {
-        console.error('Error', error)
-        throw error;
-    }
+export const findRoomInHotel = async (checkIn, checkOut, numAdults, numRooms, page, size) => {
+    return await axios.get(`hotel/search-hotel`, {
+        params: { checkIn, checkOut, numAdults, numRooms, page, size }
+    });
 };

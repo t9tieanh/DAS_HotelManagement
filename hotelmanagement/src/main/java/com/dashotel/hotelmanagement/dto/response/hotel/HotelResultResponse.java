@@ -22,5 +22,6 @@ public class HotelResultResponse {
     int rating;
     List<RoomTypeRequest> roomType;
     String avatar;
+    Double originalPrice;
     double minRoomPrice;
 }
