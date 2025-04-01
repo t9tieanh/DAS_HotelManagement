@@ -44,7 +44,7 @@ const TabDetail = ({keyParent,hotelId,imageType}) => {
         <Container className="image-gallery-container">
             <Row>
               {imgs?.map((img, index) => (
-                <Col key={index} xs={12} md={6} lg={4} className="mb-3">
+                <Col key={index} xs={12} md={6} lg={3} className="mb-3">
                   <img onClick={(e) => {handleImageOnClick(e)}} src={`${BASE_URLL}/${fileUrl}/${img}`} alt={`Gallery ${index}`} className="img-fluid rounded" />
                 </Col>
               ))}
@@ -67,7 +67,7 @@ const ImageGallery = ({show,setShow,imgCategorys,hotelId}) => {
 
   return (
     <div>
-      <Modal show={show} onHide={handleClose} size="lg">
+      <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
           <Modal.Title><h5 className="d-flex align-items-center gap-1"><FaCamera /> Thư Viện Ảnh</h5></Modal.Title>
         </Modal.Header>

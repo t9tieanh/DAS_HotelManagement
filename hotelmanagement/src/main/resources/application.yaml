@@ -15,9 +15,9 @@ file:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3300/hotel_management
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://localhost:3306/hotel_management
+    username: root
+    password: 1942004anh
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -37,6 +37,6 @@ spring:
 
 outbound:
   identity:
-    client-id: ${GOOGLE_CLIENT_ID}
-    client-secret: ${GOOGLE_CLIENT_SECRET}
-    redirect-uri: ${GOOGLE_REDIRECT_URI}
+    client-id: "${GOOGLE_CLIENT_ID}"
+    client-secret: "${GOOGLE_CLIENT_SECRET}"
+    redirect-uri: "${GOOGLE_REDIRECT_URI}"

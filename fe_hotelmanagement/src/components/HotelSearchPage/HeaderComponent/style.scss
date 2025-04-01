@@ -9,6 +9,7 @@
     margin-bottom: 20px;
 
     .header-left {
+
         h1 {
             font-size: 24px;
             color: #343a40;
@@ -19,6 +20,11 @@
             font-size: 16px;
             color: #6c757d;
             margin: 5px 0 0;
+
+            .hotel-count {
+                color: #1f70c7 !important;
+                font-weight: bold;
+            }
         }
     }
 

@@ -26,23 +26,25 @@ public class RoomTypeEntity extends AbstractEntity {
     Double price;
     Long maxOccupation;
     Long freeChildren;
+
+    @Lob
+    @Column(columnDefinition = "TEXT")
     String description;
+
     String avatar;
 
     Set<String> imgRoomUrl;
+
     RoomStatusEnum roomStatus;
 
-    @OneToMany(mappedBy = "roomType")
+    @OneToMany(mappedBy = "roomType", cascade = CascadeType.ALL)
     List<RoomAvailabilityEntity> roomAvailabilities;
 
-    @ManyToOne
-    @JoinColumn(name = "hotel_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "hotel_id", nullable = false)
     HotelEntity hotel;
 
     @OneToMany(mappedBy = "roomType")
     List<ReservationDetailEntity> reservationDetail;
-
-    @OneToMany(mappedBy = "roomType", cascade = CascadeType.ALL)
-    List<RoomImageEntity> images;
 
 }

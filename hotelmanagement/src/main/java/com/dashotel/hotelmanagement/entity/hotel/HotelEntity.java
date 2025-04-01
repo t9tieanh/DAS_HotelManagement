@@ -9,6 +9,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -20,9 +21,9 @@ import java.util.List;
 @Entity
 @Table(name = "hotel")
 public class HotelEntity extends AbstractEntity {
-    String id;
     String name;
     String subName;
+    Double originalPrice;
 
 
     @Lob

@@ -2,11 +2,10 @@ package com.dashotel.hotelmanagement.service.hotel;
 
 import com.dashotel.hotelmanagement.dto.request.hotel.HotelCreationRequest;
 import com.dashotel.hotelmanagement.dto.request.hotel.HotelImageRequest;
-import com.dashotel.hotelmanagement.dto.request.hotel.HotelImageUpdationRequest;
-import com.dashotel.hotelmanagement.dto.request.hotel.HotelResultRequest;
 import com.dashotel.hotelmanagement.dto.response.CreationResponse;
 import com.dashotel.hotelmanagement.dto.response.hotel.*;
-import com.dashotel.hotelmanagement.dto.response.room.RoomTypeResponse;
+import com.dashotel.hotelmanagement.dto.response.paging.PagingResponse;
+import com.dashotel.hotelmanagement.entity.hotel.AddressEntity;
 import com.dashotel.hotelmanagement.entity.hotel.HotelEntity;
 import com.dashotel.hotelmanagement.entity.hotel.HotelImageEntity;
 import com.dashotel.hotelmanagement.entity.room.RoomTypeEntity;
@@ -22,11 +21,13 @@ import com.dashotel.hotelmanagement.repository.HotelFacilityRepository;
 import com.dashotel.hotelmanagement.repository.hotel.HotelImageRepository;
 import com.dashotel.hotelmanagement.repository.hotel.HotelRepository;
 import com.dashotel.hotelmanagement.service.other.FileStorageService;
-import com.dashotel.hotelmanagement.service.room.RoomAvailabilityService;
 import com.dashotel.hotelmanagement.service.room.RoomTypeService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -102,7 +103,7 @@ public class HotelService {
 
 
     @Transactional
-    public CreationResponse addHotel(HotelCreationRequest request) {
+    public CreationResponse addHotel(HotelCreationRequest request) throws IOException {
 
         // add các tiện nghi của hotel
         List<HotelFacilityEntity> hotelFacilityEntities =
@@ -111,11 +112,26 @@ public class HotelService {
                                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND)))
                         .collect(Collectors.toList());
 
-
         HotelEntity hotelEntity = hotelMapper.toEntity(request);
         hotelEntity.setAddress(
-                addressMapper.toEntity(request.getAddress())
+                AddressEntity.builder()
+                        .concrete(request.getAddressConcrete())
+                        .commune(request.getAddressCommune())
+                        .district(request.getAddressDistrict())
+                        .city(request.getAddressCity())
+                        .build()
         );
+
+        // tiến hành lưu avartar nếu có
+        if (request.getImg() != null) {
+            hotelEntity.setAvatar(fileStorageService.storeImage(request.getImg()));
+            hotelEntity.setImages(List.of
+                    (HotelImageEntity.builder()
+                        .imageType(HotelImageEnum.AVARTAR)
+                        .imgUrl(hotelEntity.getAvatar())
+                        .hotel(hotelEntity)
+                        .build()));
+        }
 
         // lưu các facilities
         hotelEntity.setFacilities(hotelFacilityEntities);
@@ -155,10 +171,6 @@ public class HotelService {
 
     public List<HotelResultResponse> getHotelBySearch(LocalDate checkIn, LocalDate checkOut, Long numAdults, Long numRooms) {
 
-        if (checkIn == null || checkOut == null || numAdults == null || numRooms == null) {
-            throw new IllegalArgumentException("Các tham số không được để null");
-        }
-
         List<RoomTypeEntity> roomList = roomTypeService.getRoomAvailable(checkIn, checkOut, numAdults, numRooms);
         if(roomList == null || roomList.isEmpty()) {
             return Collections.emptyList();
@@ -194,6 +206,50 @@ public class HotelService {
             return hotel;
         }).collect(Collectors.toList());
 
+    }
 
+    public PagingResponse<HotelResultResponse> getHotelBySearch(LocalDate checkIn, LocalDate checkOut, Long numAdults, Long numRooms,
+                                           int page, int size) {
+
+        List<RoomTypeEntity> roomList = roomTypeService.getRoomAvailable(checkIn, checkOut, numAdults, numRooms);
+        if(roomList == null || roomList.isEmpty()) {
+            return PagingResponse.<HotelResultResponse>builder()
+                    .totalElements(0)
+                    .totalPages(1)
+                    .content(Collections.emptyList())
+                    .build();
+        }
+
+        Set<String> hotelIds = roomList.stream()
+                .map(RoomTypeEntity::getHotel)
+                .filter(Objects::nonNull)
+                .map(HotelEntity::getId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<HotelEntity> hotelEntitiesPage = hotelRepository.findByIdIn(hotelIds, pageable);
+
+        List<HotelResultResponse> result = hotelEntitiesPage.getContent().stream()
+                .map(entity -> {
+                    HotelResultResponse hotel = hotelMapper.toSearchResponse(entity);
+                    hotel.setAddress(entity.getAddress() != null ? addressMapper.toDTO(entity.getAddress()) : null);
+
+                    OptionalDouble minPriceOpt = entity.getRooms().stream()
+                            .mapToDouble(RoomTypeEntity::getPrice)
+                            .min();
+
+                    double minPrice = minPriceOpt.orElse(0.0);
+                    hotel.setMinRoomPrice(minPrice);
+
+                    return hotel;
+                })
+                .collect(Collectors.toList());
+
+        return PagingResponse.<HotelResultResponse>builder()
+                .totalElements(hotelEntitiesPage.getTotalElements())
+                .totalPages(hotelEntitiesPage.getTotalPages())
+                .content(result)
+                .build();
     }
 }

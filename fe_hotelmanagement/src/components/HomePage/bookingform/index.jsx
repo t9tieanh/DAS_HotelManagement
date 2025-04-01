@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import hero1 from "../../../assets/img/hero/hero-1.jpg";
 import hero2 from "../../../assets/img/hero/hero-2.jpg";
 import hero3 from "../../../assets/img/hero/hero-3.jpg";
-import { findRoomInHotel } from "../../../services/HotelService/findHotelService";
+import { GoPaperAirplane } from "react-icons/go";
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
+import PrimaryButton from "../../common/button/btn-primary";
+import './style.scss'
 
 const images = [hero1, hero2, hero3];
 
@@ -68,21 +72,26 @@ const BookingForm = () => {
                                     </div>
                                     <div className="select-option">
                                         <label htmlFor="guest">Guests:</label>
-                                        <select id="guest" value={numAdults} onChange={(e) => setNumAdults(e.target.value)}>
-                                            {[...Array(5)].map((_, i) => (
-                                                <option key={i + 1} value={i + 1}>{i + 1} Adults</option>
+                                        <DropdownButton variant="dark" id="dropdown-basic-button" className="custom-dropdown" title={`${numAdults} guest${numAdults > 1 ? "s" : ""}`}>
+                                            {Array.from({ length: 5 }, (_, i) => i + 1).map((num) => (
+                                                <Dropdown.Item key={num} onClick={() => {setNumAdults(num)}}>
+                                                    {num} guest{num > 1 ? "s" : ""}
+                                                </Dropdown.Item>
                                             ))}
-                                        </select>
+                                        </DropdownButton>
                                     </div>
                                     <div className="select-option">
                                         <label htmlFor="room">Room:</label>
-                                        <select id="room" value={numRooms} onChange={(e) => setNumRooms(e.target.value)}>
-                                            {[...Array(5)].map((_, i) => (
-                                                <option key={i + 1} value={i + 1}>{i + 1} Room</option>
+                                        <DropdownButton variant="dark" id="dropdown-basic-button" className="custom-dropdown" title={`${numRooms} room${numAdults > 1 ? "s" : ""}`}>
+                                            {Array.from({ length: 5 }, (_, i) => i + 1).map((num) => (
+                                                <Dropdown.Item key={num} onClick={() => {setNumRooms(num)}}>
+                                                    {num} guest{num > 1 ? "s" : ""}
+                                                </Dropdown.Item>
                                             ))}
-                                        </select>
+                                        </DropdownButton>
                                     </div>
-                                    <button type="submit">Check Availability</button>
+                                    
+                                    <PrimaryButton className={'search-button'} type="submit" text={"Tìm phòng ngay"} icon={<GoPaperAirplane />} />
                                 </form>
                             </div>
                         </div>

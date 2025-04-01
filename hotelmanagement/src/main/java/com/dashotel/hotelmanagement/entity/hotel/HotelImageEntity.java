@@ -20,7 +20,6 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "hotel_image")
 public class HotelImageEntity extends AbstractEntity {
     String imgUrl;
-    Boolean isAvartar;
     HotelImageEnum imageType;
 
     @ManyToOne

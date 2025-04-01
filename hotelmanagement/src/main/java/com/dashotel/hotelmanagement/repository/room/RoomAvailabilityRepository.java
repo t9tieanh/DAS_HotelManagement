@@ -7,11 +7,15 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface RoomAvailabilityRepository extends JpaRepository<RoomAvailabilityEntity, String> {
-
-
-
+    @Query("SELECT ra FROM RoomAvailabilityEntity ra " +
+            "WHERE ra.availableDate >= :checkIn " +
+            "AND ra.availableDate < :checkOut")
+    List<RoomAvailabilityEntity> findByAvailableDateBetween(
+            @Param("checkIn") LocalDate checkIn,
+            @Param("checkOut") LocalDate checkOut);
 
 }

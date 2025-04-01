@@ -1,8 +1,8 @@
 package com.dashotel.hotelmanagement.entity.booking;
 
 import com.dashotel.hotelmanagement.entity.AbstractEntity;
+import com.dashotel.hotelmanagement.entity.promotion.DiscountEntity;
 import com.dashotel.hotelmanagement.entity.user.CustomerEntity;
-import com.dashotel.hotelmanagement.entity.promotion.PromotionEntity;
 import com.dashotel.hotelmanagement.entity.service.ServiceEntity;
 import com.dashotel.hotelmanagement.enums.BookingStatusEnum;
 import jakarta.persistence.*;
@@ -12,7 +12,6 @@ import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,8 +27,8 @@ public class ReservationEntity extends AbstractEntity {
     LocalDate reservationDate;
     BookingStatusEnum status;
 
-    @ManyToMany
-    List<PromotionEntity> promotions;
+    @ManyToMany(mappedBy = "reservations")
+    List<DiscountEntity> discounts;
 
     @ManyToMany
     List <ServiceEntity> services;
@@ -43,6 +42,4 @@ public class ReservationEntity extends AbstractEntity {
 
     @OneToMany(mappedBy = "reservation")
     List<ReservationDetailEntity> reservationDetail;
-
-
 }

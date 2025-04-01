@@ -1,8 +1,10 @@
 package com.dashotel.hotelmanagement.dto.request.hotel;
 import com.dashotel.hotelmanagement.dto.common.AddressDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,6 +19,13 @@ public class HotelCreationRequest {
     String subName;
     String description;
 
-    AddressDTO address;
+    String addressConcrete;
+    String addressCommune;
+    String addressDistrict;
+    String addressCity;
+
     List<String> facilitiesIds;
+
+    @JsonIgnore
+    MultipartFile img;
 }
