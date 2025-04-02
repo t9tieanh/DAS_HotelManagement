@@ -46,5 +46,14 @@ public class DiscountService {
                 .collect(Collectors.toList());
     }
 
+    public DiscountDTO getDiscountByCode (String code) {
+
+        return discountMapper.toDTO(
+                discountRepository.findByCode(code).orElseThrow(
+                        () -> new CustomException(ErrorCode.USER_NOT_FOUND)
+                )
+        );
+    }
+
 
 }
