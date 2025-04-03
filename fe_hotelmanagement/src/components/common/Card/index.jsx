@@ -16,7 +16,6 @@ const CustomCard = ({ name, icon, children, className, subTitle, buttonFunc }) =
                     </Card.Title>
                     {subTitle && <Card.Subtitle><h6 className='text-muted'>{subTitle}</h6></Card.Subtitle>}
                     {buttonFunc && <ArrowButton text={"Xem thêm"} onClickFunc={buttonFunc} style={{ fontSize: "12px"}} />}
-                    {/* text, onClickFunc, style */}
                 <hr/>
                 
                 </>)}

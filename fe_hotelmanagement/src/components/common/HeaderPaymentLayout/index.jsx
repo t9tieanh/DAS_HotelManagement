@@ -13,12 +13,12 @@ const Header = ({pageState}) => {
                         <img src={logo} alt="Agoda Logo" className="logo-img" />
                     </div>
                     <div className="steps d-flex align-items-center justify-content-center">
-                        <div className={`step ${pageState === 0 && 'active'}`}>
+                        <div className={`step ${pageState >= 0 && 'active'}`}>
                             <div className="circle">1</div>
                             <span>Thông tin khách hàng</span>
                         </div>
                         <div className="line"></div>
-                        <div className={`step ${pageState === 1 && 'active'}`}>
+                        <div className={`step ${pageState >= 1 && 'active'}`}>
                             <div className="circle">2</div>
                             <span>Chi tiết thanh toán</span>
                         </div>
