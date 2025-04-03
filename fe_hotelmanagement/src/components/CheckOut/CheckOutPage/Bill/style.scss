@@ -1,0 +1,24 @@
+.bill-container {
+    h5 {
+        color: rgb(81, 83, 85) !important;
+    }
+
+    .container {
+        border: 1px solid rgb(190, 186, 186);
+    }
+
+    .detail-section {
+        .discount-section {
+            h6 {
+                color: rgb(14, 209, 14);
+            }
+        }
+        border-top-left-radius: 20px !important;
+        border-top-right-radius: 20px !important;
+    }
+
+    .summary-section {
+        border-bottom-left-radius: 20px !important;
+        border-bottom-right-radius: 20px !important;
+    }
+}

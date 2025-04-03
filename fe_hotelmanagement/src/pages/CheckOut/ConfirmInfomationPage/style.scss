@@ -12,67 +12,6 @@
         }
     }
 
-    .trip-summary {
-        background-color: white;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
     
-        .trip-details {
-            display: flex;
-            align-items: center;
-    
-            .check-in,
-            .check-out {
 
-                h5 {
-                    width: fit-content !important ;
-                    height: 100px !important;
-                }
-            }
-    
-            .arrow {
-                margin: 0 5px;
-            }
-        }
-    
-        .nights {
-            text-align: center;
-            margin-right: 10px;
-    
-            h6 {
-                margin-right: 10px;
-            }
-        }
-    
-        .text-muted {
-            font: 13px "Lora", serif;
-        }
-    }
-
-}
-
-.bill-container {
-    h5 {
-        color: rgb(81, 83, 85) !important;
-    }
-
-    .container {
-        border: 1px solid rgb(190, 186, 186);
-    }
-
-    .detail-section {
-        .discount-section {
-            h6 {
-                color: rgb(14, 209, 14);
-            }
-        }
-        border-top-left-radius: 20px !important;
-        border-top-right-radius: 20px !important;
-    }
-
-    .summary-section {
-        border-bottom-left-radius: 20px !important;
-        border-bottom-right-radius: 20px !important;
-    }
 }
