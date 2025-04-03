@@ -15,12 +15,12 @@ import HotelSearchPage from './pages/HotelSearchPage/index.jsx';
 //redux persit 
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
-import {store, persistor} from './redux/store';
+import { store, persistor } from './redux/store';
 import AuthenticatePage from './pages/GGAuth/Authenticate/index.jsx';
 import HotelDetail from './pages/HotelDetail/index.jsx';
 import CustomerProfile from './pages/CustomerProfile/index.jsx';
 import ReservationCheckOut from './pages/ReservationCheckOut/index.jsx';
-
+import VerifyOTP from './pages/VerifyOTP/index.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -29,22 +29,25 @@ const router = createBrowserRouter([
     path: '',
     element: <App />,
     children: [
-      { path: '/', element: <HomeLayout />, children: [
-        { index: true, element: <HomePage /> },
-        { path: 'rooms', element: <RoomsPage /> },
-        { path: 'hotel-detail', element: <HotelDetail /> },
-        { path: 'login', element: <LoginPage /> },
-        { path: 'authentication', element: <AuthenticatePage /> },
-        { path: 'register', element: <RegisterPage /> },
-        { path: 'room/:id', element: <RoomDetail /> },
-        { path: 'hotel-result', element: <HotelSearchPage /> },
-        { path: 'profile', element: <CustomerProfile /> },
-        { path: 'reservation', element: <ReservationCheckOut /> },
-      ]},
+      {
+        path: '/', element: <HomeLayout />, children: [
+          { index: true, element: <HomePage /> },
+          { path: 'rooms', element: <RoomsPage /> },
+          { path: 'hotel-detail', element: <HotelDetail /> },
+          { path: 'login', element: <LoginPage /> },
+          { path: 'authentication', element: <AuthenticatePage /> },
+          { path: 'register', element: <RegisterPage /> },
+          { path: 'room/:id', element: <RoomDetail /> },
+          { path: 'hotel-result', element: <HotelSearchPage /> },
+          { path: 'profile', element: <CustomerProfile /> },
+          { path: 'reservation', element: <ReservationCheckOut /> },
+          { path: 'verify-otp', element: <VerifyOTP /> }
+        ]
+      },
     ],
-  },  
+  },
   {
-    path: "*",  
+    path: "*",
     element: <NotFoundPage />
   }
 ]);

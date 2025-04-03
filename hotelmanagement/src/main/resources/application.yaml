@@ -35,6 +35,22 @@ spring:
     level:
       org.springframework.security: DEBUG
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.transport.protocol: smtp
+      mail.smtp.ssl.trust: smtp.gmail.com
+
 outbound:
   identity:
     client-id: ${GOOGLE_CLIENT_ID}

@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import hero1 from "../../../assets/img/hero/hero-1.jpg";
-import hero2 from "../../../assets/img/hero/hero-2.jpg";
-import hero3 from "../../../assets/img/hero/hero-3.jpg";
+import hero5 from "../../../assets/img/hero/hero-5.jpeg";
+import hero6 from "../../../assets/img/hero/hero-6.jpg";
+import hero4 from "../../../assets/img/hero/hero-4.jpeg";
+
 import { findRoomInHotel } from "../../../services/HotelService/findHotelService";
 
-const images = [hero1, hero2, hero3];
+const images = [hero5, hero4, hero6];
 
 const BookingForm = () => {
     const [currentImage, setCurrentImage] = useState(0);
