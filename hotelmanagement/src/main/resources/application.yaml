@@ -56,3 +56,22 @@ outbound:
     client-id: ${GOOGLE_CLIENT_ID}
     client-secret: ${GOOGLE_CLIENT_SECRET}
     redirect-uri: ${GOOGLE_REDIRECT_URI}
+
+VNPAY:
+  URL: ${VNPAY_URL}
+  TMN_CODE: ${VNPAY_TMN_CODE}
+  SECRET_KEY: ${VNPAY_SECRET_KEY}
+  RETURN_URL: ${VNPAY_RETURN_URL}
+  VERSION: ${VNPAY_VERSION}
+  COMMAND: ${VNPAY_COMMAND}
+  ORDER_TYPE: ${VNPAY_ORDER_TYPE}
+
+momo:
+  partner-code: MOMO
+  return-url: http://localhost:3000/
+  end-point: https://test-payment.momo.vn/v2/gateway/api
+  ipn-url: http://localhost:8080/api/momo/ipn-handler
+  access-key: F8BBA842ECF85
+  secret-key: K951B6PE1waDMi640xX08PD3vg6EkVlz
+  request-type: captureWallet
+
