@@ -6,12 +6,12 @@ import React, {
 import ReactDOM from "react-dom";
 
 
-const Paginate = ({fetchFunction ,itemsPerPage, pageCount, currentPage}) => {
+const Paginate = ({ fetchFunction, itemsPerPage, pageCount, currentPage }) => {
 
   // Invoke when user click to request another page.
   const handlePageClick = (event) => {
     console.log(`User requested page number ${event.selected}`);
-    fetchFunction(event.selected,3)
+    fetchFunction(event.selected, 3)
   };
 
   return (
