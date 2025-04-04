@@ -19,6 +19,7 @@ public class HotelDestailResponse {
     String name;
     String subName;
     String description;
+    Double originalPrice;
 
     AddressDTO address;
     List<FacilitiesResponse> facilities;

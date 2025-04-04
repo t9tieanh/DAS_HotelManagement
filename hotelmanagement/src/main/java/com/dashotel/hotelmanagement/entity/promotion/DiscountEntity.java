@@ -2,9 +2,7 @@ package com.dashotel.hotelmanagement.entity.promotion;
 
 import com.dashotel.hotelmanagement.entity.AbstractEntity;
 import com.dashotel.hotelmanagement.entity.booking.ReservationEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -19,16 +17,24 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 @Entity
-@Table(name = "promotion")
-public class PromotionEntity extends AbstractEntity {
-    String description;
-    String promotionName;
+@Table(name = "discount")
+public class DiscountEntity extends AbstractEntity {
+    String name;
     String code;
     LocalDate beginDate;
     LocalDate endDate;
     int discountPrecentage;
-    int minloyaltyPoints;
+    int minloyaltyPoints = 0;
+    double minBookingAmount;
+    double maxDiscountAmount;
+    Boolean isPublic;
+    Boolean isActive;
 
-    @ManyToMany(mappedBy = "promotions")
-    List<ReservationEntity> bookings = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "discount_reservation",
+            joinColumns = @JoinColumn(name = "discount_id"),
+            inverseJoinColumns = @JoinColumn(name = "reservation_id")
+    )
+    List<ReservationEntity> reservations;
 }

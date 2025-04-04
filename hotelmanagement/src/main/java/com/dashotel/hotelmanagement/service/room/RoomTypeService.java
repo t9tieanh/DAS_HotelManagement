@@ -1,19 +1,19 @@
 package com.dashotel.hotelmanagement.service.room;
 
-import com.dashotel.hotelmanagement.dto.request.hotel.HotelImageRequest;
+import com.dashotel.hotelmanagement.dto.request.room.OpenRoomRequest;
+import com.dashotel.hotelmanagement.dto.request.room.RoomTypeCreationRequest;
 import com.dashotel.hotelmanagement.dto.request.room.RoomTypeImageRequest;
+import com.dashotel.hotelmanagement.dto.request.room.RoomTypeRequest;
 import com.dashotel.hotelmanagement.dto.response.CreationResponse;
 import com.dashotel.hotelmanagement.dto.response.room.RoomTypeResponse;
 import com.dashotel.hotelmanagement.entity.hotel.HotelEntity;
-import com.dashotel.hotelmanagement.entity.hotel.HotelImageEntity;
 import com.dashotel.hotelmanagement.entity.room.RoomAvailabilityEntity;
-import com.dashotel.hotelmanagement.entity.room.RoomImageEntity;
 import com.dashotel.hotelmanagement.entity.room.RoomTypeEntity;
 import com.dashotel.hotelmanagement.enums.RoomStatusEnum;
 import com.dashotel.hotelmanagement.exception.CustomException;
 import com.dashotel.hotelmanagement.exception.ErrorCode;
-import com.dashotel.hotelmanagement.mapper.RoomImageMapper;
 import com.dashotel.hotelmanagement.mapper.RoomTypeMapper;
+import com.dashotel.hotelmanagement.repository.hotel.HotelRepository;
 import com.dashotel.hotelmanagement.repository.room.RoomTypeRepository;
 import com.dashotel.hotelmanagement.service.other.FileStorageService;
 import lombok.AccessLevel;
@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,12 +35,13 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 public class RoomTypeService {
+
     RoomTypeRepository roomTypeRepository;
+    HotelRepository hotelRepository;
+    FileStorageService fileStorageService;
 
     RoomTypeMapper roomTypeMapper;
-    RoomImageMapper roomImageMapper;
 
-    FileStorageService fileStorageService;
     public List<RoomTypeEntity> getRoomAvailable(LocalDate checkIn, LocalDate checkOut, Long numAdults, Long numRooms) {
         Long numDays = ChronoUnit.DAYS.between(checkIn, checkOut);
         List<String> roomTypeIds = roomTypeRepository.findAvailableRooms(checkIn, checkOut, numRooms, numDays);
@@ -47,8 +49,8 @@ public class RoomTypeService {
         List<RoomTypeEntity> roomList = new ArrayList<>();
 
        for(String roomId : roomTypeIds) {
-           RoomTypeEntity room = roomTypeRepository.findById(roomId).orElseThrow(() -> new RuntimeException("Khong tim thay phong"));
-           if(room.getMaxOccupation() >= numAdults && room.getRoomStatus().equals(RoomStatusEnum.BOOKED)) {
+           RoomTypeEntity room = roomTypeRepository.findById(roomId).orElseThrow(() -> new RuntimeException("Not room found"));
+           if(room.getMaxOccupation() >= numAdults && room.getRoomStatus().equals(RoomStatusEnum.AVAILABLE)) {
                roomList.add(room);
            }
        }
@@ -63,21 +65,76 @@ public class RoomTypeService {
     }
 
     @Transactional
-    public CreationResponse addImageForRoomType(RoomTypeImageRequest request) throws IOException {
+    public CreationResponse openRoom(OpenRoomRequest request) {
 
+        RoomTypeEntity roomTypeEntity = roomTypeRepository.findById(request.getRoomTypeId())
+                .orElseThrow(() -> new RuntimeException("Not room found"));
+
+        if (roomTypeEntity.getRoomAvailabilities() == null)
+            roomTypeEntity.setRoomAvailabilities(new ArrayList<>());
+
+        for (LocalDate date = request.getStartDate(); !date.isAfter(request.getEndDate()); date = date.plusDays(1)) {
+            roomTypeEntity.getRoomAvailabilities().add(RoomAvailabilityEntity.builder()
+                            .roomType(roomTypeEntity)
+                            .totalRoom(request.getTotalRooms())
+                            .bookedRoom(0L)
+                            .availableDate(date)
+                            .build()
+            );
+        }
+
+        roomTypeRepository.save(roomTypeEntity);
+
+        return CreationResponse.builder()
+                .isSuccess(true)
+                .build();
+    }
+
+
+    @Transactional
+    public CreationResponse createRoom(RoomTypeCreationRequest request) throws IOException {
+        // tiến hành tìm hotel
+
+        HotelEntity hotelEntity = hotelRepository.findById(request.getHotelId())
+                .orElseThrow(() -> new RuntimeException("Hotel not found"));
+
+        RoomTypeEntity roomTypeEntity = roomTypeMapper.toEntity(request);
+
+        // tiến hành lưu ảnh
+        roomTypeEntity.setAvatar(fileStorageService.storeImage(request.getImg()));
+        roomTypeEntity.setRoomStatus(RoomStatusEnum.AVAILABLE);
+
+        // set mối liên kết
+        roomTypeEntity.setHotel(hotelEntity);
+
+        roomTypeEntity = roomTypeRepository.save(roomTypeEntity);
+
+        return CreationResponse.builder()
+                .isSuccess(true)
+                .id(roomTypeEntity.getId())
+                .build();
+    }
+
+
+
+    @Transactional
+    public CreationResponse addImageForRoomType(RoomTypeImageRequest request) throws IOException {
         RoomTypeEntity roomType = roomTypeRepository.findById(request.getRoomTypeId())
                 .orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
 
-        RoomImageEntity roomImageEntity = roomImageMapper.toEntity(request);
 
         // tiến hành lưu ảnh
-        roomImageEntity.setImgUrl(fileStorageService.storeImage(request.getImg()));
+        String imgUrl = fileStorageService.storeImage(request.getImg());
 
-        roomType.getImages().add(roomImageEntity);
-        roomImageEntity.setRoomType(roomType);
+        // lưu đường dẫn url vào db
+        if (roomType.getImgRoomUrl() == null)
+            roomType.setImgRoomUrl(new HashSet<>() {});
+
+        roomType.getImgRoomUrl().add(imgUrl);
 
         if (request.getIsAvatar())
-            roomType.setAvatar(roomImageEntity.getImgUrl());
+            roomType.setAvatar(imgUrl);
+
 
         roomType = roomTypeRepository.save(roomType);
 

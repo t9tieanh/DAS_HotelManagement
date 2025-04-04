@@ -1,6 +1,8 @@
 package com.dashotel.hotelmanagement.controller.room;
 
 import com.dashotel.hotelmanagement.dto.request.hotel.HotelImageRequest;
+import com.dashotel.hotelmanagement.dto.request.room.OpenRoomRequest;
+import com.dashotel.hotelmanagement.dto.request.room.RoomTypeCreationRequest;
 import com.dashotel.hotelmanagement.dto.request.room.RoomTypeImageRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.dto.response.CreationResponse;
@@ -18,6 +20,27 @@ import java.io.IOException;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RoomController {
     RoomTypeService roomTypeService;
+
+    @PostMapping(consumes = "multipart/form-data")
+    ApiResponse<CreationResponse> createRoom (@ModelAttribute RoomTypeCreationRequest request) throws IOException {
+        var result = roomTypeService.createRoom(request);
+
+        return ApiResponse.<CreationResponse>builder()
+                .code(200)
+                .result(result)
+                .build();
+    }
+
+    @PostMapping(value="/open-room")
+    ApiResponse<CreationResponse> openRoom (@RequestBody OpenRoomRequest request) {
+        var result = roomTypeService.openRoom(request);
+
+        return ApiResponse.<CreationResponse>builder()
+                .code(200)
+                .result(result)
+                .build();
+    }
+
     @PostMapping(value="/update-image", consumes = "multipart/form-data")
     ApiResponse<CreationResponse> addImage(@ModelAttribute RoomTypeImageRequest request) throws IOException {
         var result = roomTypeService.addImageForRoomType(request);

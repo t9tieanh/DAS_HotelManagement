@@ -10,7 +10,8 @@ import java.util.Arrays;
 public enum HotelImageEnum {
     LOBBY("Sảnh chờ"),
     OUTSIDE("Bên ngoài"),
-    INSIDE("Bên trong");
+    INSIDE("Bên trong"),
+    AVARTAR("Hình đại diện");
 
     private final String description;
 

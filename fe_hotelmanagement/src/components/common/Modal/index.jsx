@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { VscDebugContinue } from "react-icons/vsc";
 
 function CustomModal({show, setShow, title, content, icon}) {
 
@@ -8,7 +9,7 @@ function CustomModal({show, setShow, title, content, icon}) {
 
   return (
     <>
-      <Modal size="lg"
+      <Modal size="xl"
       aria-labelledby="contained-modal-title-vcenter"
       centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -16,7 +17,7 @@ function CustomModal({show, setShow, title, content, icon}) {
         </Modal.Header>
         <Modal.Body><span className='text-muted'>{content}</span></Modal.Body>
         <Modal.Footer>
-            <Button onClick={handleClose} variant="primary">Khám phá thêm</Button>
+            <Button onClick={handleClose} className='d-flex align-items-center gap-1' variant="primary">Khám phá thêm<VscDebugContinue /></Button>
         </Modal.Footer>
       </Modal>
     </>

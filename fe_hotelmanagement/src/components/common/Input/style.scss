@@ -1,0 +1,15 @@
+.text-input {
+
+    input {
+
+        border: solid 1px rgb(169, 163, 163) !important;
+        border-radius: 5px;
+
+        &:focus {
+            border-color: #3964da !important; // Đổi màu viền khi focus
+            box-shadow: 0 0 5px #3964da !important;
+            outline: none;
+        }
+
+    }
+}

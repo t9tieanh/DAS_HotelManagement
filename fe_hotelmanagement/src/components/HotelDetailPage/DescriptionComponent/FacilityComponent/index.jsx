@@ -9,6 +9,8 @@ import { useState } from "react";
 import { FaServicestack } from "react-icons/fa6";
 import _ from "lodash";
 import { GoDotFill } from "react-icons/go";
+import Image from 'react-bootstrap/Image';
+import HotelName from "../../NameComponent";
 
 
 const HotelLocationDetailBody = ({facilities}) => {
@@ -18,19 +20,25 @@ const HotelLocationDetailBody = ({facilities}) => {
     console.log(facilitiesUpdated,"lodash updated")
 
     return <>
-      <Container>
+      <Container className="shadow-5">
+
       <div style={{ padding : "10px"}}>
           <Row>
 
+            <div className = "background-img">
+                <h1>Các tiện nghi của khách sạn</h1>
+                <p class="text-muted">from DAS Hotel - 2024</p>
+            </div>
+
             {Object?.entries(facilitiesUpdated)?.map(([icon,facilitys]) => (
                 <Col md={6} sm={6} xs={12} className="mb-4">
-                    <Card className="shadow-0 card-facilities-detail">
+                    <Card className="card-facilities-detail">
                     <Card.Header className="d-flex align-items-center gap-1">
                         <img importance="low" loading="lazy" decoding="async" width="24" height="24" src={icon}></img>
-                        <Card.Title><h6>{facilitys[0]?.categoryName}</h6></Card.Title>
+                        <Card.Title><h6 className="fw-bold">{facilitys[0]?.categoryName}</h6></Card.Title>
                     </Card.Header>
                     <Card.Body>
-                        <ul className="list-unstyled">
+                        <ul className="list-unstyled p-2">
                         {facilitys?.map((item, idx) => (
                             <li key={idx} className="mb-2">
                             <h6><GoDotFill /> {item.name}</h6>

@@ -1,0 +1,13 @@
+.accordion-container {
+    border: 1px solid rgb(206, 202, 202);
+    border-radius: 10px;
+
+    .accordion-button {
+        background-color: rgb(25, 100, 197) !important; 
+        color: white;
+    }
+
+    .collapsed {
+        background-color: rgb(77, 122, 182) !important;
+    }
+}

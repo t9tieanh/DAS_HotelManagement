@@ -1,37 +1,52 @@
 import React, { useEffect, useState } from "react";
-import { BASE_URL } from "../../../conf/baseUrl";
 import './style.scss';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { findRoomInHotel } from "../../../services/HotelService/findHotelService";
+import Paginate from "../../common/paging";
+import {LIMIT} from "../../../utils/paging"
+import HotelCard from "../HotelCard/index.jsx"
 
-const HotelComponent = () => {
-
-
+const HotelComponent = ({setHotelCount}) => {
     const fileUrl = 'files/image'
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
+    const navigator = useNavigate()
 
     const checkIn = searchParams.get("checkIn");
     const checkOut = searchParams.get("checkOut");
     const numAdults = searchParams.get("numAdults");
     const numRooms = searchParams.get("numRooms");
 
+    // paging 
+    const [currentPage, setCurrentPage] = useState(0)
+    const [pageCount, setPageCount] = useState(0)
+
     const [hotels, setHotels] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const fetchHotels = async () => {
-            try {
-                const result = await findRoomInHotel(checkIn, checkOut, numAdults, numRooms);
-                setHotels(result);
-            } catch (error) {
-                setError("Có lỗi xảy ra khi tải dữ liệu khách sạn.");
-            } finally {
-                setLoading(false);
+    const fetchHotels = async (page, limit) => {
+        try {
+            const data = await findRoomInHotel(checkIn, checkOut, numAdults, numRooms, page, limit);
+            if (data && data.code && data.code === 200 && data.result) {
+
+                console.log(data)
+
+                setPageCount(data.result.totalPages)
+                setHotelCount(data.result.totalElements)
+                setHotels(data.result.content)
             }
+
+
+        } catch (error) {
+            setError("Có lỗi xảy ra khi tải dữ liệu khách sạn.");
+        } finally {
+            setLoading(false);
         }
-        fetchHotels();
+    }
+
+    useEffect(() => {
+        fetchHotels(0,LIMIT);
     }, [checkIn, checkOut, numAdults, numRooms]);
 
     if (loading) {
@@ -47,56 +62,14 @@ const HotelComponent = () => {
             <section className="hotel-list">
                 {hotels && hotels.length > 0 ? (
                     hotels.map((hotel) => (
-
-                        <div className="hotel-card" key={hotel.id}>
-                            <div className="hotel-image">
-                                <img
-                                    src={`${BASE_URL}/${fileUrl}/${hotel.avatar}`}
-                                    alt={hotel.name}
-                                    style={{
-                                        width: "300px",
-                                        height: "200px",
-                                        objectFit: "cover"
-                                    }}
-                                />
-                            </div>
-                            <div className="hotel-info">
-                                <div className="hotel-title">
-                                    <h2>{hotel.name}</h2>
-                                    <p>
-                                        Khách sạn <span className="hotel-stars">
-                                            {"★".repeat(hotel.rating)}
-                                        </span>
-                                    </p>
-                                    <p>
-                                    📍{hotel.address.concrete}, {hotel.address.district}, {hotel.address.city}
-                                    </p>
-                                </div>
-                                <div className="hotel-rating">
-                                    {/* Nếu có số lượng đánh giá, hiển thị ở đây */}
-                                    <span className="rating-score">
-                                        {hotel.rating} sao
-                                    </span>
-                                </div>
-                                <div>
-                                    co so luu tru nay co
-                                </div>
-                            </div>
-                            <div className="hotel-price">
-                                {/* Nếu API có thông tin giá, hiển thị ở đây */}
-
-                                <p className="original-price">{hotel.minRoomPrice} VND</p>
-                                <p className="sale-price">{hotel.minRoomPrice} VND</p>
-                                <p className="price-note">
-                                    Chỉ còn {hotel.roomType ? hotel.roomType.length : 0} phòng có giá này! <br />
-                                </p>
-                                <button className="select-room-button">Chọn phòng</button>
-                            </div>
-                        </div>
+                        <HotelCard hotel={hotel} />
                     ))
                 ) : (
                     <p>Không tìm thấy khách sạn phù hợp.</p>
                 )}
+
+                <div className="d-flex align-items-center justify-content-center"><Paginate fetchFunction = {fetchHotels}  itemsPerPage = {LIMIT} pageCount = {pageCount} currentPage = {currentPage} /></div>
+                
             </section>
         </>
     );
