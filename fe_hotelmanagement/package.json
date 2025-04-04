@@ -13,6 +13,7 @@
     "owl.carousel": "^2.3.4",
     "rc-slider": "^11.1.8",
     "react": "^18.3.0",
+    "react-autosuggest": "^10.1.0",
     "react-bootstrap": "^2.10.9",
     "react-countdown": "^2.3.6",
     "react-datepicker": "^8.2.1",
