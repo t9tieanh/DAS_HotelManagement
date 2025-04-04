@@ -157,7 +157,7 @@ const LoginForm = () => {
                 href="#"
                 className="btn btn-floating mx-1"
                 style={{
-                  backgroundColor: "#1877F2", 
+                  backgroundColor: "#1877F2",
                   color: "white",
                   borderColor: "#1877F2"
                 }}

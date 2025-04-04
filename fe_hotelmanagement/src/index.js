@@ -15,10 +15,11 @@ import HotelSearchPage from './pages/HotelSearchPage/index.jsx';
 //redux persit 
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
-import {store, persistor} from './redux/store';
+import { store, persistor } from './redux/store';
 import AuthenticatePage from './pages/GGAuth/Authenticate/index.jsx';
 import HotelDetail from './pages/HotelDetail/index.jsx';
 import CustomerProfile from './pages/CustomerProfile/index.jsx';
+import VerifyOTP from './pages/VerifyOTP/index.jsx';
 import ReservationCheckOut from './pages/CheckOut/ConfirmInfomationPage/index.jsx';
 import PaymentLayout from './layouts/PaymentLayout/index.jsx';
 import CheckOutPage from './pages/CheckOut/CheckoutPage/index.jsx';
@@ -31,25 +32,29 @@ const router = createBrowserRouter([
     path: '',
     element: <App />,
     children: [
-      { path: 'reservation', element: <PaymentLayout />, children: [
-          { index: true, element: <CheckOutPage />}, 
-        ] 
+      {
+        path: 'reservation', element: <PaymentLayout />, children: [
+          { index: true, element: <CheckOutPage /> },
+        ]
       },
-      { path: '/', element: <HomeLayout />, children: [
-        { index: true, element: <HomePage /> },
-        { path: 'rooms', element: <RoomsPage /> },
-        { path: 'hotel-detail/:id', element: <HotelDetail /> },
-        { path: 'login', element: <LoginPage /> },
-        { path: 'authentication', element: <AuthenticatePage /> },
-        { path: 'register', element: <RegisterPage /> },
-        { path: 'room/:id', element: <RoomDetail /> },
-        { path: 'hotel-result', element: <HotelSearchPage /> },
-        { path: 'profile', element: <CustomerProfile /> },
-      ]},
+      {
+        path: '/', element: <HomeLayout />, children: [
+          { index: true, element: <HomePage /> },
+          { path: 'rooms', element: <RoomsPage /> },
+          { path: 'hotel-detail/:id', element: <HotelDetail /> },
+          { path: 'login', element: <LoginPage /> },
+          { path: 'authentication', element: <AuthenticatePage /> },
+          { path: 'register', element: <RegisterPage /> },
+          { path: 'room/:id', element: <RoomDetail /> },
+          { path: 'hotel-result', element: <HotelSearchPage /> },
+          { path: 'profile', element: <CustomerProfile /> },
+          { path: 'verify-otp', element: <VerifyOTP /> },
+        ]
+      },
     ],
-  },  
+  },
   {
-    path: "*",  
+    path: "*",
     element: <NotFoundPage />
   }
 ]);
