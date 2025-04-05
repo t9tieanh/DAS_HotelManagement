@@ -15,11 +15,8 @@
 .search-bar-item {
     display: flex;
     align-items: center;
-    gap: 5px;
     font-size: 16px;
     color: #333;
-    padding: 10px 15px;
-    border: 1px solid #dee2e6;
     border-radius: 5px;
     background-color: #f8f9fa;
     margin-right: 5px;
@@ -44,4 +41,10 @@
 
 .search-bar-button:hover {
     background-color: #0056b3;
+}
+
+.capacity-search-item {
+    .btn-outline-light {
+        border: solid 1px #c8cbce;
+    }
 }
