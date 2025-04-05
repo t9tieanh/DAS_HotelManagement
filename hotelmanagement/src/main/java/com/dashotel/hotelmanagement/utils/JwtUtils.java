@@ -2,6 +2,8 @@ package com.dashotel.hotelmanagement.utils;
 
 import com.dashotel.hotelmanagement.entity.account.AccountEntity;
 import com.dashotel.hotelmanagement.enums.TokenEnum;
+import com.dashotel.hotelmanagement.exception.CustomException;
+import com.dashotel.hotelmanagement.exception.ErrorCode;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -125,6 +127,16 @@ public class JwtUtils {
     }
 
     public String getUsernameFromToken(String token) throws ParseException {
+        SignedJWT signedJWT = SignedJWT.parse(token);
+        return signedJWT.getJWTClaimsSet().getSubject();
+    }
+
+    public String getUsername () throws ParseException {
+        // lấy token từ Security context
+        String token = getTokenFromSecurityContext();
+        if (token == null)
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+
         SignedJWT signedJWT = SignedJWT.parse(token);
         return signedJWT.getJWTClaimsSet().getSubject();
     }

@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -27,6 +28,9 @@ public class ReservationEntity extends AbstractEntity {
     LocalDate reservationDate;
     BookingStatusEnum status;
 
+
+    LocalDateTime expireDateTime;
+
     @ManyToMany(mappedBy = "reservations")
     List<DiscountEntity> discounts;
 
@@ -40,7 +44,7 @@ public class ReservationEntity extends AbstractEntity {
     @JoinColumn(name = "customer_id")
     CustomerEntity customer;
 
-    @OneToMany(mappedBy = "reservation")
+    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
     List<ReservationDetailEntity> reservationDetail;
 
     @OneToOne(cascade = CascadeType.ALL)

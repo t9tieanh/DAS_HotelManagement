@@ -18,4 +18,12 @@ public interface RoomAvailabilityRepository extends JpaRepository<RoomAvailabili
             @Param("checkIn") LocalDate checkIn,
             @Param("checkOut") LocalDate checkOut);
 
+    @Query("SELECT ra FROM RoomAvailabilityEntity ra " +
+            "WHERE ra.availableDate >= :checkIn " +
+            "AND ra.availableDate < :checkOut " +
+            "AND ra.roomType.id = :roomId")
+    List<RoomAvailabilityEntity> findByAvailableRoomType(
+            @Param("checkIn") LocalDate checkIn,
+            @Param("checkOut") LocalDate checkOut,
+            @Param("roomId") String roomId);
 }

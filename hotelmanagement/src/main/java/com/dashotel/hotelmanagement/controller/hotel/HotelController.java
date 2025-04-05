@@ -5,13 +5,11 @@ import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.dto.response.CreationResponse;
 import com.dashotel.hotelmanagement.dto.response.hotel.*;
 import com.dashotel.hotelmanagement.dto.response.paging.PagingResponse;
-import com.dashotel.hotelmanagement.entity.hotel.HotelEntity;
 import com.dashotel.hotelmanagement.enums.HotelImageEnum;
 import com.dashotel.hotelmanagement.service.hotel.HotelService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
