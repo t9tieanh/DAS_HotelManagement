@@ -1,0 +1,125 @@
+.calendar-custom {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+
+    .react-daterange-picker__wrapper {
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      
+      .react-daterange-picker__inputGroup {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+      }
+      
+      .react-daterange-picker__inputGroup__input {
+        border: none;
+        font-size: 16px;
+        text-align: center;
+        width: auto;
+      }
+      
+      .react-daterange-picker__range-divider {
+        color: black;
+      }
+      
+      .react-daterange-picker__calendar-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: rgba(27, 126, 192, 0.925);
+      }
+      
+      .react-daterange-picker__calendar-button svg {
+        width: 18px;
+        height: 18px;
+      }
+
+    .react-calendar {
+        border: none;
+    }
+  
+    .react-calendar__navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+  
+      button {
+        background: none;
+        border: none;
+        color: #0d6efd;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+  
+        &:hover {
+          background-color: rgba(13, 110, 253, 0.1);
+          border-radius: 0.05rem;
+        }
+      }
+    }
+  
+    .react-calendar__month-view__weekdays {
+      text-align: center;
+      font-weight: 600;
+      color: #6c757d;
+      margin-bottom: 0.5rem;
+  
+      abbr {
+        text-decoration: none;
+      }
+    }
+  
+    // Ngày trong tháng
+    .react-calendar__tile {
+      border-radius: 10%;
+      padding: 0.75rem;
+      transition: 0.2s all;
+      text-align: center;
+  
+      &:hover {
+        background-color: #e9ecef;
+      }
+  
+      &--now {
+        background-color: #dde007;
+      }
+  
+      &--active {
+        background-color: #0d6efd;
+        color: #fff;
+      }
+  
+      &--rangeStart,
+      &--rangeEnd {
+        background-color: #0d6efd;
+        color: white;
+      }
+  
+      &--range {
+        background-color: #0d6efd;
+        color: white;
+      }
+  
+      &--available {
+        border: 2px solid #28a745;
+        color: #28a745;
+        font-weight: bold;
+      }
+  
+      &--disabled {
+        color: #adb5bd;
+      }
+    }
+  
+    // Chủ nhật màu đỏ
+    .react-calendar__tile--weekend {
+      color: #dc3545;
+    }
+  }
+  

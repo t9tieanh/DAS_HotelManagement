@@ -42,4 +42,8 @@ public class ReservationEntity extends AbstractEntity {
 
     @OneToMany(mappedBy = "reservation")
     List<ReservationDetailEntity> reservationDetail;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "room_occupant", referencedColumnName = "id")
+    private RoomOccupantEntity roomOccupant;
 }
