@@ -1,20 +1,26 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import hero1 from "../../../assets/img/hero/hero-1.jpg";
-import hero2 from "../../../assets/img/hero/hero-2.jpg";
-import hero3 from "../../../assets/img/hero/hero-3.jpg";
+import hero4 from "../../../assets/img/hero/hero-4.jpeg";
+import hero5 from "../../../assets/img/hero/hero-5.jpeg";
+import hero6 from "../../../assets/img/hero/hero-6.jpg";
 import { GoPaperAirplane } from "react-icons/go";
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 import PrimaryButton from "../../common/button/btn-primary";
 import './style.scss'
 
-const images = [hero1, hero2, hero3];
+const images = [hero5, hero4, hero6];
 
 const BookingForm = () => {
+    const defaultCheckIn = new Date();
+    defaultCheckIn.setDate(defaultCheckIn.getDate() + 1);
+
+    const defaultCheckOut = new Date();
+    defaultCheckOut.setDate(defaultCheckIn.getDate() + 1);
+
     const [currentImage, setCurrentImage] = useState(0);
-    const [checkIn, setCheckIn] = useState("");
-    const [checkOut, setCheckOut] = useState("");
+    const [checkIn, setCheckIn] = useState(defaultCheckIn.toISOString().split("T")[0]);
+    const [checkOut, setCheckOut] = useState(defaultCheckOut.toISOString().split("T")[0]);
     const [numAdults, setNumAdults] = useState(1);
     const [numRooms, setNumRooms] = useState(1);
     const navigate = useNavigate();
@@ -46,51 +52,50 @@ const BookingForm = () => {
                     <div className="row">
                         <div className="col-lg-6">
                             <div className="hero-text">
-                                <h1>Sona A Luxury Hotel</h1>
+                                <h1>Hệ thống đặt phòng Hotelas</h1>
                                 <p>
-                                    Here are the best hotel booking sites, including recommendations for international
-                                    travel and for finding low-priced hotel rooms.
+                                    Hotelas là hệ thống đặt phòng khách sạn trực tuyến, cho phép khách hàng dễ dàng tìm kiếm, lựa chọn và đặt phòng tại các khách sạn trên khắp Việt Nam.
                                 </p>
                                 <a href="#" className="primary-btn">
-                                    Discover Now
+                                    Khám phá ngay
                                 </a>
                             </div>
                         </div>
-                        <div className="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
+                        <div className="col-xl-5 col-lg-5 offset-xl-1 offset-lg-1">
                             <div className="booking-form">
-                                <h3>Booking Your Hotel</h3>
+                                <h3>Đặt phòng khách sạn</h3>
                                 <form onSubmit={handleSubmit}>
                                     <div className="check-date">
-                                        <label htmlFor="date-in">Check In:</label>
+                                        <label htmlFor="date-in">Nhận phòng:</label>
                                         <input type="date" className="date-input" id="date-in" value={checkIn}
                                             onChange={(e) => setCheckIn(e.target.value)} />
                                     </div>
                                     <div className="check-date">
-                                        <label htmlFor="date-out">Check Out:</label>
+                                        <label htmlFor="date-out">Trả phòng:</label>
                                         <input type="date" className="date-input" id="date-out" value={checkOut}
                                             onChange={(e) => setCheckOut(e.target.value)} />
                                     </div>
                                     <div className="select-option">
-                                        <label htmlFor="guest">Guests:</label>
+                                        <label htmlFor="guest">Số người:</label>
                                         <DropdownButton variant="dark" id="dropdown-basic-button" className="custom-dropdown" title={`${numAdults} guest${numAdults > 1 ? "s" : ""}`}>
                                             {Array.from({ length: 5 }, (_, i) => i + 1).map((num) => (
-                                                <Dropdown.Item key={num} onClick={() => {setNumAdults(num)}}>
-                                                    {num} guest{num > 1 ? "s" : ""}
+                                                <Dropdown.Item key={num} onClick={() => { setNumAdults(num) }}>
+                                                    {num} Người
                                                 </Dropdown.Item>
                                             ))}
                                         </DropdownButton>
                                     </div>
                                     <div className="select-option">
-                                        <label htmlFor="room">Room:</label>
+                                        <label htmlFor="room">Số phòng:</label>
                                         <DropdownButton variant="dark" id="dropdown-basic-button" className="custom-dropdown" title={`${numRooms} room${numAdults > 1 ? "s" : ""}`}>
                                             {Array.from({ length: 5 }, (_, i) => i + 1).map((num) => (
-                                                <Dropdown.Item key={num} onClick={() => {setNumRooms(num)}}>
-                                                    {num} guest{num > 1 ? "s" : ""}
+                                                <Dropdown.Item key={num} onClick={() => { setNumRooms(num) }}>
+                                                    {num} Phòng
                                                 </Dropdown.Item>
                                             ))}
                                         </DropdownButton>
                                     </div>
-                                    
+
                                     <PrimaryButton className={'search-button'} type="submit" text={"Tìm phòng ngay"} icon={<GoPaperAirplane />} />
                                 </form>
                             </div>

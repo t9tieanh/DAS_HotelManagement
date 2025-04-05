@@ -1,0 +1,134 @@
+.verify-otp-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // min-height: 100vh;
+    background-color: #c3ecff;
+    font-family: Arial, sans-serif;
+    // padding: 20px;
+
+    .card-otp {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: auto;
+        max-width: 400px;
+    }
+
+    .form-otp {
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        padding: 30px;
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+    }
+
+    .card-header {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+    }
+
+    .card-title {
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 20px;
+    }
+
+    .verify-otp-input {
+        display: flex;
+        justify-content: center;
+        gap: 25px !important;
+        margin-bottom: 20px;
+        background-color: #fff;
+        background: #fff;
+    }
+
+    .verify-otp-input input {
+        width: 50px !important;
+        height: 55px;
+        font-size: 24px;
+        text-align: center;
+        border: 2px solid #ccc;
+        border-radius: 12px;
+        outline: none;
+        transition: all 0.3s ease;
+        background-color: #ffffff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin: 0 5px;
+    }
+
+    .verify-otp-input input:focus {
+        border-color: #007bff;
+        /* Màu viền khi focus */
+        background-color: #fff;
+        /* Nền trắng khi focus */
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+        /* Hiệu ứng đổ bóng khi focus */
+    }
+
+    .verify-otp-input input::placeholder {
+        color: #ccc;
+        /* Màu placeholder */
+        font-size: 18px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        width: 100%;
+        /* Nút chiếm toàn bộ chiều rộng */
+        max-width: 200px;
+        /* Giới hạn chiều rộng tối đa */
+        margin: 0 auto;
+        /* Căn giữa nút */
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .card-text {
+        font-size: 14px;
+        color: #555;
+        margin-top: 10px;
+    }
+
+    .high-ligt-text {
+        color: #007bff;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .card-footer {
+        font-size: 12px;
+        color: #888;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .fa-shield-halved {
+        font-size: 40px;
+        color: #007bff;
+        margin-bottom: 0px;
+    }
+
+    .time-count-down {
+        font-size: 18px;       /* Kích thước chữ lớn hơn */
+        color: white;        /* Màu sắc nổi bật, bạn có thể thay đổi theo ý muốn */
+        text-align: center;    /* Căn giữa */
+        background: linear-gradient(to right, rgb(238, 209, 209) 0%, rgb(255, 4, 4) 50%, rgb(238, 209, 209) 100%);
+        margin-bottom: 10px;
+    }
+}

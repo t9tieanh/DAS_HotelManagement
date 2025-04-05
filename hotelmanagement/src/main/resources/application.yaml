@@ -15,9 +15,9 @@ file:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/hotel_management
+    url: jdbc:mysql://localhost:3300/hotel_management
     username: root
-    password: 1942004anh
+    password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -35,8 +35,43 @@ spring:
     level:
       org.springframework.security: DEBUG
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.transport.protocol: smtp
+      mail.smtp.ssl.trust: smtp.gmail.com
+
 outbound:
   identity:
-    client-id: "${GOOGLE_CLIENT_ID}"
-    client-secret: "${GOOGLE_CLIENT_SECRET}"
-    redirect-uri: "${GOOGLE_REDIRECT_URI}"
+    client-id: ${GOOGLE_CLIENT_ID}
+    client-secret: ${GOOGLE_CLIENT_SECRET}
+    redirect-uri: ${GOOGLE_REDIRECT_URI}
+
+VNPAY:
+  URL: ${VNPAY_URL}
+  TMN_CODE: ${VNPAY_TMN_CODE}
+  SECRET_KEY: ${VNPAY_SECRET_KEY}
+  RETURN_URL: ${VNPAY_RETURN_URL}
+  VERSION: ${VNPAY_VERSION}
+  COMMAND: ${VNPAY_COMMAND}
+  ORDER_TYPE: ${VNPAY_ORDER_TYPE}
+
+momo:
+  partner-code: MOMO
+  return-url: http://localhost:3000/
+  end-point: https://test-payment.momo.vn/v2/gateway/api
+  ipn-url: http://localhost:8080/api/momo/ipn-handler
+  access-key: F8BBA842ECF85
+  secret-key: K951B6PE1waDMi640xX08PD3vg6EkVlz
+  request-type: captureWallet
+

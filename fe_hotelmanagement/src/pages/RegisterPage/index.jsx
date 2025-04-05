@@ -11,7 +11,6 @@ const RegisterPage = () => {
                 <div className="row d-flex justify-content-center align-items-center h-100">
                     <div className="col-lg-8 col-xl-6">
                         <div className="card rounded-3">
-                            <ImageComponent />
                             <InfoComponent />
                         </div>
                     </div>
