@@ -5,7 +5,7 @@ import FilterBar from "../../components/HotelSearchPage/FilterBarComponent";
 import HotelComponent from "../../components/HotelSearchPage/HotelComponent";
 import HeaderComponent from "../../components/HotelSearchPage/HeaderComponent"
 import {LIMIT} from "../../utils/paging"
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { findRoomInHotel } from "../../services/HotelService/findHotelService";
 
 
@@ -13,10 +13,8 @@ const HotelSearchPage = () => {
 
   const [hotelCount, setHotelCount] = useState(0)
 
-  const fileUrl = 'files/image'
   const [location, setLocation] = useState(useLocation()); 
   const searchParams = new URLSearchParams(location.search);
-  const navigator = useNavigate()
 
   const getSearchParam = (param, defaultValue) => {
     const value = searchParams.get(param);
@@ -50,11 +48,10 @@ const HotelSearchPage = () => {
 
   const fetchHotels = async (page, limit) => {
       try {
-          const data = await findRoomInHotel(checkIn, checkOut, numAdults, numRooms, page, limit);
+        
+          const data = await findRoomInHotel(checkIn.toISOString().split('T')[0], checkOut.toISOString().split('T')[0],
+             numAdults, numRooms, page, limit);
           if (data && data.code && data.code === 200 && data.result) {
-
-              console.log(data)
-
               setPageCount(data.result.totalPages)
               setHotelCount(data.result.totalElements)
               setHotels(data.result.content)
@@ -77,7 +74,7 @@ const HotelSearchPage = () => {
 
       <SearchBar adults = {numAdults} rooms = {numRooms} dateRange = {dateRange} setDateRange={setDateRange} 
           setAdults = {setNumAdults} setRooms = {setNumRooms} 
-          setLocation = {setLocationValue} location = {locationValue}  />
+          setLocation = {setLocationValue} location = {locationValue} fetchHotels={fetchHotels}  />
 
       <HeaderComponent count = {hotelCount} />
 
