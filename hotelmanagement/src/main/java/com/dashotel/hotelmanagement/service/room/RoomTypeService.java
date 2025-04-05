@@ -58,6 +58,7 @@ public class RoomTypeService {
     }
 
     public List<RoomTypeResponse> getRoomByHotelId(String hotelId) {
+//        List<String> roomTypeIds = roomTypeRepository.findAvailableRooms();
         List<RoomTypeEntity> rooms = roomTypeRepository.getRoomTypeEntitiesByHotelId(hotelId);
         return rooms.stream()
                 .map(roomTypeMapper::toRoomTypeDTO)
