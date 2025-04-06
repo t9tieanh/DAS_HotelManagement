@@ -30,6 +30,13 @@ public enum ErrorCode {
     // lỗi hết discount
     DISCOUNT_NOT_AVAILABLE(1014, "Mã giảm giá đã hết hiệu lực", HttpStatus.NOT_FOUND),
 
+    // hết thời gian giao dịch đặt phòng
+    BOOKING_TIMEOUT(1015, "Giao dịch đặt phòng đã hết thời gian", HttpStatus.GONE),
+
+    // đã hoàn thành bước thanh toán
+    STEP_ALREADY_COMPLETED(1016, "Bước này đã được thực hiện, không thể thao tác lại", HttpStatus.CONFLICT),
+
+
     ;
     private int code;
     private HttpStatusCode statusCode;

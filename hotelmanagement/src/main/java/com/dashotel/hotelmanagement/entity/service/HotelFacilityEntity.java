@@ -31,5 +31,4 @@ public class HotelFacilityEntity extends AbstractEntity {
 
     @ManyToMany(mappedBy = "facilities")
     private List<HotelEntity> hotels = new ArrayList<>();
-
 }

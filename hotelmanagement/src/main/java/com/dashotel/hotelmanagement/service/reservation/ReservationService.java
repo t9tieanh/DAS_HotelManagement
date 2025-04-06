@@ -18,6 +18,7 @@ import com.dashotel.hotelmanagement.mapper.RoomOccupantMapper;
 import com.dashotel.hotelmanagement.repository.CustomerRepository;
 import com.dashotel.hotelmanagement.repository.promotion.DiscountRepository;
 import com.dashotel.hotelmanagement.repository.reservation.ReservationRepository;
+import com.dashotel.hotelmanagement.repository.reservation.RoomOccupantRepository;
 import com.dashotel.hotelmanagement.repository.room.RoomAvailabilityRepository;
 import com.dashotel.hotelmanagement.repository.room.RoomTypeRepository;
 import com.dashotel.hotelmanagement.service.room.RoomTypeService;
@@ -42,6 +43,7 @@ public class ReservationService {
     RoomTypeRepository roomTypeRepository;
     DiscountRepository discountRepository;
     RoomAvailabilityRepository roomAvailabilityRepository;
+    RoomOccupantRepository roomOccupantRepository;
 
     RoomTypeService roomTypeService;
 
@@ -100,6 +102,14 @@ public class ReservationService {
         ReservationEntity reservationEntity = reservationRepository.findById(request.getReservationId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
+        //check xem còn trong thời gian transaction không
+        if (reservationEntity.getExpireDateTime().isBefore(LocalDateTime.now()))
+            throw new CustomException(ErrorCode.BOOKING_TIMEOUT);
+
+        //check xem reservation đó đã đươ update info hay chưa
+        if (reservationEntity.getStatus() != BookingStatusEnum.CREATED)
+            throw new CustomException(ErrorCode.STEP_ALREADY_COMPLETED);
+
         // lấy thông tin từ request
         RoomOccupantEntity roomOccupantEntity = roomOccupantMapper.toEntity(request);
         reservationEntity.setRoomOccupant(roomOccupantEntity);
@@ -127,7 +137,7 @@ public class ReservationService {
 
             for (RoomAvailabilityEntity roomAvailability : roomAvailabilityLst) {
                 if ((roomAvailability.getTotalRoom() - roomAvailability.getBookedRoom()) < reservationDetail.getQuantity()) {
-                    throw new CustomException(ErrorCode.ROOM_NOT_AVAILABLE); // phòng này đã không còn trống nữa
+                    throw new CustomException(ErrorCode.ROOM_NOT_AVAILABLE); // phòng này đã không còn trống nữa -> roll back transaction
                 } else roomAvailability.setBookedRoom(roomAvailability.getBookedRoom() + reservationDetail.getQuantity());
                 // nếu phòng vẫn còn thì cập nhật
             }
@@ -145,7 +155,6 @@ public class ReservationService {
                 .isSuccess(true)
                 .build();
     }
-
 
 
     // dùng cho authorization

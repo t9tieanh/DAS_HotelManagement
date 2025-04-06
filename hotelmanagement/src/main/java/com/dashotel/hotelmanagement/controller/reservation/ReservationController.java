@@ -41,6 +41,7 @@ public class ReservationController {
 
         return ApiResponse.<CreationResponse>builder()
                 .code(200)
+                .result(result)
                 .build();
     }
 
