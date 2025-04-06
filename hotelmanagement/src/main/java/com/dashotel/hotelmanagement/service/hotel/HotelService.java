@@ -71,7 +71,7 @@ public class HotelService {
                 .build();
     }
 
-    public HotelDestailResponse getHotelDetail (String hotelId) {
+    public HotelDestailResponse getHotelDetail (String hotelId, LocalDate checkIn, LocalDate checkOut, Long numAdults, Long numRooms) {
         HotelEntity hotelEntity = hotelRepository.findById(hotelId).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );
@@ -96,7 +96,7 @@ public class HotelService {
                 }
         );
 
-        hotelDestailResponse.setRooms(roomTypeService.getRoomByHotelId(hotelId));
+        hotelDestailResponse.setRooms(roomTypeService.getRoomByHotelId(hotelId, checkIn, checkOut, numAdults, numRooms));
 
         return hotelDestailResponse;
     }

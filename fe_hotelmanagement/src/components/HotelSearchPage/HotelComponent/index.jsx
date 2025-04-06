@@ -3,10 +3,10 @@ import './style.scss';
 import { useLocation, useNavigate } from "react-router-dom";
 import { findRoomInHotel } from "../../../services/HotelService/findHotelService";
 import Paginate from "../../common/paging";
-import {LIMIT} from "../../../utils/paging"
+import { LIMIT } from "../../../utils/paging"
 import HotelCard from "../HotelCard/index.jsx"
 
-const HotelComponent = ({loading, error, hotels, fetchHotels, pageCount, currentPage}) => {
+const HotelComponent = ({ loading, error, hotels, fetchHotels, pageCount, currentPage, adults, rooms, dateRange }) => {
 
     if (loading) {
         return <p>Đang tải danh sách khách sạn...</p>;
@@ -21,14 +21,19 @@ const HotelComponent = ({loading, error, hotels, fetchHotels, pageCount, current
             <section className="hotel-list">
                 {hotels && hotels.length > 0 ? (
                     hotels.map((hotel) => (
-                        <HotelCard hotel={hotel} />
+                        <HotelCard
+                            hotel={hotel}
+                            adults={adults}
+                            rooms={rooms}
+                            dateRange={dateRange}
+                        />
                     ))
                 ) : (
                     <p>Không tìm thấy khách sạn phù hợp.</p>
                 )}
 
-                <div className="d-flex align-items-center justify-content-center"><Paginate fetchFunction = {fetchHotels}  itemsPerPage = {LIMIT} pageCount = {pageCount} currentPage = {currentPage} /></div>
-                
+                <div className="d-flex align-items-center justify-content-center"><Paginate fetchFunction={fetchHotels} itemsPerPage={LIMIT} pageCount={pageCount} currentPage={currentPage} /></div>
+
             </section>
         </>
     );

@@ -5,21 +5,24 @@ import RoomSection from "../../components/HotelDetailPage/RoomCard/index.jsx";
 import HotelName from "../../components/HotelDetailPage/NameComponent/index.jsx";
 import HotelDescription from "../../components/HotelDetailPage/DescriptionComponent/index.jsx";
 import { getHotelDetail } from "../../services/HotelService/hotelService.js";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 
 const HotelDetail = () => {
 
-  const { id } = useParams();
+  // const { id } = useParams(); 
+
+  const location = useLocation();
+  const { hotelId, adults, rooms, checkIn, checkOut } = location.state || {};
 
   const [hotelDetail, setHotelDetail] = useState({})
 
   useEffect(() => {
-    fetchHotelDetail(id)
+    fetchHotelDetail()
   }, []);
 
   const fetchHotelDetail = async () => {
-    const data = await getHotelDetail(id)
+    const data = await getHotelDetail(hotelId, adults, rooms, checkIn, checkOut);
 
     if (data && data.code && data.code === 200 && data.result) {
       setHotelDetail(data.result)
@@ -32,7 +35,7 @@ const HotelDetail = () => {
 
       <div className="hotel-detail-container container shadow-3">
 
-        <ImageComponent imgs={hotelDetail?.imgs} avatar={hotelDetail?.avatar} hotelId={hotelDetail?.id} />
+        <ImageComponent imgs={hotelDetail?.imgs} avatar={hotelDetail?.avatar} hotelId={hotelId} />
 
         <div className="main-info-hotel pt-0">
 
