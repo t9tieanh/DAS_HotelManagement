@@ -27,4 +27,5 @@ const CustomCard = ({ name, icon, children, className, subTitle, buttonFunc }) =
     </>
 }
 
+
 export default CustomCard;

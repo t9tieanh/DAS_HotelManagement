@@ -113,6 +113,7 @@ const InfoComponent = () => {
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
+                            placeholder=""
                         />
                         <label className="form-label" htmlFor="form3Example1q">Tên</label>
                     </div>

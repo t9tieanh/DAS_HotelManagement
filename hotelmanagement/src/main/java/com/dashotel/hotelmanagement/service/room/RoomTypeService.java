@@ -46,20 +46,24 @@ public class RoomTypeService {
         Long numDays = ChronoUnit.DAYS.between(checkIn, checkOut);
         List<String> roomTypeIds = roomTypeRepository.findAvailableRooms(checkIn, checkOut, numRooms, numDays);
 
-        List<RoomTypeEntity> roomList = new ArrayList<>();
+        List<RoomTypeEntity> roomList = roomTypeRepository.findAllById(roomTypeIds);
 
-       for(String roomId : roomTypeIds) {
-           RoomTypeEntity room = roomTypeRepository.findById(roomId).orElseThrow(() -> new RuntimeException("Not room found"));
-           if(room.getMaxOccupation() >= numAdults && room.getRoomStatus().equals(RoomStatusEnum.AVAILABLE)) {
-               roomList.add(room);
-           }
-       }
-        return roomList;
+        return roomList.stream()
+                .filter(room -> room.getMaxOccupation() >= numAdults && room.getRoomStatus().equals(RoomStatusEnum.AVAILABLE))
+                .collect(Collectors.toList());
     }
 
-    public List<RoomTypeResponse> getRoomByHotelId(String hotelId) {
-        List<RoomTypeEntity> rooms = roomTypeRepository.getRoomTypeEntitiesByHotelId(hotelId);
-        return rooms.stream()
+    public List<RoomTypeResponse> getRoomByHotelId(String hotelId, LocalDate checkIn, LocalDate checkOut, Long numAdults, Long numRooms) {
+        List<String> roomTypeIds = roomTypeRepository.findAvailableRooms(checkIn, checkOut, numAdults, numRooms);
+
+        List<RoomTypeEntity> roomList = roomTypeRepository.findAllById(roomTypeIds);
+
+        roomList = roomList.stream()
+                .filter(room -> room.getMaxOccupation() >= numAdults && room.getRoomStatus().equals(RoomStatusEnum.AVAILABLE)
+                        && room.getHotel().getId().equals(hotelId))
+                .collect(Collectors.toList());
+
+        return roomList.stream()
                 .map(roomTypeMapper::toRoomTypeDTO)
                 .collect(Collectors.toList());
     }
@@ -75,11 +79,11 @@ public class RoomTypeService {
 
         for (LocalDate date = request.getStartDate(); !date.isAfter(request.getEndDate()); date = date.plusDays(1)) {
             roomTypeEntity.getRoomAvailabilities().add(RoomAvailabilityEntity.builder()
-                            .roomType(roomTypeEntity)
-                            .totalRoom(request.getTotalRooms())
-                            .bookedRoom(0L)
-                            .availableDate(date)
-                            .build()
+                    .roomType(roomTypeEntity)
+                    .totalRoom(request.getTotalRooms())
+                    .bookedRoom(0L)
+                    .availableDate(date)
+                    .build()
             );
         }
 
@@ -116,7 +120,6 @@ public class RoomTypeService {
     }
 
 
-
     @Transactional
     public CreationResponse addImageForRoomType(RoomTypeImageRequest request) throws IOException {
         RoomTypeEntity roomType = roomTypeRepository.findById(request.getRoomTypeId())
@@ -128,7 +131,8 @@ public class RoomTypeService {
 
         // lưu đường dẫn url vào db
         if (roomType.getImgRoomUrl() == null)
-            roomType.setImgRoomUrl(new HashSet<>() {});
+            roomType.setImgRoomUrl(new HashSet<>() {
+            });
 
         roomType.getImgRoomUrl().add(imgUrl);
 

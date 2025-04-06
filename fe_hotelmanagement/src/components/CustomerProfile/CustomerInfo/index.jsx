@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { getProfile, updateProfile } from "../../../services/CustomerProfile/profileService";
 import './style.scss';
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ProfileContext } from "../../../context/ProfileContext";
 
@@ -9,7 +9,7 @@ import { ProfileContext } from "../../../context/ProfileContext";
 
 const CustomerInfo = () => {
 
-    const {profile, setProfile} = useContext(ProfileContext)
+    const { profile, setProfile } = useContext(ProfileContext)
 
     const [editing, setEditing] = useState(false);  // mark button edit
     const [tempProfile, setTempProfile] = useState(profile); // profile copy
@@ -42,7 +42,7 @@ const CustomerInfo = () => {
     const handleSave = async () => {
         try {
             await updateProfile(tempProfile);
-            setProfile({...tempProfile});
+            setProfile({ ...tempProfile });
             setEditing(false);
             toast.success("Cập nhật thông tin thành công")
         } catch (error) {
@@ -51,7 +51,7 @@ const CustomerInfo = () => {
     };
 
     const handleCancel = () => {
-        setTempProfile({...profile});
+        setTempProfile({ ...profile });
         setEditing(false);
     };
 

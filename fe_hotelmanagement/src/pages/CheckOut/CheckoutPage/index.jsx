@@ -14,7 +14,7 @@ import TripDetail from "../../../components/CheckOut/CheckOutPage/TripDetail";
 import RoomInfo from "../../../components/CheckOut/CheckOutPage/RoomInfo";
 
 
-const CheckOutPage = ()  => {
+const CheckOutPage = () => {
 
     const { pageState, setPageState } = useContext(PaymentContext);
 
@@ -28,21 +28,21 @@ const CheckOutPage = ()  => {
         <Container className="resevation-container mb-5" >
             <div className="row mt-4">
                 <div className="col-md-6">
-                    {pageState === 0 && <ConfirmInfomationPage handleNextStep = {handleNextStep} />}
-                    {pageState === 1 && <PaymentPage handleNextStep = {handleNextStep} />}
+                    {pageState === 0 && <ConfirmInfomationPage handleNextStep={handleNextStep} />}
+                    {pageState === 1 && <PaymentPage handleNextStep={handleNextStep} />}
                 </div>
 
                 <div className="col-md-6">
-                    <CustomCard name={'Lịch đặt phòng'} subTitle={'Lưu ý lịch đặt phòng của bạn !'} icon={<SlCalender />} children={<TripDetail/>} />    
+                    <CustomCard name={'Lịch đặt phòng'} subTitle={'Lưu ý lịch đặt phòng của bạn !'} icon={<SlCalender />} children={<TripDetail />} />
 
-                    <CustomCard className={'shadow-3 mt-3 property-card border p-3 mb-3 rounded'} 
+                    <CustomCard className={'shadow-3 mt-3 property-card border p-3 mb-3 rounded'}
                         subTitle={'Thông tin phòng của bạn !'}
-                        name={'Phòng của bạn'} icon={<FaHotel /> } children={<RoomInfo />} />
+                        name={'Phòng của bạn'} icon={<FaHotel />} children={<RoomInfo />} />
 
 
-                    <CustomCard className={'shadow-3 mt-3 property-card border p-3 mb-3 rounded'} 
-                                            subTitle={'Xem chi tiết hóa đơn của bạn'}
-                                            name={'Hóa đơn của bạn'} icon={<MdOutlinePayments /> } children={<BillContainer />} />
+                    <CustomCard className={'shadow-3 mt-3 property-card border p-3 mb-3 rounded'}
+                        subTitle={'Xem chi tiết hóa đơn của bạn'}
+                        name={'Hóa đơn của bạn'} icon={<MdOutlinePayments />} children={<BillContainer />} />
                 </div>
             </div>
         </Container>
