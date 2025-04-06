@@ -1,8 +1,16 @@
 import axios from "../../utils/CustomAxios";
 
-const getHotelDetail = async (id) => {
-    return await axios.get(`hotel/detail/${id}`)
+const getHotelDetail = async (id, adults, rooms, checkIn, checkOut) => {
+    return await axios.get(`hotel/detail/${id}`, {
+        params: {
+            adults: adults,
+            rooms: rooms,
+            checkIn: checkIn,
+            checkOut: checkOut
+        }
+    });
 }
+
 
 const getImageCategory = async (id) => {
     return await axios.get(`hotel/image-category/${id}`)
@@ -17,4 +25,4 @@ const getHotelImages = async (hotelId, imageType) => {
     });
 }
 
-export {getHotelDetail, getImageCategory, getHotelImages}
+export { getHotelDetail, getImageCategory, getHotelImages }

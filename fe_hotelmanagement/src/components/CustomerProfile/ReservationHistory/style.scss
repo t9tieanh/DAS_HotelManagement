@@ -1,0 +1,10 @@
+.reservation-history {
+    margin: 30px 0 30px 10px;
+    border-right: 1px solid #e0e0e0;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow-y: auto; /* Bật thanh cuộn dọc */
+    max-height: 550px; /* Giới hạn chiều cao tối đa */
+}

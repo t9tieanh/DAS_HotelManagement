@@ -1,10 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import './style.scss';
 import { ProfileContext } from "../../../context/ProfileContext";
 
-const NavigationMenuComponent = () => {
+const NavigationMenuComponent = ({ activeMenu, setActiveMenu }) => {
 
     const { profile } = useContext(ProfileContext);
+
+    useEffect(() => {
+        console.log("Active menu changed:", activeMenu);
+    }, [activeMenu]);
 
     return (
         <>
@@ -19,11 +23,18 @@ const NavigationMenuComponent = () => {
                 </div>
 
                 <ul>
-                    <li className="active">Thông tin cá nhân</li>
-                    <li>Lịch sử đặt phòng</li>
-                    <li>Thống kê chi tiêu</li>
-                    <li>Chức năng A</li>
-                    <li>Chức năng A2</li>
+                    <li
+                        className={activeMenu === "info" ? "active" : ""}
+                        onClick={() => setActiveMenu("info")}
+                    >
+                        Thông tin cá nhân
+                    </li>
+                    <li
+                        className={activeMenu === "history" ? "active" : ""}
+                        onClick={() => setActiveMenu("history")}
+                    >
+                        Lịch sử đặt phòng
+                    </li>
                 </ul>
             </aside>
         </>

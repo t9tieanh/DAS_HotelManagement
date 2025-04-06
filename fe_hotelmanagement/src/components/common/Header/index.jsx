@@ -56,7 +56,10 @@ const Header = () => {
                                         <button href="#" onClick={handleLogOut} className="bk-btn btn-logout ml-1">Đăng xuất</button>
 
                                         <div className="user-profile">
-                                            <img src={imageUrl} alt="User Avatar" />
+                                            <img
+                                                src={imageUrl}
+                                                referrerpolicy="no-referrer"
+                                                alt="User Avatar" />
                                             <div className="flag-dropdown">
                                                 <ul>
                                                     <li><a href="/profile">Hồ sơ</a></li>

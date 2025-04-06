@@ -1,14 +1,22 @@
-import  "./style.scss";
+import "./style.scss";
 import { toast } from 'react-toastify';
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { activeGGAccount } from "../../../../services/GGAuth/authService";
 
-const RegisterForm = ({ name, email, imgUrl , setImgUrl }) => {
+const RegisterForm = ({ name, email, imgUrl, setImgUrl }) => {
+
+    useEffect(() => {
+        console.log("Image URL:", imgUrl);
+        if (imgUrl) {
+            convertImageUrlToFile(imgUrl);
+            setImageSrc(imgUrl);
+        }
+    }, [imgUrl]);
 
     const [formData, setFormData] = useState({
-        username:"",
+        username: "",
         password: "",
         confirmPassword: "",
         file: null,
@@ -16,7 +24,7 @@ const RegisterForm = ({ name, email, imgUrl , setImgUrl }) => {
 
     const navigator = useNavigate()
 
-    const [isLoadingVerify,setIsLoadingVerify] = useState(false)
+    const [isLoadingVerify, setIsLoadingVerify] = useState(false)
     const [imageSrc, setImageSrc] = useState(imgUrl);
 
     const handleChange = (e) => {
@@ -45,10 +53,10 @@ const RegisterForm = ({ name, email, imgUrl , setImgUrl }) => {
 
 
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        if (formData.password !== formData.confirmPassword){
+
+        if (formData.password !== formData.confirmPassword) {
             toast.error("Mật khẩu không khớp !");
             return
         }
@@ -73,63 +81,64 @@ const RegisterForm = ({ name, email, imgUrl , setImgUrl }) => {
 
     return (
         <>
-        
-        <form id="registrationForm shadow-3" className="register-form" onSubmit={handleSubmit}>
-            <div className="row m-4 text-center">
-                <div className="text-welcome">
-                    <h2 class="mb-4">Tiếp tục Đăng ký</h2>
-                    <p class="mb-0" >Xin chào @{name} ! Nhập username và password để tiếp tục.</p>
+
+            <form id="registrationForm shadow-3" className="register-form" onSubmit={handleSubmit}>
+                <div className="row m-4 text-center">
+                    <div className="text-welcome">
+                        <h2 class="mb-4">Tiếp tục Đăng ký</h2>
+                        <p class="mb-0" >Xin chào @{name} ! Nhập username và password để tiếp tục.</p>
+                    </div>
+
+                    <div className="w-100"></div>
+                    <div className="col-4 mx-auto " style={{ marginTop: "15px", marginBottom: "15px" }}>
+                        <img
+                            src={imgUrl}
+                            referrerpolicy="no-referrer"
+                            className="img-responsive product-img" alt="Image"
+                        />
+                    </div>
+                    <h3 className="mb-1 text-center ">{name}</h3>
                 </div>
 
-                <div className="w-100"></div>
-                <div className="col-4 mx-auto " style={{ marginTop: "15px", marginBottom: "15px" }}>
-                    <img
-                        src={imageSrc}
-                        className="img-responsive product-img" alt="Image" 
-                    />
-                </div>
-                <h3 className="mb-1 text-center ">{name}</h3>
-            </div>
+                <input
+                    name="username"
+                    type="username"
+                    className="form-control mb-4"
+                    placeholder="Username"
+                    value={formData.username}
+                    onChange={handleChange}
+                />
 
-            <input
-                name="username"
-                type="username"
-                className="form-control mb-4"
-                placeholder="Username"
-                value={formData.username}
-                onChange={handleChange}
-            />
-
-            <div className="row">
-                <div className="col-md-6 mb-4">
-                    <input
-                        className="form-control"
-                        name="password"
-                        type="password"
-                        placeholder="Password"
-                        value={formData.password}
-                        onChange={handleChange}
-                    />
+                <div className="row">
+                    <div className="col-md-6 mb-4">
+                        <input
+                            className="form-control"
+                            name="password"
+                            type="password"
+                            placeholder="Password"
+                            value={formData.password}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="col-md-6">
+                        <input
+                            name="confirmPassword"
+                            type="password"
+                            className="form-control"
+                            placeholder="Confirm Password"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                        />
+                    </div>
                 </div>
-                <div className="col-md-6">
-                    <input
-                        name="confirmPassword"
-                        type="password"
-                        className="form-control"
-                        placeholder="Confirm Password"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                    />
-                </div>
-            </div>
 
-            <button type="submit" className="btn btn-primary btn-block mb-4">
-                {isLoadingVerify && <i class="fa-solid fa-spinner loaderIcon" style={{marginRight:"10px"}}> </i>} 
-                Sign up
-            </button>
-        </form>
-        
-        
+                <button type="submit" className="btn btn-primary btn-block mb-4">
+                    {isLoadingVerify && <i class="fa-solid fa-spinner loaderIcon" style={{ marginRight: "10px" }}> </i>}
+                    Sign up
+                </button>
+            </form>
+
+
         </>
     )
 }
