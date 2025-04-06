@@ -5,15 +5,14 @@ import com.dashotel.hotelmanagement.dto.request.reservation.initial.InitialReser
 import com.dashotel.hotelmanagement.dto.request.reservation.updateinfo.UpdateReservationInfoRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.dto.response.CreationResponse;
+import com.dashotel.hotelmanagement.dto.response.reservation.InitialReservationResponse;
+import com.dashotel.hotelmanagement.dto.response.reservation.ReservationStepResponse;
 import com.dashotel.hotelmanagement.service.reservation.ReservationService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 
@@ -25,10 +24,10 @@ public class ReservationController {
     ReservationService reservationService;
 
     @PostMapping
-    ApiResponse<CreationResponse> createReservation (@RequestBody InitialReservationRequest request) throws ParseException {
-        CreationResponse result = reservationService.createReservation(request);
+    ApiResponse<InitialReservationResponse> createReservation (@RequestBody InitialReservationRequest request) throws ParseException {
+        InitialReservationResponse result = reservationService.createReservation(request);
 
-        return ApiResponse.<CreationResponse>builder()
+        return ApiResponse.<InitialReservationResponse>builder()
                 .code(200)
                 .result(result)
                 .build();
@@ -38,8 +37,21 @@ public class ReservationController {
     @PostMapping(value = "/update-info")
     ApiResponse<CreationResponse> updateReservationInfo (@RequestBody UpdateReservationInfoRequest request) throws ParseException {
         CreationResponse result = reservationService.updateInfoReservation(request);
+        String message = "Xác nhận thông tin cư trú thành công !";
 
         return ApiResponse.<CreationResponse>builder()
+                .code(200)
+                .message(message)
+                .result(result)
+                .build();
+    }
+
+    @PreAuthorize("@reservationService.isOwnerOfReservation(#id, authentication.name)")
+    @GetMapping("/current-step")
+    ApiResponse<ReservationStepResponse> getCurrentStep (@RequestParam("id") String id)  {
+        ReservationStepResponse result = reservationService.getCurrentStep(id);
+
+        return ApiResponse.<ReservationStepResponse>builder()
                 .code(200)
                 .result(result)
                 .build();

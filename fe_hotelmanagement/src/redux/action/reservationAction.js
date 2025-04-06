@@ -1,8 +1,8 @@
-export const ADD_RESERVATION = 'ADD_RESERVATION';
+export const CREATE_RESERVATION = 'ADD_RESERVATION';
 
-export const doAddReservation = (data) => {
+export const doCreateReservation = (data) => {
     return {
-        type: ADD_RESERVATION,
+        type: CREATE_RESERVATION,
         payload: data
     };
 };
@@ -11,5 +11,13 @@ export const DELETE_RESERVATION = 'DELETE_RESERVATION';
 export const doDeleteReservation = () => {
     return {
         type: DELETE_RESERVATION,
+    };
+};
+
+export const UPDATE_EXPIRE_DATE_TIME = 'UPDATE_EXPIRE_DATE_TIME';
+export const doUpdateExpireDateTime = (data) => {
+    return {
+        type: UPDATE_EXPIRE_DATE_TIME,
+        payload: data
     };
 };

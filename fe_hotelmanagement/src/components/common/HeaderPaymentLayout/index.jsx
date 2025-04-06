@@ -3,13 +3,17 @@ import './style.scss'
 import Alert from 'react-bootstrap/Alert';
 import Countdown from "react-countdown";
 import { IoIosTime } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
-const Header = ({pageState}) => {
+const Header = ({pageState, expireDateTime}) => {
+
+    const navigator = useNavigate()
+
     return (
         <>
         
             <div className="header d-flex justify-content-center align-items-center p-3">
-                    <div className="logo">
+                    <div className="logo" onClick={() => {navigator('/')}}>
                         <img src={logo} alt="Agoda Logo" className="logo-img" />
                     </div>
                     <div className="steps d-flex align-items-center justify-content-center">
@@ -31,7 +35,7 @@ const Header = ({pageState}) => {
                 </div>
 
             <Alert variant="danger" className="text-center">
-                Chúng tôi đang giữ phòng cho quý khách <IoIosTime /> <Countdown date={Date.now() + 1000000} />
+                Chúng tôi đang giữ phòng cho quý khách <IoIosTime /> <Countdown date={expireDateTime} />
             </Alert>
         
         </>

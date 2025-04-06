@@ -14,14 +14,6 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InitialReservationRequest {
-    // thông tin khách hàng
-//    String name;
-//    String phone;
-//    String email;
-
-    // thông tin discount
-//    List<String> appliedDiscounts;
-
     //thông tin phòng
     List<ReservationDetailRequest> reservationDetails;
 

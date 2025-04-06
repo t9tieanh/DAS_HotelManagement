@@ -24,7 +24,6 @@ const RoomDetail = () => {
 
     return (
         <>
-
             <Breadcrumb 
                 title="Rooms" 
                 paths={[
@@ -33,26 +32,17 @@ const RoomDetail = () => {
                     { label: "OurRoom" }
                 ]}
             />
-
             <section className="room-details-section spad">
                 <div className="container">
                     <div className="row">
-
                         <div className="col-lg-8 test">
-
                             <RoomDescription room={room} />
                             <Reviews />
                             <AddReview onAddReview={() => {}} />
-                            
                         </div>
-
                         <div className="col-lg-4 test">
-
                             <RoomBooking/>
-
                         </div>
-
-
                     </div> 
                 </div> 
             </section>

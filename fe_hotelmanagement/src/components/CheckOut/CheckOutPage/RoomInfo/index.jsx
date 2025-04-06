@@ -40,11 +40,6 @@ const RoomInfo = () => {
                 </div>
             </div>
 
-            {/* Địa chỉ */}
-            <p className="text-muted mb-2">
-                Căn hộ sang trọng với view thành phố tuyệt đẹp, đầy đủ tiện nghi và gần trung tâm.
-            </p>
-
 
             {/* Property Card #2 */}
             <div className="property-card border p-3 rounded">

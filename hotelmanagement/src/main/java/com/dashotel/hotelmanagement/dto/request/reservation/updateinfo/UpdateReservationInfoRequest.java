@@ -13,7 +13,6 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UpdateReservationInfoRequest {
-    //
     String reservationId;
 
     // thông tin khách hàng

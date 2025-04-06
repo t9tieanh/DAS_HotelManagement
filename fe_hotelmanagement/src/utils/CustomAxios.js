@@ -11,8 +11,8 @@ const excludedUrls = [
     "/auth/sign-up",
     "/auth/refresh-token",
     "/auth/outbound/authentication",
-    "hotel", 
-    "room"
+    "/hotel", 
+    "/room"
 ];
 
 instance.interceptors.request.use(

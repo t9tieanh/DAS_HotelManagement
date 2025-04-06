@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const PaymentContext = createContext(0);
+const ReservationContext = createContext();
 
-export default PaymentContext;
+export default ReservationContext;

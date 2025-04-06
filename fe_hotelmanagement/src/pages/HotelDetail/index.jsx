@@ -9,9 +9,6 @@ import { useParams, useLocation } from "react-router-dom";
 
 
 const HotelDetail = () => {
-
-  // const { id } = useParams(); 
-
   const location = useLocation();
   const { hotelId, adults, rooms, checkIn, checkOut } = location.state || {};
 
@@ -34,27 +31,18 @@ const HotelDetail = () => {
     <>
 
       <div className="hotel-detail-container container shadow-3">
-
         <ImageComponent imgs={hotelDetail?.imgs} avatar={hotelDetail?.avatar} hotelId={hotelId} />
-
         <div className="main-info-hotel pt-0">
-
           <HotelName name={hotelDetail?.name} subname={hotelDetail?.subName} />
-
           <HotelDescription address={hotelDetail.address} description={hotelDetail?.description} facilities={hotelDetail?.facilities} />
-
         </div>
-
         <div className="card room-list-container">
           <div className="card-body">
-            <h5 className="card-title room-header">Những phòng còn trống tại Khách sạn Gold</h5>
-
+            <h5 className="card-title room-header">Những phòng còn trống tại Khách sạn {hotelDetail?.name}</h5>
             <div className="warning-title">
               Phải đặt phòng trong thời điểm không chắc chắn này? Hãy chọn phòng có thể hủy miễn phí!
             </div>
-
-            <RoomSection rooms={hotelDetail?.rooms || []} />
-
+            <RoomSection checkIn={checkIn} checkOut={checkOut} rooms={hotelDetail?.rooms || []} />
           </div>
         </div>
       </div>

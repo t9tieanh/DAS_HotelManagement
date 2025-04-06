@@ -1,20 +1,35 @@
 import { DELETE_RESERVATION } from "../action/reservationAction";
-import { ADD_RESERVATION } from "../action/reservationAction";
+import { CREATE_RESERVATION } from "../action/reservationAction";
+import { UPDATE_EXPIRE_DATE_TIME } from "../action/reservationAction";
 
 const INITIAL_STATE = {
-    reservation : undefined
+    reservationId : undefined,
+    expireDateTime : undefined,
 };
 
 const reservationReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case ADD_RESERVATION:
+        case CREATE_RESERVATION:
+            const expireDate = new Date(action.payload.expireDateTime.split('.')[0]);  
+
             return {
-                ...state, reservation : action.payload,
+                ...state, reservationId : action.payload.reservationId,
+                expireDateTime : expireDate,
             };
         case DELETE_RESERVATION:
             return {
-                ...state, reservation : undefined,
+                ...state, reservationId : undefined,
+                expireDateTime : undefined,
             };
+
+        case UPDATE_EXPIRE_DATE_TIME:
+            const expireDate2 = new Date(action.payload.split('.')[0]); 
+
+            return {
+                ...state, 
+                expireDateTime : expireDate2,
+            };
+
         default: return state;
     }
 };
