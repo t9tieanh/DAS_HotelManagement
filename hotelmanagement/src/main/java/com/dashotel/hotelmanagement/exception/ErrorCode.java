@@ -19,11 +19,25 @@ public enum ErrorCode {
     ACCOUNT_UN_ACTIVE(1009,"Tài khoản chưa được kích hoạt !",HttpStatus.UNAUTHORIZED),
     OTP_SEND(1010,"Cannot send otp",HttpStatus.INTERNAL_SERVER_ERROR),
     ROOM_NOT_FOUND(1012, "Không tìm thấy phòng", HttpStatus.NOT_FOUND),
+    INVALID_FORMAT_JSON(1013, "Chuỗi json không hợp lệ !", HttpStatus.BAD_REQUEST),
 
     // dùng cho xác thực otp
     NOT_VERIFY_OTP (1011,"Otp code invalid, try again",HttpStatus.BAD_REQUEST),
-    ;
 
+    // lỗi phòng không còn trống
+    ROOM_NOT_AVAILABLE(1013, "Phòng không còn trống trong khoảng thời gian yêu cầu", HttpStatus.NOT_FOUND),
+
+    // lỗi hết discount
+    DISCOUNT_NOT_AVAILABLE(1014, "Mã giảm giá đã hết hiệu lực", HttpStatus.NOT_FOUND),
+
+    // hết thời gian giao dịch đặt phòng
+    BOOKING_TIMEOUT(1015, "Giao dịch đặt phòng đã hết thời gian", HttpStatus.GONE),
+
+    // đã hoàn thành bước thanh toán
+    STEP_ALREADY_COMPLETED(1016, "Bước này đã được thực hiện, không thể thao tác lại", HttpStatus.CONFLICT),
+
+
+    ;
     private int code;
     private HttpStatusCode statusCode;
     private String message;

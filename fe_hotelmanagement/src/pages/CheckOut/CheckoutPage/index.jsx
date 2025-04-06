@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
 import CustomCard from "../../../components/common/Card";
 import Container from 'react-bootstrap/Container';
@@ -12,11 +12,18 @@ import PaymentPage from "../PaymentPage";
 import BillContainer from "../../../components/CheckOut/CheckOutPage/Bill";
 import TripDetail from "../../../components/CheckOut/CheckOutPage/TripDetail";
 import RoomInfo from "../../../components/CheckOut/CheckOutPage/RoomInfo";
-
+import { useSelector } from "react-redux";
+import { getCurrentStep } from "../../../services/ReservationService/reservationService";
+import { doUpdateExpireDateTime } from "../../../redux/action/reservationAction";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { doDeleteReservation } from "../../../redux/action/reservationAction";
 
 const CheckOutPage = () => {
-
+    const reservationId = useSelector(state => state.reservation.reservationId)
     const { pageState, setPageState } = useContext(PaymentContext);
+
+    const dispatch = useDispatch();
 
     const handleNextStep = () => {
         if (pageState !== 2) {
@@ -24,11 +31,35 @@ const CheckOutPage = () => {
         }
     };
 
+    useEffect(
+        () => {
+            fetchCurrentStep()
+        } , []
+    )
+
+    const fetchCurrentStep = async() => {
+        const data = await getCurrentStep(reservationId)
+        console.log(data , "step hiện tại") // -> nhớ xóa cái này nhá 
+
+        if (data && data.code && data.code === 200 && data?.result) {
+
+            setPageState(data.result.currentStep)
+            dispatch(doUpdateExpireDateTime(data.result.expireDateTime))
+
+        } else if (data.response && data.response.data) {
+
+            toast.error(data.response.data.message) // trường hợp giao dịch hết thời gian
+            dispatch(doDeleteReservation())
+            return
+        }
+        else toast.error(data?.message) 
+    }
+
     return (
         <Container className="resevation-container mb-5" >
             <div className="row mt-4">
                 <div className="col-md-6">
-                    {pageState === 0 && <ConfirmInfomationPage handleNextStep={handleNextStep} />}
+                    {pageState === 0 && <ConfirmInfomationPage  handleNextStep={handleNextStep} />}
                     {pageState === 1 && <PaymentPage handleNextStep={handleNextStep} />}
                 </div>
 

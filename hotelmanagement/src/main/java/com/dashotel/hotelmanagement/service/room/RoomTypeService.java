@@ -19,6 +19,7 @@ import com.dashotel.hotelmanagement.service.other.FileStorageService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -146,5 +147,9 @@ public class RoomTypeService {
                 .id(roomType.getId())
                 .isSuccess(true)
                 .build();
+    }
+
+    public RoomTypeEntity getRoomAvailable (String roomTypeId, LocalDate checkIn, LocalDate checkOut, Long numRooms) {
+        return roomTypeRepository.getRoomAvailable(roomTypeId, checkIn, checkOut, numRooms, ChronoUnit.DAYS.between(checkIn, checkOut));
     }
 }

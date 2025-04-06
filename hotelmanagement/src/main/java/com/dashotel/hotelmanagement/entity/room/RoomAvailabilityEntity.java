@@ -1,10 +1,7 @@
 package com.dashotel.hotelmanagement.entity.room;
 
 import com.dashotel.hotelmanagement.entity.AbstractEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -26,7 +23,7 @@ public class RoomAvailabilityEntity extends AbstractEntity {
     LocalDate availableDate;
     Boolean status;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "room_type_id")
     RoomTypeEntity roomType;
 

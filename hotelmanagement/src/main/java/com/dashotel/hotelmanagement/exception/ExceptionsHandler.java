@@ -1,7 +1,9 @@
 package com.dashotel.hotelmanagement.exception;
 
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,6 +20,15 @@ public class ExceptionsHandler {
         apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXEPTION.getMessage());
 
         return ResponseEntity.badRequest().body(apiResponse);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    ResponseEntity<ApiResponse> exceptionHandler(HttpMessageNotReadableException ex) {
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(ErrorCode.INVALID_FORMAT_JSON.getCode());
+        apiResponse.setMessage(ErrorCode.INVALID_FORMAT_JSON.getMessage());
+
+        return ResponseEntity.status(ErrorCode.INVALID_FORMAT_JSON.getStatusCode()).body(apiResponse);
     }
 
     @ExceptionHandler(value = AccessDeniedException.class)

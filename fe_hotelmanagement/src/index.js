@@ -23,6 +23,7 @@ import VerifyOTP from './pages/VerifyOTP/index.jsx';
 import ReservationCheckOut from './pages/CheckOut/ConfirmInfomationPage/index.jsx';
 import PaymentLayout from './layouts/PaymentLayout/index.jsx';
 import CheckOutPage from './pages/CheckOut/CheckoutPage/index.jsx';
+import PrivateBookingRoute from './routes/PrivateBookingRoute.jsx';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'reservation', element: <PaymentLayout />, children: [
-          { index: true, element: <CheckOutPage /> },
+          { index: true, element: <PrivateBookingRoute children={<CheckOutPage />} /> },
         ]
       },
       {
