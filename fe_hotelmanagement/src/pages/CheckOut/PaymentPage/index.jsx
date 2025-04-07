@@ -12,8 +12,10 @@ import Icon from "../../../components/common/Icon";
 
 import OnlinePaymentComponent from "../../../components/CheckOut/PaymentPage/OnlinePaymentComponent";
 import PayLater from "../../../components/CheckOut/PaymentPage/Paylayter";
+import { Button } from "react-bootstrap";
+import { MdCancelScheduleSend } from "react-icons/md";
 
-const PaymentOptionComponent = ({handleNextStep}) => {
+const PaymentOptionComponent = ({handleNextStep, handleCancelReservation}) => {
     
     const [activeKey, setActiveKey] = useState("0");
 
@@ -22,6 +24,7 @@ const PaymentOptionComponent = ({handleNextStep}) => {
     }
 
     return (
+        <>
         <div className="payment-option-container">
             <Accordion activeKey={activeKey} onSelect={() => handleChangePaymentMethod()} flush>
 
@@ -76,6 +79,11 @@ const PaymentOptionComponent = ({handleNextStep}) => {
                 </Accordion.Item>
             </Accordion>
         </div>
+        <Button style={{width : '90%'}} onClick={handleCancelReservation}
+                className="d-block bg-light text-dark mt-2 mx-auto d-flex align-items-center justify-content-center gap-2 button-continue" >
+                <MdCancelScheduleSend size={20} /> Hủy đặt phòng này 
+        </Button>
+        </>
     );
 
 }
@@ -84,7 +92,7 @@ const PaymentOptionComponent = ({handleNextStep}) => {
 const PaymentPage = ({handleNextStep}) => {
 
     return (<>
-        <CustomCard name={'Chọn phương thức thanh toán'} icon={<MdPayment />}
+        <CustomCard name={'Chọn phương thức thanh toán'} icon={<MdPayment />} 
             children={<PaymentOptionComponent handleNextStep = {handleNextStep} />}
         />
     </>)
