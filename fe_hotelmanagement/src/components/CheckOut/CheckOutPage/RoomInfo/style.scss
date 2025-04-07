@@ -1,0 +1,20 @@
+.room-info {
+    .hotel-info {
+        img {
+            width: 170px !important;
+            height: auto;
+            object-fit: cover;  
+        }
+        border: solid 1px rgb(223, 216, 216);
+        background-color: white !important;
+        border-radius: 5px;
+    }
+
+    .room-info {
+        border: none !important;
+        img {
+            height: 150px !important;
+            object-fit: cover; 
+        }
+    }
+}

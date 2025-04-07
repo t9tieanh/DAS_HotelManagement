@@ -24,6 +24,11 @@ const CheckOutPage = () => {
     const { pageState, setPageState } = useContext(PaymentContext);
     const room = useContext(PaymentContext).room;
 
+    // thông tin đặt phòng 
+    const [checkIn, setCheckIn] = useState()
+    const [checkOut, setCheckOut] = useState()
+    const [reservationDetail, setReservationDetail] = useState()
+
     const dispatch = useDispatch();
 
     const handleNextStep = () => {
@@ -45,7 +50,14 @@ const CheckOutPage = () => {
         if (data && data.code && data.code === 200 && data?.result) {
 
             setPageState(data.result.currentStep)
-            dispatch(doUpdateExpireDateTime(data.result.expireDateTime))
+            dispatch(doUpdateExpireDateTime(data.result.expireDateTime)) // set lại thời gian hết hạn 
+
+            // set thông tin cho reservation 
+            setCheckIn(data.result.checkIn)
+            setCheckOut(data.result.checkOut)
+
+            //set reservationdetail 
+            setReservationDetail(data.result.reservationDetail)
 
         } else if (data.response && data.response.data) {
 
@@ -65,16 +77,24 @@ const CheckOutPage = () => {
                 </div>
 
                 <div className="col-md-6">
-                    <CustomCard name={'Lịch đặt phòng'} subTitle={'Lưu ý lịch đặt phòng của bạn !'} icon={<SlCalender />} children={<TripDetail />} />
+                    <CustomCard name={'Lịch đặt phòng'} subTitle={'Lưu ý lịch đặt phòng của bạn !'} icon={<SlCalender />} 
+                        children={<TripDetail checkIn={checkIn} checkOut={checkOut} />} 
+                    />
 
                     <CustomCard className={'shadow-3 mt-3 property-card border p-3 mb-3 rounded'}
                         subTitle={'Thông tin phòng của bạn !'}
-                        name={'Phòng của bạn'} icon={<FaHotel />} children={<RoomInfo />} />
+                        name={'Phòng của bạn'} icon={<FaHotel />} children={<>
+                                {reservationDetail?.map((room) => {
+                                    return <RoomInfo  room={room}/>
+                                })}
+                                {/* <RoomInfo /><RoomInfo /> */}
+                            </>} />
 
 
                     <CustomCard className={'shadow-3 mt-3 property-card border p-3 mb-3 rounded'}
                         subTitle={'Xem chi tiết hóa đơn của bạn'}
-                        name={'Hóa đơn của bạn'} icon={<MdOutlinePayments />} children={<BillContainer />} />
+                        name={'Hóa đơn của bạn'} icon={<MdOutlinePayments />} 
+                        children={<BillContainer reservationDetails = {reservationDetail} checkIn={checkIn} checkOut={checkOut} />} />
                 </div>
             </div>
         </Container>

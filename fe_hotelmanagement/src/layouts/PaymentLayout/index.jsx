@@ -23,7 +23,7 @@ const PaymentLayout = () => {
             <Header expireDateTime={expireDateTime} pageState={pageState} />
 
             <Container>
-                <PaymentContext.Provider value={{ pageState, setPageState, room }}>
+                <PaymentContext.Provider value={{ pageState, setPageState }}>
                     <Outlet />
                 </PaymentContext.Provider>
             </Container>
