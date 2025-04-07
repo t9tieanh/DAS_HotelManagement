@@ -11,8 +11,9 @@ import { useSelector } from "react-redux";
 import { updateReservationInfo } from "../../../services/ReservationService/reservationService";
 import { toast } from "react-toastify";
 import { validateEmail, validatePhoneNumber } from "../../../utils/Validate";
+import { MdCancelScheduleSend } from "react-icons/md";
 
-const ConfirmInfomationPage = ({handleNextStep})  => {
+const ConfirmInfomationPage = ({handleNextStep, handleCancelReservation})  => {
 
     const reservationId = useSelector(state => state.reservation.reservationId)
     const [name, setName] = useState("");
@@ -70,9 +71,20 @@ const ConfirmInfomationPage = ({handleNextStep})  => {
                 children={<Discount appliedDiscounts = {appliedDiscounts} />}
             />
 
-            <CustomCard className={'shadow-3 mt-3 mb-3'} children={<Button style={{width : '90%'}} onClick={handleConfirmInfomation} 
-                className="d-block mx-auto d-flex align-items-center justify-content-center gap-2 button-continue" >
-                <MdPayment size={'20'} />Kế tiếp: Bước thanh toán</Button>}
+            <CustomCard className={'shadow-3 mt-3 mb-3'} children=
+                {<>
+                <Button style={{width : '90%'}} onClick={handleConfirmInfomation} 
+                    className="d-block mx-auto d-flex align-items-center justify-content-center gap-2 button-continue" >
+                    <MdPayment size={'20'} />Kế tiếp: Bước thanh toán
+                </Button>
+
+                <Button style={{width : '90%'}} onClick={handleCancelReservation} 
+                    className="d-block bg-light text-dark mt-2 mx-auto d-flex align-items-center justify-content-center gap-2 button-continue" >
+                    <MdCancelScheduleSend size={20} /> Hủy đặt phòng này 
+                </Button>
+                
+                
+                </>}
             />
         </>
     );

@@ -24,6 +24,12 @@ export const updateReservationInfo = async (reservationId, name, phone, email, a
   return  await axios.post('/reservation/update-info', request);
 } 
 
+
+export const cancelReservation = async (id) => {
+    return await axios.delete(`/reservation/${id}`);
+};
+
+
 export const getCurrentStep = async (id) => {
   return await axios.get('/reservation/current-step', {
     params: {
@@ -31,3 +37,5 @@ export const getCurrentStep = async (id) => {
     },
   });
 }
+
+
