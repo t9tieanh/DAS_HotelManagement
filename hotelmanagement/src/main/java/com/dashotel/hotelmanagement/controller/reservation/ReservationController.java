@@ -46,6 +46,19 @@ public class ReservationController {
                 .build();
     }
 
+//    @DeleteMapping("/{id}")
+//    public ApiResponse<Cancel> cancelReservation(@PathVariable Long id) {
+//        // Gọi service để xóa reservation theo id
+//        boolean deleted = reservationService.cancelReservation(id);
+//
+//        if (deleted) {
+//            return ResponseEntity.ok("Reservation deleted successfully.");
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Reservation not found.");
+//        }
+//    }
+
+
     @PreAuthorize("@reservationService.isOwnerOfReservation(#id, authentication.name)")
     @GetMapping("/current-step")
     ApiResponse<ReservationStepResponse> getCurrentStep (@RequestParam("id") String id)  {
