@@ -18,16 +18,19 @@ import { doUpdateExpireDateTime } from "../../../redux/action/reservationAction"
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { doDeleteReservation } from "../../../redux/action/reservationAction";
+import ReservationSuccess from "../ReservationSuccess";
 
 const CheckOutPage = () => {
     const reservationId = useSelector(state => state.reservation.reservationId)
     const { pageState, setPageState } = useContext(PaymentContext);
-    const room = useContext(PaymentContext).room;
 
     // thông tin đặt phòng 
     const [checkIn, setCheckIn] = useState()
     const [checkOut, setCheckOut] = useState()
     const [reservationDetail, setReservationDetail] = useState()
+
+    // tổng tiền 
+    const [totalPrice, setTotalPrice] = useState()
 
     const dispatch = useDispatch();
 
@@ -59,6 +62,9 @@ const CheckOutPage = () => {
             //set reservationdetail 
             setReservationDetail(data.result.reservationDetail)
 
+            // lấy tổng tiền 
+            setTotalPrice(data.result.totalPrice)
+
         } else if (data.response && data.response.data) {
 
             toast.error(data.response.data.message) // trường hợp giao dịch hết thời gian
@@ -73,28 +79,28 @@ const CheckOutPage = () => {
             <div className="row mt-4">
                 <div className="col-md-6">
                     {pageState === 0 && <ConfirmInfomationPage handleNextStep={handleNextStep} />}
-                    {pageState === 1 && <PaymentPage handleNextStep={handleNextStep} room={room}/>}
+                    {pageState === 1 && <PaymentPage handleNextStep={handleNextStep} totalPrice={totalPrice} />}
+                    {pageState === 2 && <ReservationSuccess />}
                 </div>
 
                 <div className="col-md-6">
-                    <CustomCard name={'Lịch đặt phòng'} subTitle={'Lưu ý lịch đặt phòng của bạn !'} icon={<SlCalender />} 
-                        children={<TripDetail checkIn={checkIn} checkOut={checkOut} />} 
+                    <CustomCard name={'Lịch đặt phòng'} subTitle={'Lưu ý lịch đặt phòng của bạn !'} icon={<SlCalender />}
+                        children={<TripDetail checkIn={checkIn} checkOut={checkOut} />}
                     />
 
                     <CustomCard className={'shadow-3 mt-3 property-card border p-3 mb-3 rounded'}
                         subTitle={'Thông tin phòng của bạn !'}
                         name={'Phòng của bạn'} icon={<FaHotel />} children={<>
-                                {reservationDetail?.map((room) => {
-                                    return <RoomInfo  room={room}/>
-                                })}
-                                {/* <RoomInfo /><RoomInfo /> */}
-                            </>} />
+                            {reservationDetail?.map((room) => {
+                                return <RoomInfo room={room} />
+                            })}
+                        </>} />
 
 
                     <CustomCard className={'shadow-3 mt-3 property-card border p-3 mb-3 rounded'}
                         subTitle={'Xem chi tiết hóa đơn của bạn'}
-                        name={'Hóa đơn của bạn'} icon={<MdOutlinePayments />} 
-                        children={<BillContainer reservationDetails = {reservationDetail} checkIn={checkIn} checkOut={checkOut} />} />
+                        name={'Hóa đơn của bạn'} icon={<MdOutlinePayments />}
+                        children={<BillContainer totalPrice={totalPrice} reservationDetails={reservationDetail} checkIn={checkIn} checkOut={checkOut} />} />
                 </div>
             </div>
         </Container>

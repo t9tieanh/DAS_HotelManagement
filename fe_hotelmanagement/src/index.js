@@ -25,6 +25,7 @@ import PaymentLayout from './layouts/PaymentLayout/index.jsx';
 import CheckOutPage from './pages/CheckOut/CheckoutPage/index.jsx';
 import PrivateBookingRoute from './routes/PrivateBookingRoute.jsx';
 import VNPayCallback from './services/PaymentService/VNPayCallback.js';
+import ReservationSuccess from './pages/CheckOut/ReservationSuccess/index.jsx';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
         path: 'reservation', element: <PaymentLayout />, children: [
           { index: true, element: <PrivateBookingRoute children={<CheckOutPage />} /> },
         ]
+      },
+
+      {
+        path: '/test', element: <ReservationSuccess />
       },
       {
         path: '/', element: <HomeLayout />, children: [

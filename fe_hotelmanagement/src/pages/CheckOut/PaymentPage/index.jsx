@@ -13,9 +13,8 @@ import Icon from "../../../components/common/Icon";
 import OnlinePaymentComponent from "../../../components/CheckOut/PaymentPage/OnlinePaymentComponent";
 import PayLater from "../../../components/CheckOut/PaymentPage/Paylayter";
 
-const PaymentOptionComponent = ({ handleNextStep, room }) => {
+const PaymentOptionComponent = ({ handleNextStep, totalPrice }) => {
 
-    console.log("room2", room)
     const [activeKey, setActiveKey] = useState("0");
 
     const handleChangePaymentMethod = () => {
@@ -47,7 +46,7 @@ const PaymentOptionComponent = ({ handleNextStep, room }) => {
                     <Accordion.Body>
 
                         {/* oline payment section  */}
-                        <OnlinePaymentComponent room={room} />
+                        <OnlinePaymentComponent totalPrice={totalPrice} />
 
                     </Accordion.Body>
                 </Accordion.Item>
@@ -82,11 +81,11 @@ const PaymentOptionComponent = ({ handleNextStep, room }) => {
 }
 
 
-const PaymentPage = ({ handleNextStep, room }) => {
+const PaymentPage = ({ handleNextStep, totalPrice }) => {
 
     return (<>
         <CustomCard name={'Chọn phương thức thanh toán'} icon={<MdPayment />}
-            children={<PaymentOptionComponent handleNextStep={handleNextStep} room={room} />}
+            children={<PaymentOptionComponent handleNextStep={handleNextStep} totalPrice={totalPrice} />}
         />
     </>)
 }

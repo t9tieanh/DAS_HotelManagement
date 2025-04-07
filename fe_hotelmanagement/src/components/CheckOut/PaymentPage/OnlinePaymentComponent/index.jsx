@@ -7,26 +7,23 @@ import Icon from "../../../common/Icon";
 import { FaCreditCard } from 'react-icons/fa';
 import { paymentWithVnPay } from '../../../../services/PaymentService/paymentService';
 
-const OnlinePaymentComponent = (room) => {
+const OnlinePaymentComponent = (totalPrice) => {
 
+    console.log("totalPrice", totalPrice)
     const [paymentMethod, setPaymentMethod] = useState(0)
-
-    console.log("room4", room.room) // có 1 prototype chưa xác định
 
     const handleChangePaymentMethod = () => {
         setPaymentMethod(!paymentMethod)
     }
 
-    const handlePaymentWithVnPay = (price) => {
-        paymentWithVnPay(price).then(() => {
-            console.log("Thanh toán thành công bằng VNPay")
-        })
-    }
+    const handlePaymentWithVNPay = () => {
+        paymentWithVnPay(totalPrice.totalPrice)
+    };
 
     return (
         <>
             <DropdownButton variant="light" id="dropdown-basic-button" className="custom-dropdown" title={<><FaCreditCard className="mr-2" /> Chọn phương thức thanh toán</>}>
-                <Dropdown.Item onClick={() => handlePaymentWithVnPay(room.room.price)}>
+                <Dropdown.Item onClick={() => handlePaymentWithVNPay(totalPrice)}>
                     <Icon logo={vnpayLogo} /> Thanh toán bằng VN PAY
                 </Dropdown.Item>
                 <Dropdown.Item>
@@ -41,7 +38,6 @@ const OnlinePaymentComponent = (room) => {
             </blockquote>
         </>
     )
-
 }
 
 export default OnlinePaymentComponent

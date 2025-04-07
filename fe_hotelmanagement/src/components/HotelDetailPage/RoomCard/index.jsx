@@ -61,9 +61,7 @@ const RoomSection = ({ rooms, checkIn, checkOut }) => {
         setRoomSelected(room)
     }
 
-    const handleBooking = async (room) => {
-
-        console.log("Day la room ", room)
+    const handleBooking = async () => {
         const reservationDetails = [
             { roomId: roomSelected.id, quantity: 1 }
         ];
@@ -80,7 +78,7 @@ const RoomSection = ({ rooms, checkIn, checkOut }) => {
             dispatch(doCreateReservation(data.result))
             // lưu reservation id
 
-            navigator('/reservation', { state: room });
+            navigator('/reservation')
             toast.success("Đặt phòng thành công !")
         } else if (data.response && data.response.data) {
             toast.error(data.response.data.message)
@@ -129,7 +127,7 @@ const RoomSection = ({ rooms, checkIn, checkOut }) => {
                                                     {room.roomStatus === 1 && <Tag text={'Đang có khuyến mãi'} />}
                                                 </td>
                                                 <td className="text-end">
-                                                    <PrimaryButton text={'Đặt ngay'} onClickFunc={() => {handleBookingRoom(room)}} icon={<FaArrowAltCircleRight />} className={'select-btn'} />
+                                                    <PrimaryButton text={'Đặt ngay'} onClickFunc={() => { handleBookingRoom(room) }} icon={<FaArrowAltCircleRight />} className={'select-btn'} />
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -144,7 +142,7 @@ const RoomSection = ({ rooms, checkIn, checkOut }) => {
             )}
             <CustomOffCanvas show={bookingRoomState} setShow={setBookingRoomState}
                 header={<h5 className="fw-bold">Hệ thống đặt phòng <span className="text-primary"><span className="text-warning">@H</span>otelas</span></h5>}
-                children={<ConfirmBooking setShow={setBookingRoomState} handleBooking={() => handleBooking(roomSelected)} room={roomSelected}
+                children={<ConfirmBooking setShow={setBookingRoomState} handleBooking={handleBooking} room={roomSelected}
                 />} />
         </div>
     );

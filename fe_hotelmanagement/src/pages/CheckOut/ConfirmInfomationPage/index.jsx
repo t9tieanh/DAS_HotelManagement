@@ -12,7 +12,7 @@ import { updateReservationInfo } from "../../../services/ReservationService/rese
 import { toast } from "react-toastify";
 import { validateEmail, validatePhoneNumber } from "../../../utils/Validate";
 
-const ConfirmInfomationPage = ({handleNextStep})  => {
+const ConfirmInfomationPage = ({ handleNextStep }) => {
 
     const reservationId = useSelector(state => state.reservation.reservationId)
     const [name, setName] = useState("");
@@ -25,20 +25,20 @@ const ConfirmInfomationPage = ({handleNextStep})  => {
             toast.error("Vui lòng điền đầy đủ thông tin trước khi xác nhận!");
             return false;
         }
-    
+
         if (!validateEmail(email)) {
             toast.error("Email không hợp lệ!");
             return false;
         }
-    
+
         if (!validatePhoneNumber(phone)) {
             toast.error("Số điện thoại không hợp lệ!");
             return false;
         }
-    
+
         return true;
     }
-    
+
 
     const handleConfirmInfomation = async () => {
 
@@ -62,15 +62,15 @@ const ConfirmInfomationPage = ({handleNextStep})  => {
 
     return (
         <>
-            <CustomCard icon={<FaUserCircle />}  className={'shadow-3'} name={'Thông tin khách hàng'} subTitle = {"*Mục bắt buộc"} children={<CustomerInfomation
+            <CustomCard icon={<FaUserCircle />} className={'shadow-3'} name={'Thông tin khách hàng'} subTitle={"*Mục bắt buộc"} children={<CustomerInfomation
                 name={name} setName={setName} phone={phone} setPhone={setPhone} email={email} setEmail={setEmail} />} />
 
-            <CustomCard className={'shadow-3 mt-3 mb-3'} name={'Phiếu giảm giá'} 
+            <CustomCard className={'shadow-3 mt-3 mb-3'} name={'Phiếu giảm giá'}
                 subTitle={'Hãy áp dụng mã giảm giá'} icon={<MdDiscount />}
-                children={<Discount appliedDiscounts = {appliedDiscounts} />}
+                children={<Discount appliedDiscounts={appliedDiscounts} />}
             />
 
-            <CustomCard className={'shadow-3 mt-3 mb-3'} children={<Button style={{width : '90%'}} onClick={handleConfirmInfomation} 
+            <CustomCard className={'shadow-3 mt-3 mb-3'} children={<Button style={{ width: '90%' }} onClick={handleConfirmInfomation}
                 className="d-block mx-auto d-flex align-items-center justify-content-center gap-2 button-continue" >
                 <MdPayment size={'20'} />Kế tiếp: Bước thanh toán</Button>}
             />

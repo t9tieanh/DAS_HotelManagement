@@ -221,6 +221,7 @@ public class ReservationService {
                 .checkOut(reservation.getCheckOut())
                 .discounts(discounts)
                 .reservationDetail(roomInfoForReservationResponses)
+                .totalPrice(100000.0)
                 .build();
     }
 
