@@ -13,8 +13,9 @@ import Icon from "../../../components/common/Icon";
 import OnlinePaymentComponent from "../../../components/CheckOut/PaymentPage/OnlinePaymentComponent";
 import PayLater from "../../../components/CheckOut/PaymentPage/Paylayter";
 
-const PaymentOptionComponent = ({handleNextStep}) => {
-    
+const PaymentOptionComponent = ({ handleNextStep, room }) => {
+
+    console.log("room2", room)
     const [activeKey, setActiveKey] = useState("0");
 
     const handleChangePaymentMethod = () => {
@@ -28,25 +29,25 @@ const PaymentOptionComponent = ({handleNextStep}) => {
                 {/* thanh toán bằng vn pay */}
                 <Accordion.Item eventKey={`0`}>
                     <Accordion.Header>
-                        
-                    <Form.Check // prettier-ignore
-                        type="switch"
-                        id="custom-switch"
-                        checked={activeKey === "0"} 
-                        onChange={() => setActiveKey("0")}
-                        label= "Thanh toán bằng ví điện tử"
-                    />
 
-                    <div class="ml-2 text-white">
-                        <img src={vnpayLogo} className='mr-2' width={35} />
-                        <img src={momoLogo} width={35} />
-                    </div>
-                    
+                        <Form.Check // prettier-ignore
+                            type="switch"
+                            id="custom-switch"
+                            checked={activeKey === "0"}
+                            onChange={() => setActiveKey("0")}
+                            label="Thanh toán bằng ví điện tử"
+                        />
+
+                        <div class="ml-2 text-white">
+                            <img src={vnpayLogo} className='mr-2' width={35} />
+                            <img src={momoLogo} width={35} />
+                        </div>
+
                     </Accordion.Header>
                     <Accordion.Body>
 
                         {/* oline payment section  */}
-                        <OnlinePaymentComponent />
+                        <OnlinePaymentComponent room={room} />
 
                     </Accordion.Body>
                 </Accordion.Item>
@@ -54,18 +55,18 @@ const PaymentOptionComponent = ({handleNextStep}) => {
                 {/* thanh toán tại hotel */}
                 <Accordion.Item eventKey={`1`}>
                     <Accordion.Header>
-                        
-                    <Form.Check // prettier-ignore
-                        type="switch"
-                        id="custom-switch"
-                        checked= {activeKey === "1"} 
-                        onChange={() => setActiveKey("1")}
-                        label= "Thanh toán khi nhận phòng"
-                        className="mr-2"
-                    />
 
-                    <Icon logo={paylayterLogo} size={30} />
-                    
+                        <Form.Check // prettier-ignore
+                            type="switch"
+                            id="custom-switch"
+                            checked={activeKey === "1"}
+                            onChange={() => setActiveKey("1")}
+                            label="Thanh toán khi nhận phòng"
+                            className="mr-2"
+                        />
+
+                        <Icon logo={paylayterLogo} size={30} />
+
                     </Accordion.Header>
                     <Accordion.Body>
 
@@ -81,11 +82,11 @@ const PaymentOptionComponent = ({handleNextStep}) => {
 }
 
 
-const PaymentPage = ({handleNextStep}) => {
+const PaymentPage = ({ handleNextStep, room }) => {
 
     return (<>
         <CustomCard name={'Chọn phương thức thanh toán'} icon={<MdPayment />}
-            children={<PaymentOptionComponent handleNextStep = {handleNextStep} />}
+            children={<PaymentOptionComponent handleNextStep={handleNextStep} room={room} />}
         />
     </>)
 }

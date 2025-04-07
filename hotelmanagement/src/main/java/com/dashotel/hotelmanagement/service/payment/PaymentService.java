@@ -16,12 +16,10 @@ public class PaymentService {
 
     public PaymentDTO.VNPayResponse creatVNPayPayment(HttpServletRequest request) {
         long amount = Integer.parseInt(request.getParameter("amount")) * 100L;
-        String bankCode = request.getParameter("bankCode");
+        String bankCode = "NCB";
         Map<String, String> vnpParamsMap = vnPayConfig.getVNPayConfig();
         vnpParamsMap.put("vnp_Amount", String.valueOf(amount));
-        if(bankCode != null && !bankCode.isEmpty()) {
-            vnpParamsMap.put("vnp_BankCode", bankCode);
-        }
+        vnpParamsMap.put("vnp_BankCode", bankCode);
         vnpParamsMap.put("vnp_IpAddr", VNPayUtils.getIpAddress(request));
 
         String queryUrl = VNPayUtils.getPaymentUrl(vnpParamsMap, true);

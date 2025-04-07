@@ -25,6 +25,7 @@ const App = () => {
 
       <Outlet />
     </div>
+    
   );
 }
 

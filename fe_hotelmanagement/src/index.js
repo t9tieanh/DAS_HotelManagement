@@ -24,6 +24,7 @@ import ReservationCheckOut from './pages/CheckOut/ConfirmInfomationPage/index.js
 import PaymentLayout from './layouts/PaymentLayout/index.jsx';
 import CheckOutPage from './pages/CheckOut/CheckoutPage/index.jsx';
 import PrivateBookingRoute from './routes/PrivateBookingRoute.jsx';
+import VNPayCallback from './services/PaymentService/VNPayCallback.js';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

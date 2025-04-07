@@ -23,6 +23,7 @@ public class PaymentController {
     public ApiResponse<PaymentDTO.VNPayResponse> payCallbackHandler(HttpServletRequest request) {
         String status = request.getParameter("vnp_ResponseCode");
         if (status.equals("00")) {
+            // sửa lại phần trả về
             return new ApiResponse<>(HttpStatus.OK.value(), "Success", new PaymentDTO.VNPayResponse("00", "Success", ""));
         } else {
             return new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), "Failed", null);

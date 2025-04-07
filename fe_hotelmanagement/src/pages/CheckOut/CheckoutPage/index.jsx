@@ -22,6 +22,7 @@ import { doDeleteReservation } from "../../../redux/action/reservationAction";
 const CheckOutPage = () => {
     const reservationId = useSelector(state => state.reservation.reservationId)
     const { pageState, setPageState } = useContext(PaymentContext);
+    const room = useContext(PaymentContext).room;
 
     const dispatch = useDispatch();
 
@@ -34,12 +35,12 @@ const CheckOutPage = () => {
     useEffect(
         () => {
             fetchCurrentStep()
-        } , []
+        }, []
     )
 
-    const fetchCurrentStep = async() => {
+    const fetchCurrentStep = async () => {
         const data = await getCurrentStep(reservationId)
-        console.log(data , "step hiện tại") // -> nhớ xóa cái này nhá 
+        console.log(data, "step hiện tại") // -> nhớ xóa cái này nhá 
 
         if (data && data.code && data.code === 200 && data?.result) {
 
@@ -52,15 +53,15 @@ const CheckOutPage = () => {
             dispatch(doDeleteReservation())
             return
         }
-        else toast.error(data?.message) 
+        else toast.error(data?.message)
     }
 
     return (
         <Container className="resevation-container mb-5" >
             <div className="row mt-4">
                 <div className="col-md-6">
-                    {pageState === 0 && <ConfirmInfomationPage  handleNextStep={handleNextStep} />}
-                    {pageState === 1 && <PaymentPage handleNextStep={handleNextStep} />}
+                    {pageState === 0 && <ConfirmInfomationPage handleNextStep={handleNextStep} />}
+                    {pageState === 1 && <PaymentPage handleNextStep={handleNextStep} room={room}/>}
                 </div>
 
                 <div className="col-md-6">
