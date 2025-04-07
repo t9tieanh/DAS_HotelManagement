@@ -1,11 +1,13 @@
 package com.dashotel.hotelmanagement.service.reservation;
 
+import com.dashotel.hotelmanagement.dto.common.DiscountDTO;
 import com.dashotel.hotelmanagement.dto.request.reservation.initial.InitialReservationRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.initial.ReservationDetailRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.updateinfo.UpdateReservationInfoRequest;
 import com.dashotel.hotelmanagement.dto.response.CreationResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.InitialReservationResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.ReservationStepResponse;
+import com.dashotel.hotelmanagement.dto.response.reservation.common.ReservationDetailResponse;
 import com.dashotel.hotelmanagement.entity.booking.ReservationDetailEntity;
 import com.dashotel.hotelmanagement.entity.booking.ReservationEntity;
 import com.dashotel.hotelmanagement.entity.booking.RoomOccupantEntity;
@@ -16,6 +18,7 @@ import com.dashotel.hotelmanagement.entity.user.CustomerEntity;
 import com.dashotel.hotelmanagement.enums.BookingStatusEnum;
 import com.dashotel.hotelmanagement.exception.CustomException;
 import com.dashotel.hotelmanagement.exception.ErrorCode;
+import com.dashotel.hotelmanagement.mapper.DiscountMapper;
 import com.dashotel.hotelmanagement.mapper.RoomOccupantMapper;
 import com.dashotel.hotelmanagement.repository.CustomerRepository;
 import com.dashotel.hotelmanagement.repository.promotion.DiscountRepository;
@@ -36,6 +39,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -48,6 +52,7 @@ public class ReservationService {
     RoomTypeService roomTypeService;
 
     RoomOccupantMapper roomOccupantMapper;
+    DiscountMapper discountMapper;
     JwtUtils jwtUtils;
 
     private List <ReservationDetailEntity> getRoomAvailable (List<ReservationDetailRequest> reservationDetailRequests, LocalDate checkInDate, LocalDate checkOutDate, ReservationEntity reservationEntity) {
@@ -190,10 +195,32 @@ public class ReservationService {
         if (reservation.getExpireDateTime().isBefore(LocalDateTime.now()))
             throw new CustomException(ErrorCode.BOOKING_TIMEOUT);
 
+        // lấy thông tin room, hotel, giá tiền
+        List<ReservationDetailResponse> roomInfoForReservationResponses = new ArrayList<>();
+        reservation.getReservationDetail().forEach(
+                reservationDetail -> {
+                    ReservationDetailResponse roomInfoForReservationResponse = roomTypeService.getRoomInfoForReservation(
+                            reservationDetail.getRoomType().getId()
+                    ); // lấy thông tin room, hotel (price, ...) từ room service
+                    roomInfoForReservationResponse.setQuantity(reservationDetail.getQuantity());
+                    roomInfoForReservationResponses.add(roomInfoForReservationResponse);
+                }
+        );
+
+        // lấy thông tin
+        List<DiscountDTO> discounts = reservation.getDiscounts().stream()
+                .map(discountMapper::toDiscountDTOForReservation)
+                .collect(Collectors.toList());
+
+
         return ReservationStepResponse.builder()
                 .currentStep(reservation.getStatus().getStep())
                 .description(reservation.getStatus().getDescription())
                 .expireDateTime(reservation.getExpireDateTime())
+                .checkIn(reservation.getCheckIn())
+                .checkOut(reservation.getCheckOut())
+                .discounts(discounts)
+                .reservationDetail(roomInfoForReservationResponses)
                 .build();
     }
 
