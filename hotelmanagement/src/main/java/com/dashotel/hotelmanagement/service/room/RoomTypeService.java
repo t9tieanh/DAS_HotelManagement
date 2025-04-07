@@ -3,8 +3,8 @@ package com.dashotel.hotelmanagement.service.room;
 import com.dashotel.hotelmanagement.dto.request.room.OpenRoomRequest;
 import com.dashotel.hotelmanagement.dto.request.room.RoomTypeCreationRequest;
 import com.dashotel.hotelmanagement.dto.request.room.RoomTypeImageRequest;
-import com.dashotel.hotelmanagement.dto.request.room.RoomTypeRequest;
 import com.dashotel.hotelmanagement.dto.response.CreationResponse;
+import com.dashotel.hotelmanagement.dto.response.reservation.common.ReservationDetailResponse;
 import com.dashotel.hotelmanagement.dto.response.room.RoomTypeResponse;
 import com.dashotel.hotelmanagement.entity.hotel.HotelEntity;
 import com.dashotel.hotelmanagement.entity.room.RoomAvailabilityEntity;
@@ -12,6 +12,7 @@ import com.dashotel.hotelmanagement.entity.room.RoomTypeEntity;
 import com.dashotel.hotelmanagement.enums.RoomStatusEnum;
 import com.dashotel.hotelmanagement.exception.CustomException;
 import com.dashotel.hotelmanagement.exception.ErrorCode;
+import com.dashotel.hotelmanagement.mapper.AddressMapper;
 import com.dashotel.hotelmanagement.mapper.RoomTypeMapper;
 import com.dashotel.hotelmanagement.repository.hotel.HotelRepository;
 import com.dashotel.hotelmanagement.repository.room.RoomTypeRepository;
@@ -41,6 +42,7 @@ public class RoomTypeService {
     HotelRepository hotelRepository;
     FileStorageService fileStorageService;
 
+    AddressMapper addressMapper;
     RoomTypeMapper roomTypeMapper;
 
     public List<RoomTypeEntity> getRoomAvailable(LocalDate checkIn, LocalDate checkOut, Long numAdults, Long numRooms) {
@@ -83,6 +85,7 @@ public class RoomTypeService {
                     .roomType(roomTypeEntity)
                     .totalRoom(request.getTotalRooms())
                     .bookedRoom(0L)
+                    .status(true)
                     .availableDate(date)
                     .build()
             );
@@ -149,7 +152,25 @@ public class RoomTypeService {
                 .build();
     }
 
+    // lấy những phòng có sẵn
     public RoomTypeEntity getRoomAvailable (String roomTypeId, LocalDate checkIn, LocalDate checkOut, Long numRooms) {
-        return roomTypeRepository.getRoomAvailable(roomTypeId, checkIn, checkOut, numRooms, ChronoUnit.DAYS.between(checkIn, checkOut));
+        return roomTypeRepository.getRoomAvailable(roomTypeId, checkIn, checkOut, numRooms,
+                ChronoUnit.DAYS.between(checkIn, checkOut));
+    }
+
+    // lấy thông tin cho việc đặt phòng (reservation)
+    public ReservationDetailResponse getRoomInfoForReservation (String roomId) {
+        RoomTypeEntity room = roomTypeRepository.findById(roomId)
+                .orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+
+        return ReservationDetailResponse.builder()
+                .hotelName(room.getHotel().getName())
+                .hotelImgUrl(room.getHotel().getAvatar())
+                .address(addressMapper.toDTO(room.getHotel().getAddress()))
+                .name(room.getName())
+                .description(room.getDescription())
+                .imgUrl(room.getAvatar())
+                .price(room.getPrice())
+                .build();
     }
 }
