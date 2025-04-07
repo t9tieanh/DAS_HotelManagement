@@ -1,52 +1,64 @@
 import React, { useState } from "react";
 import "./style.scss";
+import { BASE_URL } from "../../../../conf/baseUrl";
+import { convertAddressToString } from "../../../../utils/Format/AddressFormat";
+import { Badge } from "react-bootstrap";
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 
-const RoomInfo = () => {
+const RoomInfo = ({room}) => {
+    const fileUrl = 'files/image'
+
     return (
-        <>
-            {/* Các badge */}
-            <div className="d-flex align-items-start">
+        <div className="p-0 mt-3 room-info">
+            {/* Property Card #2 */}
+            <div className="property-card border rounded room-info">
+                <Card>
+                    <Card.Img variant="top" src={`${BASE_URL}/${fileUrl}/${room.hotelImgUrl}`} />
+                    <Card.Body>
+                        <Card.Title className="text-dark">
+                            <h5 className="mt-0 mb-1"><Badge bg="warning text-dark">Thông tin khách sạn của bạn</Badge></h5>
+                            {room?.hotelName}
+                            {/* <h5 className="price">{room?.price} VND</h5> */}
+                        </Card.Title>
+                        <Card.Text>
+                            <p className="text-muted mb-2">
+                                Địa chỉ: {convertAddressToString(room?.address)}
+                            </p>
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
+            </div>
+
+            <div className="d-flex align-items-start shadow-4 p-0 mt-1 pb-0 hotel-info">
                 {/* Hình ảnh */}
                 <img
-                    src="https://nhuminhplazahotel.com/wp-content/uploads/2023/06/khach-san-bai-bien-my-khe-2.jpg" // Đổi link ảnh thật
+                    src={`${BASE_URL}/${fileUrl}/${room?.imgUrl}`}
                     alt="Property"
                     className="img-fluid me-3"
-                    style={{ width: "auto", height: "150px", borderRadius: "4px" }}
+                    style={{ width: "auto", height: "150px", borderRadius: "4px" }} 
                 />
 
                 <div className="flex-grow-1">
                     <div className="d-flex align-items-center mb-2">
-                        <span className="badge bg-warning text-dark me-2">Bán chạy nhất</span>
-                        <span className="badge bg-success text-white">Wi-Fi miễn phí</span>
+                        <span className="badge bg-primary text-white mt-2 me-2">Thông tin phòng bạn đã chọn</span>
+                        <span className="badge bg-success text-white mt-2">Đặt phòng Hotelas</span>
                     </div>
 
                     {/* Tên khách sạn / Căn hộ */}
                     <h5 className="fw-bold mt-2">
-                        Căn hộ dịch vụ CeLaVie - The Vinhomes and Landmark
+                        {room?.name}
                     </h5>
 
-                    {/* Điểm đánh giá */}
-                    <div className="mb-2">
-                        <span>
-                            ⭐⭐⭐⭐⭐
-                        </span>
-                        <small className="text-muted">(621 bài đánh giá)</small>
-                    </div>
-
                     <p className="text-muted mb-2">
-                        Địa chỉ: 208 Nguyen Huu Canh Street, 22 Ward, Bình Thạnh District
+                        Mô tả: {room.description}
                     </p>
                 </div>
             </div>
-
-
-            {/* Property Card #2 */}
-            <div className="property-card border p-3 rounded">
-            </div>
         
         
-        </>
+        </div>
     )
 }
 

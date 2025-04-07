@@ -14,6 +14,7 @@ import { createReservation } from "../../../services/ReservationService/reservat
 import CustomOffCanvas from "../../common/OffCanvas/index.jsx";
 import { FaLocationArrow } from "react-icons/fa";
 import Card from 'react-bootstrap/Card';
+import { formatCurrency } from "../../../utils/Format/CurrencyFormat.js";
 
 const ConfirmBooking = ({show, setShow, handleBooking, room}) => {
     const fileUrl = 'files/image'
@@ -121,12 +122,12 @@ const RoomSection = ({ rooms, checkIn, checkOut}) => {
                                                     <i className="fas fa-user"></i> x{room.maxOccupation}
                                                 </td>
                                                 <td className="text-end">
-                                                    <span className="price-new">{room.price.toLocaleString()} VND</span><br />
+                                                    <span className="price-new">{formatCurrency(room.price)} VND</span><br />
                                                     <small className="text-muted">Chưa bao gồm thuế và phí</small><br />
                                                     {room.roomStatus === 1 && <Tag text={'Đang có khuyến mãi'} />}
                                                 </td>
                                                 <td className="text-end">
-                                                        <PrimaryButton text={'Đặt ngay'} onClickFunc={() => {handleBookingRoom(room)}} icon={<FaArrowAltCircleRight />} className={'select-btn'} />
+                                                    <PrimaryButton text={'Đặt ngay'} onClickFunc={() => {handleBookingRoom(room)}} icon={<FaArrowAltCircleRight />} className={'select-btn'} />
                                                 </td>
                                             </tr>
                                         </tbody>

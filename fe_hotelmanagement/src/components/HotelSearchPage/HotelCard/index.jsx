@@ -2,6 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../../../conf/baseUrl";
 import { IoLocationSharp } from "react-icons/io5";
 import { getHotelDetail } from "../../../services/HotelService/hotelService";
+import PrimaryButton from "../../common/button/btn-primary";
+import { FaLocationArrow } from "react-icons/fa";
+import { formatCurrency } from "../../../utils/Format/CurrencyFormat";
 
 const HotelCard = ({ hotel, adults, rooms, dateRange }) => {
 
@@ -57,17 +60,14 @@ const HotelCard = ({ hotel, adults, rooms, dateRange }) => {
                 </div>
                 <div className="hotel-price">
 
-                    <p className="original-price">{hotel?.originalPrice} VND</p>
-                    <p className="sale-price">{hotel?.minRoomPrice} VND</p>
+                    <p className="original-price">{formatCurrency(hotel?.originalPrice)} VND</p>
+                    <p className="sale-price">{formatCurrency(hotel?.minRoomPrice)} VND</p>
                     <p className="price-note">
                         Chỉ còn {hotel.roomType ? hotel.roomType.length : 0} phòng có giá này! <br />
                     </p>
-                    <button onClick={() => handleSubmit(hotel?.id)} className="select-room-button">Chọn phòng</button>
+                    <PrimaryButton text={'Chọn phòng'} className={'select-room-button'} icon={<FaLocationArrow />}  onClickFunc={() => handleSubmit(hotel?.id)}/>
                 </div>
-
             </div>
-
-
         </>
     )
 }

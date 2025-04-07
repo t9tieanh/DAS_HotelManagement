@@ -7,6 +7,7 @@ import HeaderComponent from "../../components/HotelSearchPage/HeaderComponent"
 import { LIMIT } from "../../utils/paging"
 import { useLocation } from "react-router-dom";
 import { findRoomInHotel } from "../../services/HotelService/findHotelService";
+import { toast } from "react-toastify";
 
 
 const HotelSearchPage = () => {
@@ -55,7 +56,11 @@ const HotelSearchPage = () => {
         setPageCount(data.result.totalPages)
         setHotelCount(data.result.totalElements)
         setHotels(data.result.content)
+      } else if (data.response && data.response.data) {
+        toast.error(data.response.data.message)
+        return
       }
+      else toast.error(data?.message)
 
 
     } catch (error) {
