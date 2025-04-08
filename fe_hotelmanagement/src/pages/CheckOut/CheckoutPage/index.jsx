@@ -36,9 +36,7 @@ const CheckOutPage = () => {
     };
 
     useEffect(
-        () => {
-            fetchCurrentStep()
-        } , []
+        () => {fetchCurrentStep()} , []
     )
 
     const fetchCurrentStep = async() => {
@@ -61,9 +59,11 @@ const CheckOutPage = () => {
 
             toast.error(data.response.data.message) // trường hợp giao dịch hết thời gian
             dispatch(doDeleteReservation())
-            return
         }
-        else toast.error(data?.message) 
+        else {
+            toast.error(data?.message)
+            dispatch(doDeleteReservation())
+        } 
     }
 
     const handleCancelReservation = async() => {
@@ -88,7 +88,7 @@ const CheckOutPage = () => {
             <div className="row mt-4">
                 <div className="col-md-6">
                     {pageState === 0 && <ConfirmInfomationPage  handleNextStep={handleNextStep} handleCancelReservation = {handleCancelReservation} />}
-                    {pageState === 1 && <PaymentPage handleNextStep={handleNextStep} />}
+                    {pageState === 1 && <PaymentPage handleNextStep={handleNextStep} handleCancelReservation = {handleCancelReservation} />}
                 </div>
 
                 <div className="col-md-6">
