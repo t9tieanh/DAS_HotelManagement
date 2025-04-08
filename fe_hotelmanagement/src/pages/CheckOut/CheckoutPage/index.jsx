@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { doDeleteReservation } from "../../../redux/action/reservationAction";
 import ReservationSuccess from "../ReservationSuccess";
+import { cancelReservation } from "../../../services/ReservationService/reservationService";
 
 const CheckOutPage = () => {
     const reservationId = useSelector(state => state.reservation.reservationId)
@@ -35,9 +36,7 @@ const CheckOutPage = () => {
     const dispatch = useDispatch();
 
     const handleNextStep = () => {
-        if (pageState !== 2) {
-            setPageState(prevState => prevState + 1);
-        }
+        if (pageState !== 2) setPageState(prevState => prevState + 1);
     };
 
     useEffect(
@@ -74,11 +73,28 @@ const CheckOutPage = () => {
         else toast.error(data?.message)
     }
 
+    const handleCancelReservation = async () => {
+        const data = await cancelReservation(reservationId)
+        console.log(data, "step hiện tại") // -> nhớ xóa cái này nhá 
+
+        if (data && data.code && data.code === 200 && data?.result && data.result.success === true) {
+            dispatch(doDeleteReservation())
+            toast('Hủy giao dịch thành công !')
+
+        } else if (data.response && data.response.data) {
+
+            toast.error(data.response.data.message) // trường hợp giao dịch hết thời gian
+            dispatch(doDeleteReservation())
+            return
+        }
+        else toast.error(data?.message)
+    }
+
     return (
         <Container className="resevation-container mb-5" >
             <div className="row mt-4">
                 <div className="col-md-6">
-                    {pageState === 0 && <ConfirmInfomationPage handleNextStep={handleNextStep} />}
+                    {pageState === 0 && <ConfirmInfomationPage handleNextStep={handleNextStep} handleCancelReservation={handleCancelReservation} />}
                     {pageState === 1 && <PaymentPage handleNextStep={handleNextStep} totalPrice={totalPrice} />}
                     {pageState === 2 && <ReservationSuccess />}
                 </div>
@@ -97,13 +113,13 @@ const CheckOutPage = () => {
                         </>} />
 
 
-                    <CustomCard className={'shadow-3 mt-3 property-card border p-3 mb-3 rounded'}
+                    < CustomCard className={'shadow-3 mt-3 property-card border p-3 mb-3 rounded'}
                         subTitle={'Xem chi tiết hóa đơn của bạn'}
-                        name={'Hóa đơn của bạn'} icon={<MdOutlinePayments />}
-                        children={<BillContainer totalPrice={totalPrice} reservationDetails={reservationDetail} checkIn={checkIn} checkOut={checkOut} />} />
-                </div>
-            </div>
-        </Container>
+                        name={'Hóa đơn của bạn'} icon={< MdOutlinePayments />}
+                        children={< BillContainer totalPrice={totalPrice} reservationDetails={reservationDetail} checkIn={checkIn} checkOut={checkOut} />} />
+                </div >
+            </div >
+        </Container >
     );
 }
 

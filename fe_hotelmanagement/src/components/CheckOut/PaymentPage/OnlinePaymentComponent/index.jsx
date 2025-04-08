@@ -1,15 +1,21 @@
 import './style.scss'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import vnpayLogo from '../../../../assets/img/common/vnpay.png'
 import momoLogo from '../../../../assets/img/common/momo.png'
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import Icon from "../../../common/Icon";
 import { FaCreditCard } from 'react-icons/fa';
-import { paymentWithVnPay } from '../../../../services/PaymentService/paymentService';
+import { paymentWithVnPay, callBackVNPay } from '../../../../services/PaymentService/paymentService';
+import { useSelector } from 'react-redux';
+import { reservationSuccess } from '../../../../services/ReservationService/reservationService';
 
 const OnlinePaymentComponent = (totalPrice) => {
 
-    console.log("totalPrice", totalPrice)
+    const reservationId = useSelector(state => state.reservation.reservationId)
+
+    console.log(reservationId, "id đặt phòng")
+    const location = useLocation();
     const [paymentMethod, setPaymentMethod] = useState(0)
 
     const handleChangePaymentMethod = () => {
@@ -19,6 +25,22 @@ const OnlinePaymentComponent = (totalPrice) => {
     const handlePaymentWithVNPay = () => {
         paymentWithVnPay(totalPrice.totalPrice)
     };
+
+    const checkTransactionStatus = () => {
+        const queryParams = new URLSearchParams(location.search);
+        const transactionStatus = queryParams.get('vnp_TransactionStatus');
+        if (transactionStatus === '00') {
+            const response = callBackVNPay(window.location.href);
+            if (response.status === 200 && response.data.code === '00') {
+                alert('Thanh toán thành công!');
+
+            }
+        }
+    }
+
+    useEffect(() => {
+        checkTransactionStatus()
+    }, []);
 
     return (
         <>

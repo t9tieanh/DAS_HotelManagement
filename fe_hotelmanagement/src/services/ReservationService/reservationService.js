@@ -1,14 +1,14 @@
 import axios from "../../utils/CustomAxios";
 
 export const createReservation = async (checkIn, checkOut, reservationDetails) => {
-    
-  const requestData = {
-      checkIn,
-      checkOut,
-      reservationDetails,
-    };
 
-    return await axios.post('/reservation', requestData);
+  const requestData = {
+    checkIn,
+    checkOut,
+    reservationDetails,
+  };
+
+  return await axios.post('/reservation', requestData);
 };
 
 export const updateReservationInfo = async (reservationId, name, phone, email, appliedDiscounts) => {
@@ -21,8 +21,14 @@ export const updateReservationInfo = async (reservationId, name, phone, email, a
     appliedDiscounts
   };
 
-  return  await axios.post('/reservation/update-info', request);
-} 
+  return await axios.post('/reservation/update-info', request);
+}
+
+
+export const cancelReservation = async (id) => {
+  return await axios.delete(`/reservation/${id}`);
+};
+
 
 export const getCurrentStep = async (id) => {
   return await axios.get('/reservation/current-step', {
@@ -31,3 +37,10 @@ export const getCurrentStep = async (id) => {
     },
   });
 }
+
+export const reservationSuccess = async (reservationId) => {
+
+}
+
+
+
