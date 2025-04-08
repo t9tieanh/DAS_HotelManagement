@@ -12,6 +12,10 @@ export const getProfile = async () => {
     }
 };
 
+export const getProfile1 = async () => {
+    return await axios.get(`/profile`)
+};
+
 export const updateProfile = async (profile) => {
     const formData = new FormData();
     let hasData = false;

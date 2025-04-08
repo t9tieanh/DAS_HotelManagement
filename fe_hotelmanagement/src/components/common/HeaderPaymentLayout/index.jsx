@@ -4,10 +4,31 @@ import Alert from 'react-bootstrap/Alert';
 import Countdown from "react-countdown";
 import { IoIosTime } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { doDeleteReservation } from "../../../redux/action/reservationAction";
+import { Toast } from "react-bootstrap";
+import { cancelReservation } from "../../../services/ReservationService/reservationService";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 
 const Header = ({pageState, expireDateTime}) => {
 
+    const reservationId = useSelector(state => state.reservation.reservationId)
     const navigator = useNavigate()
+    const dispatch = useDispatch()
+
+    const handleCancelReservation = async () => {
+        const data = await cancelReservation(reservationId)
+        if (data && data.code && data.code === 200 && data?.result) {
+            toast.success("Hủy giao dịch thành công")
+        } else if (data.response && data.response.data) {
+            toast.error(data.response.data.message) // trường hợp giao dịch hết thời gian
+        }
+        else {
+            toast.error(data?.message)
+        } 
+        dispatch(doDeleteReservation()) // xóa giao dịch phòng khỏi local storage
+    }
 
     return (
         <>
@@ -35,7 +56,7 @@ const Header = ({pageState, expireDateTime}) => {
                 </div>
 
             <Alert variant="danger" className="text-center">
-                Chúng tôi đang giữ phòng cho quý khách <IoIosTime /> <Countdown date={expireDateTime} />
+                Chúng tôi đang giữ phòng cho quý khách <IoIosTime /> <Countdown onComplete={handleCancelReservation} date={expireDateTime} />
             </Alert>
         
         </>

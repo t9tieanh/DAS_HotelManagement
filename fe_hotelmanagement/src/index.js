@@ -5,8 +5,6 @@ import reportWebVitals from './reportWebVitals';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomeLayout from './layouts/HomeLayout';
 import HomePage from './pages/HomePage/index.jsx';
-import RoomsPage from './pages/RoomList/index.jsx';
-import RoomDetail from './pages/RoomDetail/index.jsx';
 import NotFoundPage from './pages/NotFoundPage/index.jsx';
 import LoginPage from './pages/LoginPage/index.jsx';
 import RegisterPage from './pages/RegisterPage/index.jsx';
@@ -41,12 +39,10 @@ const router = createBrowserRouter([
       {
         path: '/', element: <HomeLayout />, children: [
           { index: true, element: <HomePage /> },
-          { path: 'rooms', element: <RoomsPage /> },
           { path: 'hotel-detail/:id', element: <HotelDetail /> },
           { path: 'login', element: <LoginPage /> },
           { path: 'authentication', element: <AuthenticatePage /> },
           { path: 'register', element: <RegisterPage /> },
-          { path: 'room/:id', element: <RoomDetail /> },
           { path: 'hotel-result', element: <HotelSearchPage /> },
           { path: 'profile', element: <CustomerProfile /> },
           { path: 'verify-otp', element: <VerifyOTP /> },

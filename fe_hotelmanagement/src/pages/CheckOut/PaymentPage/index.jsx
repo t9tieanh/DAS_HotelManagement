@@ -89,11 +89,11 @@ const PaymentOptionComponent = ({handleNextStep, handleCancelReservation}) => {
 }
 
 
-const PaymentPage = ({handleNextStep}) => {
+const PaymentPage = ({handleNextStep, handleCancelReservation}) => {
 
     return (<>
         <CustomCard name={'Chọn phương thức thanh toán'} icon={<MdPayment />} 
-            children={<PaymentOptionComponent handleNextStep = {handleNextStep} />}
+            children={<PaymentOptionComponent handleNextStep = {handleNextStep} handleCancelReservation = {handleCancelReservation} />}
         />
     </>)
 }
