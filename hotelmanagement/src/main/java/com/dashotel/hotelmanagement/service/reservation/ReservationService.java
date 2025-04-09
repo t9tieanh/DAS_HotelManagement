@@ -1,6 +1,7 @@
 package com.dashotel.hotelmanagement.service.reservation;
 
 import com.dashotel.hotelmanagement.dto.common.DiscountDTO;
+import com.dashotel.hotelmanagement.dto.common.ResponseDTO;
 import com.dashotel.hotelmanagement.dto.request.reservation.initial.InitialReservationRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.initial.ReservationDetailRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.updateinfo.UpdateReservationInfoRequest;
@@ -55,6 +56,8 @@ public class ReservationService {
     DiscountMapper discountMapper;
     JwtUtils jwtUtils;
 
+
+    // hàm dùng của createReservation, nếu room vẫn thỏa mãn điều kiện có sẵn và sẵn sàng đặt thì trả về room đó
     private List <ReservationDetailEntity> getRoomAvailable (List<ReservationDetailRequest> reservationDetailRequests, LocalDate checkInDate, LocalDate checkOutDate, ReservationEntity reservationEntity) {
         List <ReservationDetailEntity> reservationDetailEntities = new ArrayList<>();
 
@@ -186,10 +189,27 @@ public class ReservationService {
                 .build();
     }
 
+    public ResponseDTO cancelReservation (String id) {
+        ReservationEntity reservationEntity = reservationRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        reservationEntity.setStatus(BookingStatusEnum.CANCELLED);
+        reservationEntity.setExpireDateTime(LocalDateTime.now().minusMinutes(1));
+
+        reservationRepository.save(reservationEntity);
+        return ResponseDTO.builder()
+                .isSuccess(true)
+                .build();
+    }
+
 
     public ReservationStepResponse getCurrentStep (String reservationId) {
         ReservationEntity reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        // check trạng thái của reservation
+        if (reservation.getStatus().equals(BookingStatusEnum.CANCELLED))
+            throw new CustomException(ErrorCode.BOOKING_CANCELED);
 
         //check xem còn trong thời gian transaction không
         if (reservation.getExpireDateTime().isBefore(LocalDateTime.now()))
@@ -222,6 +242,27 @@ public class ReservationService {
                 .discounts(discounts)
                 .reservationDetail(roomInfoForReservationResponses)
                 .build();
+    }
+
+
+    public Double getTotalPrice(String reservationId) {
+        ReservationEntity reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new CustomException(ErrorCode.BOOKING_NOT_AVAILABLE));
+
+        // Tính tổng giá phòng
+        double totalPrice = reservation.getReservationDetail().stream()
+                .mapToDouble(detail -> detail.getRoomType().getPrice() * detail.getQuantity())
+                .sum();
+
+        // Tính tổng phần trăm giảm giá (nếu muốn cộng dồn thay vì giảm lần lượt)
+        double totalDiscountPercentage = reservation.getDiscounts().stream()
+                .mapToDouble(DiscountEntity::getDiscountPrecentage)
+                .sum();
+
+        // Áp dụng giảm giá
+        totalPrice -= (totalDiscountPercentage / 100.0) * totalPrice;
+
+        return totalPrice > 0 ? totalPrice : 0;
     }
 
 

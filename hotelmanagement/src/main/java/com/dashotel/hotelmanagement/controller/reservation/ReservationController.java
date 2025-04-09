@@ -1,6 +1,8 @@
 package com.dashotel.hotelmanagement.controller.reservation;
 
 import com.dashotel.hotelmanagement.dto.common.DiscountDTO;
+import com.dashotel.hotelmanagement.dto.common.ResponseDTO;
+import com.dashotel.hotelmanagement.dto.request.reservation.initial.ApplyDiscountRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.initial.InitialReservationRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.updateinfo.UpdateReservationInfoRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
@@ -46,23 +48,58 @@ public class ReservationController {
                 .build();
     }
 
-//    @DeleteMapping("/{id}")
-//    public ApiResponse<Cancel> cancelReservation(@PathVariable Long id) {
-//        // Gọi service để xóa reservation theo id
-//        boolean deleted = reservationService.cancelReservation(id);
+    @PreAuthorize("@reservationService.isOwnerOfReservation(#id, authentication.name)")
+    @DeleteMapping("/{id}")
+    public ApiResponse<ResponseDTO> cancelReservation(@PathVariable String id) {
+        // Gọi service để xóa reservation theo id
+        ResponseDTO deleted = reservationService.cancelReservation(id);
+
+        return ApiResponse.<ResponseDTO>builder()
+                .code(200)
+                .result(deleted)
+                .build();
+    }
+
+
+//    @PreAuthorize("@reservationService.isOwnerOfReservation(#id, authentication.name)")
+//    @GetMapping("/current-step")
+//    ApiResponse<ReservationStepResponse> getCurrentStep (@RequestParam("id") String id)  {
+//        ReservationStepResponse result = reservationService.getCurrentStep(id);
 //
-//        if (deleted) {
-//            return ResponseEntity.ok("Reservation deleted successfully.");
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Reservation not found.");
-//        }
+//        return ApiResponse.<ReservationStepResponse>builder()
+//                .code(200)
+//                .result(result)
+//                .build();
 //    }
+
+    @PreAuthorize("@reservationService.isOwnerOfReservation(#id, authentication.name)")
+    @GetMapping("/total-price/{id}")
+    ApiResponse<Double> getTotalPrice (@PathVariable("id") String id)  {
+        Double result = reservationService.getTotalPrice(id);
+
+        return ApiResponse.<Double>builder()
+                .code(200)
+                .result(result)
+                .build();
+    }
+
 
 
     @PreAuthorize("@reservationService.isOwnerOfReservation(#id, authentication.name)")
     @GetMapping("/current-step")
     ApiResponse<ReservationStepResponse> getCurrentStep (@RequestParam("id") String id)  {
         ReservationStepResponse result = reservationService.getCurrentStep(id);
+
+        return ApiResponse.<ReservationStepResponse>builder()
+                .code(200)
+                .result(result)
+                .build();
+    }
+
+    @PreAuthorize("@reservationService.isOwnerOfReservation(#request.reservationId, authentication.name)")
+    @GetMapping("/apply-discount")
+    ApiResponse<ReservationStepResponse> applyDiscount (ApplyDiscountRequest request) {
+        ReservationStepResponse result = null;
 
         return ApiResponse.<ReservationStepResponse>builder()
                 .code(200)

@@ -31,7 +31,7 @@ public class HotelEntity extends AbstractEntity {
     String description;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id", nullable = false)
     AddressEntity address;
 

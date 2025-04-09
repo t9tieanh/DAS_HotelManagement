@@ -1,7 +1,6 @@
 package com.dashotel.hotelmanagement.entity.user;
 
 import com.dashotel.hotelmanagement.entity.account.AccountEntity;
-import com.dashotel.hotelmanagement.entity.account.SocialAccount;
 import com.dashotel.hotelmanagement.entity.booking.ReservationEntity;
 import com.dashotel.hotelmanagement.entity.review.ReviewEntity;
 import jakarta.persistence.*;
@@ -28,11 +27,8 @@ public class CustomerEntity extends UserEntity {
     @OneToMany(mappedBy = "createBy", cascade = CascadeType.ALL)
     List <ReviewEntity> reviews;
 
-    @OneToOne(mappedBy = "customer")
-    SocialAccount socialAccount;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     AccountEntity account;
-
 }
