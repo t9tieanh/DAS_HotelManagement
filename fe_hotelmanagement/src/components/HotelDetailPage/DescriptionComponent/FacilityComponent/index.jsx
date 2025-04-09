@@ -17,10 +17,8 @@ const HotelLocationDetailBody = ({facilities}) => {
 
     const [facilitiesUpdated, setFacilitiesUpdated] = useState(_.groupBy(facilities, "category"))
 
-    console.log(facilitiesUpdated,"lodash updated")
-
     return <>
-      <Container className="shadow-5">
+      <Container className="shadow-0">
 
       <div style={{ padding : "10px"}}>
           <Row>
@@ -32,7 +30,7 @@ const HotelLocationDetailBody = ({facilities}) => {
 
             {Object?.entries(facilitiesUpdated)?.map(([icon,facilitys]) => (
                 <Col md={6} sm={6} xs={12} className="mb-4">
-                    <Card className="card-facilities-detail">
+                    <Card className="card-facilities-detail shadow-0">
                     <Card.Header className="d-flex align-items-center gap-1">
                         <img importance="low" loading="lazy" decoding="async" width="24" height="24" src={icon}></img>
                         <Card.Title><h6 className="fw-bold">{facilitys[0]?.categoryName}</h6></Card.Title>
@@ -40,7 +38,7 @@ const HotelLocationDetailBody = ({facilities}) => {
                     <Card.Body>
                         <ul className="list-unstyled p-2">
                         {facilitys?.map((item, idx) => (
-                            <li key={idx} className="mb-2">
+                            <li key={idx} className="mb-2 fw-normal">
                             <h6><GoDotFill /> {item.name}</h6>
                             </li>
                         ))}

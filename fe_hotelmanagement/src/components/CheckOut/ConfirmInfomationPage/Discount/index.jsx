@@ -5,9 +5,17 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import TextInput from "../../../common/Input";
 import {Badge} from "react-bootstrap";
-
+import CustomModal from "../../../common/Modal";
+import { MdDiscount } from "react-icons/md";
+import PrimaryButton from "../../../common/button/btn-primary";
+import { FaSearch } from "react-icons/fa";
+import { FaLocationArrow } from "react-icons/fa";
+import DiscountBox from "./DiscountBox";
 
 const Discount = () => {
+
+    const [isOpenDiscountBox, setIsOpenDiscountBox] = useState(false)
+
     return (
         <>
             <Container>
@@ -45,21 +53,19 @@ const Discount = () => {
                             <form className="mt-4">
                                 <TextInput className={'form-white'} name={'Mã giảm giá'} />
                             </form>
-        
+                            <PrimaryButton className={'bg-info mt-2 p-2'} text={'Tìm giảm giá đặc biệt'} icon = {<FaSearch />}/>        
                             <hr className="my-4" />
-        
-        
-                            <button  type="button" data-mdb-button-init data-mdb-ripple-init className="btn btn-info btn-block btn-lg">
-                                <div className="d-flex justify-content-between">
-                                <span>Save code <i className="fas fa-long-arrow-alt-right ms-2"></i></span>
-                                </div>
-                            </button>
-        
+
+                            <PrimaryButton className={'bg-info mt-2'} text={'Chọn mã giảm giá'} icon={<FaLocationArrow />} onClickFunc={() => {setIsOpenDiscountBox(true)}}/>
                             </div>
                         </div>
                     </Col>
                 </Row>
             </Container>
+            <CustomModal  title={'Hãy chọn mã giảm giá'} icon={<MdDiscount />} 
+                show={isOpenDiscountBox} setShow = {setIsOpenDiscountBox} size={'lg'} content={<DiscountBox />}
+                btnClose={<PrimaryButton text={'Áp dụng ngay'} icon={<FaLocationArrow />} className={'bg-warning'} />}
+            />
         </>
     )
 }

@@ -4,7 +4,7 @@ import logo from "../../../assets/img/logo1.png";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { doDeleteUser } from "../../../redux/action/updateUserAction";
-import { logout } from "../../../services/authService";
+import { logout } from "../../../services/AuthService/authService";
 import './style.scss'
 import { toast } from "react-toastify";
 import { BASE_URL } from "../../../conf/baseUrl";
@@ -18,18 +18,15 @@ const Header = () => {
     const account = useSelector(state => state.user.account)
 
     const imageUrl = account && account.imageUrl ? `${BASE_URL}/${fileUrl}/${account.imageUrl}` : userAvatar;
-
     const navigate = useNavigate();
 
     const handleLogOut = async () => {
-        const data = await logout();
+        await logout();
 
-        dispatch(doDeleteUser())
+        // dispatch(doDeleteUser())
 
-        if (data && data.code == 200) {
-            navigate('/login')
-            toast.success("Đăng xuất thành công !")
-        }
+        navigate('/login')
+        toast.success("Đăng xuất thành công !")
     }
 
     return <>

@@ -15,6 +15,53 @@ import CustomOffCanvas from "../../common/OffCanvas/index.jsx";
 import { FaLocationArrow } from "react-icons/fa";
 import Card from 'react-bootstrap/Card';
 import { formatCurrency } from "../../../utils/Format/CurrencyFormat.js";
+import { Alert, Button, ButtonGroup, Container } from 'react-bootstrap';
+import { cancelReservation } from "../../../services/ReservationService/reservationService.js";
+import { doDeleteReservation } from "../../../redux/action/reservationAction.js";
+import { IoArrowBackCircleSharp } from "react-icons/io5";
+import { FaArrowCircleRight } from "react-icons/fa";
+import { MdError } from "react-icons/md";
+import Countdown from "react-countdown";
+
+const IncompleteReservationNotice = ({ handleBooking }) => {
+    const navigator = useNavigate()
+    const dispatch = useDispatch()
+    const reservationId = useSelector(state => state.reservation.reservationId)
+    const expireDateTime = useSelector(state => state.reservation.expireDateTime)
+
+    const handleCreateNewBooking = async() => {
+        const data = await cancelReservation(reservationId)
+
+        if (data && data.code && data.code === 200 && data.result) {
+            toast.success("Hủy đặt phòng thành công !")
+        } else if (data.response && data.response.data) {
+            toast.error(data.response.data.message)
+            return
+        }
+        else toast.error(data?.message)
+
+        dispatch(doDeleteReservation()) // xóa thông tin reservation cũ 
+        handleBooking() // tiến hành đặt phòng mới
+    }
+
+    return (
+      <Container className="my-3">
+        <Alert variant="danger" className="d-flex justify-content-between align-items-center">
+          <div>
+            <strong><MdError />Lưu ý: Bạn vẫn còn giao dịch đặt phòng chưa hoàn tất.</strong>
+            <br/>
+            <p>Thời gian còn lại:  <Countdown date={expireDateTime} /></p> 
+          </div>
+          <ButtonGroup>
+            <PrimaryButton text={<><IoArrowBackCircleSharp size={20} />&nbsp;Tiếp tục đặt phòng trước</>} className={'bg-light text-dark'} onClickFunc={() => {navigator('/reservation')}}>
+            </PrimaryButton>
+            <PrimaryButton text={<>Hủy giao dịch trước và đặt phòng này&nbsp;<FaLocationArrow size={15} /></>} onClickFunc={handleCreateNewBooking}>
+            </PrimaryButton>
+          </ButtonGroup>
+        </Alert>
+      </Container>
+    );
+};
 
 const ConfirmBooking = ({ show, setShow, handleBooking, room }) => {
     const fileUrl = 'files/image'
@@ -46,6 +93,8 @@ const ConfirmBooking = ({ show, setShow, handleBooking, room }) => {
 
 const RoomSection = ({ rooms, checkIn, checkOut }) => {
     const fileUrl = 'files/image'
+    const isReservation = useSelector(state => state.reservation.reservationId)
+    const expireDateTime = useSelector(state => state.reservation.expireDateTime)
 
     const isAuthentication = useSelector(state => state.user.isAuthentication)
     const navigator = useNavigate()
@@ -55,9 +104,19 @@ const RoomSection = ({ rooms, checkIn, checkOut }) => {
     const [bookingRoomState, setBookingRoomState] = useState(false)
     const [roomSelected, setRoomSelected] = useState()
 
+    // state trường hợp vẫn còn giao dịch đặt phòng chưa hoàn tất 
+    const [isReserved, setIsReserved] = useState(
+        (isReservation && expireDateTime >= new Date())
+    )
+    const [stateReserved, setStateReserved] = useState(false)
 
+
+    // xử lý sự kiện click đặt phòng 
     const handleBookingRoom = async (room) => {
-        setBookingRoomState(true)
+        if (isReserved) { 
+            setStateReserved(true) // trường hợp vẫn còn giao dịch đặt phòng chưa hoàn tất 
+        } else setBookingRoomState (true)
+
         setRoomSelected(room)
     }
 
@@ -72,7 +131,6 @@ const RoomSection = ({ rooms, checkIn, checkOut }) => {
         }
 
         const data = await createReservation(checkIn, checkOut, reservationDetails)
-        console.log("data sau khi đặt phòng ", data)
 
         if (data && data.code && data.code === 200 && data.result) {
             dispatch(doCreateReservation(data.result))
@@ -143,7 +201,12 @@ const RoomSection = ({ rooms, checkIn, checkOut }) => {
             <CustomOffCanvas show={bookingRoomState} setShow={setBookingRoomState}
                 header={<h5 className="fw-bold">Hệ thống đặt phòng <span className="text-primary"><span className="text-warning">@H</span>otelas</span></h5>}
                 children={<ConfirmBooking setShow={setBookingRoomState} handleBooking={handleBooking} room={roomSelected}
-                />} />
+            />} />
+
+            <CustomOffCanvas show={stateReserved} setShow = {setStateReserved} placement={'bottom'}
+                header={<h5 className="fw-bold">Hệ thống đặt phòng <span className="text-primary"><span className="text-warning">@H</span>otelas</span></h5>}
+                children={<IncompleteReservationNotice handleBooking = {handleBooking} />}
+            />
         </div>
     );
 };

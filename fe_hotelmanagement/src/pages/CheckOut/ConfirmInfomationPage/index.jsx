@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
 import CustomCard from "../../../components/common/Card";
 import { Button } from "react-bootstrap";
@@ -12,6 +12,7 @@ import { updateReservationInfo } from "../../../services/ReservationService/rese
 import { toast } from "react-toastify";
 import { validateEmail, validatePhoneNumber } from "../../../utils/Validate";
 import { MdCancelScheduleSend } from "react-icons/md";
+import { getProfile1 } from "../../../services/CustomerProfile/profileService";
 
 const ConfirmInfomationPage = ({handleNextStep, handleCancelReservation})  => {
 
@@ -22,7 +23,7 @@ const ConfirmInfomationPage = ({handleNextStep, handleCancelReservation})  => {
     const [appliedDiscounts, setAppliedDiscounts] = useState([])
 
     const validate = () => {
-        if (!name.trim() || !phone.trim() || !email.trim()) {
+        if (!name || !phone || !email ||!name.trim() || !phone.trim() || !email.trim()) {
             toast.error("Vui lòng điền đầy đủ thông tin trước khi xác nhận!");
             return false;
         }
@@ -60,6 +61,19 @@ const ConfirmInfomationPage = ({handleNextStep, handleCancelReservation})  => {
         }
         else toast.error(data?.message)
     }
+
+    const fetchUserProfile = async() => {
+        const data = await getProfile1()
+        if (data && data.code && data.code == 200 && data.result) {
+            setName(data.result.name)
+            setEmail(data.result.email)
+            setPhone(data.result.phone)
+        }
+    }
+
+    useEffect (
+        () => {fetchUserProfile()},[]
+    )
 
     return (
         <>

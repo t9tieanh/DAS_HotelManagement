@@ -89,13 +89,14 @@ const PaymentOptionComponent = ({ handleNextStep, handleCancelReservation, total
 }
 
 
-const PaymentPage = ({ handleNextStep, totalPrice }) => {
+
+const PaymentPage = ({ handleNextStep, handleCancelReservation, totalPrice }) => {
 
     return (<>
         <CustomCard name={'Chọn phương thức thanh toán'} icon={<MdPayment />}
-            children={<PaymentOptionComponent handleNextStep={handleNextStep} totalPrice={totalPrice} />}
+            children={<PaymentOptionComponent handleNextStep={handleNextStep} handleCancelReservation={handleCancelReservation} totalPrice={totalPrice} />}
         />
     </>)
 }
 
-export default PaymentPage
+export default PaymentPage;
