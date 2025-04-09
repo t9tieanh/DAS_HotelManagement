@@ -23,7 +23,7 @@ const OnlinePaymentComponent = (totalPrice) => {
     }
 
     const handlePaymentWithVNPay = () => {
-        paymentWithVnPay(totalPrice.totalPrice)
+        paymentWithVnPay(totalPrice.totalPrice, reservationId)
     };
 
     const checkTransactionStatus = () => {

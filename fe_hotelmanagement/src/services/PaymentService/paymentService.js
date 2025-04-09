@@ -1,10 +1,10 @@
 import axios from "../../utils/CustomAxios";
 
-export const paymentWithVnPay = async (amount) => {
-    const response = await axios.get(`api/v1/payment/vn-pay?amount=${amount}`);
+export const paymentWithVnPay = async (amount, reservationId) => {
+    const response = await axios.get(`api/v1/payment/vn-pay?amount=${amount}&id=${reservationId}`);
     const paymentUrl = response.result?.paymentUrl;
-    // window.location.href = paymentUrl;
-    window.open(paymentUrl, '_blank')
+    window.location.href = paymentUrl;
+    // window.open(paymentUrl, '_blank')
 }
 
 export const callBackVNPay = async (callbackUrl) => {
