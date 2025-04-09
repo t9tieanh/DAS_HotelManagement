@@ -8,6 +8,7 @@ import com.dashotel.hotelmanagement.dto.response.CreationResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.InitialReservationResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.ReservationStepResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.common.ReservationDetailResponse;
+import com.dashotel.hotelmanagement.dto.response.reservation.common.ReservationResponse;
 import com.dashotel.hotelmanagement.entity.booking.ReservationDetailEntity;
 import com.dashotel.hotelmanagement.entity.booking.ReservationEntity;
 import com.dashotel.hotelmanagement.entity.booking.RoomOccupantEntity;
@@ -19,6 +20,7 @@ import com.dashotel.hotelmanagement.enums.BookingStatusEnum;
 import com.dashotel.hotelmanagement.exception.CustomException;
 import com.dashotel.hotelmanagement.exception.ErrorCode;
 import com.dashotel.hotelmanagement.mapper.DiscountMapper;
+import com.dashotel.hotelmanagement.mapper.ReservationMapper;
 import com.dashotel.hotelmanagement.mapper.RoomOccupantMapper;
 import com.dashotel.hotelmanagement.repository.CustomerRepository;
 import com.dashotel.hotelmanagement.repository.promotion.DiscountRepository;
@@ -31,12 +33,14 @@ import com.dashotel.hotelmanagement.utils.JwtUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,6 +48,7 @@ import java.util.stream.Collectors;
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
+@Slf4j
 public class ReservationService {
     ReservationRepository reservationRepository;
     CustomerRepository customerRepository;
@@ -53,6 +58,7 @@ public class ReservationService {
 
     RoomOccupantMapper roomOccupantMapper;
     DiscountMapper discountMapper;
+    ReservationMapper reservationMapper;
     JwtUtils jwtUtils;
 
     private List <ReservationDetailEntity> getRoomAvailable (List<ReservationDetailRequest> reservationDetailRequests, LocalDate checkInDate, LocalDate checkOutDate, ReservationEntity reservationEntity) {
@@ -221,6 +227,7 @@ public class ReservationService {
                 .checkOut(reservation.getCheckOut())
                 .discounts(discounts)
                 .reservationDetail(roomInfoForReservationResponses)
+                .totalPrice(100000.0)
                 .build();
     }
 
@@ -235,6 +242,30 @@ public class ReservationService {
 
         // Kiểm tra xem reservation có thuộc về người dùng này không
         return reservation.getCustomer().getId().equals(customer.getId());
+    }
+
+
+    @Transactional
+    public ReservationResponse updateReservationIsSuccess(String reservationId) {
+        try {
+            ReservationEntity reservation = reservationRepository.findById(reservationId)
+                    .orElseThrow(() -> new IllegalArgumentException("Đơn đặt không tồn tại"));
+            reservation.setStatus(BookingStatusEnum.PAID);
+
+            reservation.setReservationDate(LocalDate.now());
+
+            reservation = reservationRepository.save(reservation);
+
+            return reservationMapper.toResponse(reservation);
+        }
+        catch (IllegalArgumentException e) {
+            log.error("Lỗi với reservation {}", e.getMessage());
+            throw e;
+        }
+        catch (Exception e) {
+            log.error("Lỗi khi cập nhật reservation", e);
+            throw new RuntimeException("Lỗi server khi cập nhật");
+        }
     }
 
 }

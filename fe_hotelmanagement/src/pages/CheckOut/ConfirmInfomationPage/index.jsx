@@ -27,20 +27,20 @@ const ConfirmInfomationPage = ({handleNextStep, handleCancelReservation})  => {
             toast.error("Vui lòng điền đầy đủ thông tin trước khi xác nhận!");
             return false;
         }
-    
+
         if (!validateEmail(email)) {
             toast.error("Email không hợp lệ!");
             return false;
         }
-    
+
         if (!validatePhoneNumber(phone)) {
             toast.error("Số điện thoại không hợp lệ!");
             return false;
         }
-    
+
         return true;
     }
-    
+
 
     const handleConfirmInfomation = async () => {
 
@@ -77,12 +77,12 @@ const ConfirmInfomationPage = ({handleNextStep, handleCancelReservation})  => {
 
     return (
         <>
-            <CustomCard icon={<FaUserCircle />}  className={'shadow-3'} name={'Thông tin khách hàng'} subTitle = {"*Mục bắt buộc"} children={<CustomerInfomation
+            <CustomCard icon={<FaUserCircle />} className={'shadow-3'} name={'Thông tin khách hàng'} subTitle={"*Mục bắt buộc"} children={<CustomerInfomation
                 name={name} setName={setName} phone={phone} setPhone={setPhone} email={email} setEmail={setEmail} />} />
 
-            <CustomCard className={'shadow-3 mt-3 mb-3'} name={'Phiếu giảm giá'} 
+            <CustomCard className={'shadow-3 mt-3 mb-3'} name={'Phiếu giảm giá'}
                 subTitle={'Hãy áp dụng mã giảm giá'} icon={<MdDiscount />}
-                children={<Discount appliedDiscounts = {appliedDiscounts} />}
+                children={<Discount appliedDiscounts={appliedDiscounts} />}
             />
 
             <CustomCard className={'shadow-3 mt-3 mb-3'} children=

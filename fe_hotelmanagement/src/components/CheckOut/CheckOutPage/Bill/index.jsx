@@ -4,9 +4,10 @@ import Container from 'react-bootstrap/Container';
 import Badge from 'react-bootstrap/Badge';
 import { FaInfo } from "react-icons/fa6";
 import { calculateNightsAndDays } from "../../../../utils/DateUtils";
+import { formatCurrency } from "../../../../utils/Format/CurrencyFormat";
 
 
-const BillContainer = ({reservationDetails, checkIn, checkOut}) => {
+const BillContainer = ({reservationDetails, checkIn, checkOut, totalPrice}) => {
 
     const { days } = calculateNightsAndDays(checkIn, checkOut);
 
@@ -20,7 +21,7 @@ const BillContainer = ({reservationDetails, checkIn, checkOut}) => {
                         return (
                             <div className="d-flex justify-content-between mt-3 mb-3">
                                 <h6 className="text-start mb-0">Giá gốc ({reservationDetail.quantity} phòng {reservationDetail.name} x {days} đêm)</h6>
-                                <h6 className="text-end mb-0">{reservationDetail.quantity * reservationDetail.price * days}₫</h6>
+                                <h6 className="text-end mb-0">{formatCurrency(reservationDetail.quantity * reservationDetail.price * days)}₫</h6>
                             </div>
                         )
                     }
@@ -43,7 +44,7 @@ const BillContainer = ({reservationDetails, checkIn, checkOut}) => {
                     <h5 style={{ display: "flex", alignItems: "center", gap: "2px" }}>
                         Giá tiền <FaInfo size={15} />
                     </h5>
-                    <h5 className="text-end mb-0 fw-semibold">18.157.416 ₫</h5>
+                    <h5 className="text-end mb-0 fw-semibold">{formatCurrency(totalPrice)} ₫</h5>
                 </div>
                 <hr style={{border: "none", borderTop: "1px dashed rgb(248, 243, 243)"}}></hr>
                 <h6 className="text-start mb-0 fw-light">Giá đã bao gồm: <span className="fw-light">Phí dịch vụ 5%</span></h6>

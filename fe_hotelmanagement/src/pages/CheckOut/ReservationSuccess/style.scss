@@ -1,0 +1,61 @@
+.payment-success-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Chiều cao toàn màn hình */
+    background-color: #f8f9fa;
+    /* Màu nền nhạt */
+}
+
+.payment-success-card {
+    width: 400px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Hiệu ứng đổ bóng */
+    overflow: hidden;
+    background-color: #ffffff;
+}
+
+.payment-success-image {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+    /* Thêm viền dưới để phân cách */
+}
+
+.payment-success-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #28a745;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.payment-success-text {
+    font-size: 1rem;
+    color: #6c757d;
+    /* Màu xám nhạt */
+    margin-bottom: 20px;
+}
+
+.payment-success-button {
+    background-color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    display: block;
+    /* Đảm bảo nút là một khối */
+    margin: 0 auto;
+    /* Căn giữa theo chiều ngang */
+
+    &:hover {
+        background-color: #0056b3;
+        /* Màu xanh đậm hơn khi hover */
+    }
+}

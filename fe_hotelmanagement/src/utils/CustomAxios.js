@@ -11,7 +11,7 @@ const excludedUrls = [
     "/auth/sign-up",
     "/auth/refresh-token",
     "/auth/outbound/authentication",
-    "/hotel", 
+    "/hotel/search-hotel",
     "/room"
 ];
 

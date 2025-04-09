@@ -1,5 +1,5 @@
-import { Outlet } from "react-router-dom";
-import  Header  from "../../components/common/HeaderPaymentLayout/index";
+import { Outlet, useLocation } from "react-router-dom";
+import Header from "../../components/common/HeaderPaymentLayout/index";
 import Footer from "../../components/common/Footer/index";
 import './style.scss'
 import { Container } from "react-bootstrap";
@@ -9,19 +9,25 @@ import { useSelector } from "react-redux";
 
 const PaymentLayout = () => {
 
+    const location = useLocation();
+
+    const room = location.state || null;
+
+    console.log("roomData", room)
+
     const [pageState, setPageState] = useState(0)
     const expireDateTime = useSelector(state => state.reservation.expireDateTime)
 
     return (
-        <>  
-            <Header expireDateTime = {expireDateTime} pageState = {pageState} />
+        <>
+            <Header expireDateTime={expireDateTime} pageState={pageState} />
 
-                <Container>
-                        <PaymentContext.Provider value={{ pageState, setPageState }}>
-                            <Outlet />
-                        </PaymentContext.Provider>
-                </Container>
-        
+            <Container>
+                <PaymentContext.Provider value={{ pageState, setPageState }}>
+                    <Outlet />
+                </PaymentContext.Provider>
+            </Container>
+
             <Footer />
         </>
     )

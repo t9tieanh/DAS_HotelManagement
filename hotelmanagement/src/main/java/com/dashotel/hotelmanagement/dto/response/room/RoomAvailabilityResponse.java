@@ -1,6 +1,6 @@
-package com.dashotel.hotelmanagement.dto.request.room;
+package com.dashotel.hotelmanagement.dto.response.room;
 
-import com.dashotel.hotelmanagement.dto.response.room.RoomTypeResponse;
+import com.dashotel.hotelmanagement.dto.request.room.RoomTypeRequest;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -14,9 +14,8 @@ import java.time.LocalDate;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RoomAvailabilityRequest {
-    String id;
-    RoomTypeResponse roomType;
+public class RoomAvailabilityResponse {
+    RoomTypeRequest roomType;
     Long totalRoom;
     Long bookedRoom;
     LocalDate availableDate;

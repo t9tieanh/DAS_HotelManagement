@@ -35,7 +35,7 @@ public class VNPayConfig {
     @Value("${VNPAY.ORDER_TYPE}")
     private String vnPayOrderType;
 
-    public Map<String, String> getVNPayConfig() {
+    public Map<String, String> getVNPayConfig(String reservationId) {
         Map<String, String> vnPayParam = new HashMap<>();
         vnPayParam.put("vnp_Version", this.vnPayVersion);
         vnPayParam.put("vnp_Command", this.vnPayCommand);
@@ -45,7 +45,7 @@ public class VNPayConfig {
         vnPayParam.put("vnp_OrderInfo", "Payment for order:" +  VNPayUtils.getRandomNumber(8));
         vnPayParam.put("vnp_OrderType", this.vnPayOrderType);
         vnPayParam.put("vnp_Locale", "vn");
-        vnPayParam.put("vnp_ReturnUrl", this.vnPayReturnUrl);
+        vnPayParam.put("vnp_ReturnUrl", this.vnPayReturnUrl + "/" + reservationId);
 
 
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
