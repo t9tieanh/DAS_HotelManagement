@@ -17,9 +17,10 @@ import { IoCloseCircleSharp } from "react-icons/io5";
 import { applyDiscount } from "../../../../services/ReservationService/reservationService";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { getTotalPrice } from "../../../../services/ReservationService/reservationService";
 
 
-const Discount = ({appliedDiscounts, setAppliedDiscounts}) => {
+const Discount = ({appliedDiscounts, setAppliedDiscounts, setTotalPrice}) => {
 
     const [isOpenDiscountBox, setIsOpenDiscountBox] = useState(false)
     const reservationId = useSelector(state => state.reservation.reservationId)
@@ -40,6 +41,12 @@ const Discount = ({appliedDiscounts, setAppliedDiscounts}) => {
         if (data && data.code && data.code === 200) {
             toast.success(data.message)
             setAppliedDiscounts(data.result.discounts)
+
+            // tiến hành cập nhật lại giá tiền 
+            const priceRes = await getTotalPrice(reservationId)
+            if (priceRes && priceRes.code && priceRes.code === 200 && priceRes.result) 
+                setTotalPrice(priceRes.result)
+
         } else if (data.response && data.response.data) {
             toast.error(data.response.data.message) // trường hợp giao dịch hết thời gian
         }
@@ -60,7 +67,7 @@ const Discount = ({appliedDiscounts, setAppliedDiscounts}) => {
                             img="https://www.shutterstock.com/image-illustration/red-price-tag-label-percentage-600nw-1947684382.jpg"
                             name={discount.name}
                             subName={
-                                <div>Giảm {discount.discountPrecentage}% áp dụng cho hóa đơn từ {formatCurrency(discount.minBookingAmount)} VND</div>
+                                <div>Giảm {discount.discountPrecentage}% Giảm tối đa {formatCurrency(discount.maxDiscountAmount)} VND</div>
                             }
                             >
                             </HorizontalCard>
@@ -98,7 +105,7 @@ const Discount = ({appliedDiscounts, setAppliedDiscounts}) => {
             </Container>
             <CustomModal  title={'Hãy chọn mã giảm giá'} icon={<MdDiscount />} 
                 show={isOpenDiscountBox} setShow = {setIsOpenDiscountBox} size={'lg'} 
-                content={<DiscountBox appliedDiscounts = {appliedDiscounts} setAppliedDiscounts={setAppliedDiscounts}/>}
+                content={<DiscountBox appliedDiscounts = {appliedDiscounts} setAppliedDiscounts={setAppliedDiscounts} setTotalPrice = {setTotalPrice}/>}
                 btnClose={<PrimaryButton text={'Đóng'} className={'bg-light text-dark'} icon={<IoCloseCircleSharp />} onClickFunc={() => {setIsOpenDiscountBox(false)}}/>}
             />
         </>

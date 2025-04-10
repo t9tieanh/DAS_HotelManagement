@@ -18,6 +18,7 @@ import { doUpdateExpireDateTime } from "../../../redux/action/reservationAction"
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { doDeleteReservation } from "../../../redux/action/reservationAction";
+import ReservationSuccess from "../ReservationSuccess";
 import { cancelReservation } from "../../../services/ReservationService/reservationService";
 
 const CheckOutPage = () => {
@@ -30,6 +31,9 @@ const CheckOutPage = () => {
     const [reservationDetail, setReservationDetail] = useState()
     const [discounts, setDiscounts] = useState([])
 
+    // tổng tiền 
+    const [totalPrice, setTotalPrice] = useState()
+
     const dispatch = useDispatch();
 
     const handleNextStep = () => {
@@ -37,12 +41,12 @@ const CheckOutPage = () => {
     };
 
     useEffect(
-        () => {fetchCurrentStep()} , []
+        () => { fetchCurrentStep() }, []
     )
 
-    const fetchCurrentStep = async() => {
+    const fetchCurrentStep = async () => {
         const data = await getCurrentStep(reservationId)
-        console.log(data , "step hiện tại") // -> nhớ xóa cái này nhá 
+        console.log(data, "step hiện tại") // -> nhớ xóa cái này nhá 
 
         if (data && data.code && data.code === 200 && data?.result) {
 
@@ -57,6 +61,9 @@ const CheckOutPage = () => {
             setReservationDetail(data.result.reservationDetail)
             setDiscounts(data.result.discounts) // chuyển list -> set
 
+            // lấy tổng tiền 
+            setTotalPrice(data.result.totalPrice)
+
         } else if (data.response && data.response.data) {
 
             toast.error(data.response.data.message) // trường hợp giao dịch hết thời gian
@@ -65,12 +72,12 @@ const CheckOutPage = () => {
         else {
             toast.error(data?.message)
             dispatch(doDeleteReservation())
-        } 
+        }
     }
 
-    const handleCancelReservation = async() => {
+    const handleCancelReservation = async () => {
         const data = await cancelReservation(reservationId)
-        console.log(data , "step hiện tại") // -> nhớ xóa cái này nhá 
+        console.log(data, "step hiện tại") // -> nhớ xóa cái này nhá 
 
         if (data && data.code && data.code === 200 && data?.result && data.result.success === true) {
             dispatch(doDeleteReservation())
@@ -82,38 +89,45 @@ const CheckOutPage = () => {
             dispatch(doDeleteReservation())
             return
         }
-        else toast.error(data?.message) 
+        else toast.error(data?.message)
     }
 
     return (
         <Container className="resevation-container mb-5" >
             <div className="row mt-4">
                 <div className="col-md-6">
-                    {pageState === 0 && <ConfirmInfomationPage  handleNextStep={handleNextStep} handleCancelReservation = {handleCancelReservation} discounts = {discounts} setDiscounts = {setDiscounts} />}
-                    {pageState === 1 && <PaymentPage handleNextStep={handleNextStep} handleCancelReservation = {handleCancelReservation} />}
+                    {pageState === 0 && <ConfirmInfomationPage  handleNextStep={handleNextStep} handleCancelReservation = {handleCancelReservation} 
+                        discounts = {discounts} setDiscounts = {setDiscounts} setTotalPrice = {setTotalPrice}
+                    />}
+                    {pageState === 1 && <PaymentPage handleNextStep={handleNextStep} handleCancelReservation={handleCancelReservation} totalPrice={totalPrice} />}
+                    {pageState === 2 && <ReservationSuccess />}
                 </div>
 
                 <div className="col-md-6">
-                    <CustomCard name={'Lịch đặt phòng'} subTitle={'Lưu ý lịch đặt phòng của bạn !'} icon={<SlCalender />} 
-                        children={<TripDetail checkIn={checkIn} checkOut={checkOut} />} 
+                    <CustomCard name={'Lịch đặt phòng'} subTitle={'Lưu ý lịch đặt phòng của bạn !'} icon={<SlCalender />}
+                        children={<TripDetail checkIn={checkIn} checkOut={checkOut} />}
                     />
 
                     <CustomCard className={'shadow-3 mt-3 property-card border p-3 mb-3 rounded'}
                         subTitle={'Thông tin phòng của bạn !'}
                         name={'Phòng của bạn'} icon={<FaHotel />} children={<>
-                                {reservationDetail?.map((room) => {
-                                    return <RoomInfo  room={room}/>
-                                })}
-                            </>} />
+                            {reservationDetail?.map((room) => {
+                                return <RoomInfo room={room} />
+                            })}
+                        </>} />
 
 
-                    <CustomCard className={'shadow-3 mt-3 property-card border p-3 mb-3 rounded'}
+                    < CustomCard className={'shadow-3 mt-3 property-card border p-3 mb-3 rounded'}
                         subTitle={'Xem chi tiết hóa đơn của bạn'}
-                        name={'Hóa đơn của bạn'} icon={<MdOutlinePayments />} 
-                        children={<BillContainer reservationDetails = {reservationDetail} checkIn={checkIn} checkOut={checkOut} />} />
-                </div>
-            </div>
-        </Container>
+                        name={'Hóa đơn của bạn'} icon={< MdOutlinePayments />}
+                        children={< BillContainer totalPrice={totalPrice} reservationDetails={reservationDetail} 
+                        checkIn={checkIn} checkOut={checkOut}
+                        discounts = {discounts}     
+                    />} 
+                    />
+                </div >
+            </div >
+        </Container >
     );
 }
 

@@ -2,14 +2,14 @@ import axios from "../../utils/CustomAxios";
 
 // tạo đặt phòng -> bước 1
 export const createReservation = async (checkIn, checkOut, reservationDetails) => {
-    
-  const requestData = {
-      checkIn,
-      checkOut,
-      reservationDetails,
-    };
 
-    return await axios.post('/reservation', requestData);
+  const requestData = {
+    checkIn,
+    checkOut,
+    reservationDetails,
+  };
+
+  return await axios.post('/reservation', requestData);
 };
 
 
@@ -23,13 +23,13 @@ export const updateReservationInfo = async (reservationId, name, phone, email) =
     email
   };
 
-  return  await axios.post('/reservation/update-info', request);
-} 
+  return await axios.post('/reservation/update-info', request);
+}
 
 
 // hủy đặt phòng
 export const cancelReservation = async (id) => {
-    return await axios.delete(`/reservation/${id}`);
+  return await axios.delete(`/reservation/${id}`);
 };
 
 
@@ -51,3 +51,11 @@ export const applyDiscount = async (reservationId, discountCodes) => {
   });
 };
 
+
+export const getReservationHistory = async () => {
+  return await axios.get('/reservation/history');
+}
+
+export const getTotalPrice = async (reservationId) => {
+  return await axios.get(`/reservation/total-price/${reservationId}`);
+}

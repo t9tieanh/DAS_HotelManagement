@@ -12,7 +12,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "address")
 public class AddressEntity extends AbstractEntity {

@@ -20,6 +20,7 @@ public enum ErrorCode {
     OTP_SEND(1010,"Cannot send otp",HttpStatus.INTERNAL_SERVER_ERROR),
     ROOM_NOT_FOUND(1012, "Không tìm thấy phòng", HttpStatus.NOT_FOUND),
     INVALID_FORMAT_JSON(1013, "Chuỗi json không hợp lệ !", HttpStatus.BAD_REQUEST),
+    RESOURCE_NOT_FOUND(1014, "Không tìm thấy tài nguyên được yêu cầu", HttpStatus.NOT_FOUND),
 
     // dùng cho xác thực otp
     NOT_VERIFY_OTP (1011,"Otp code invalid, try again",HttpStatus.BAD_REQUEST),
@@ -33,6 +34,7 @@ public enum ErrorCode {
     BOOKING_NOT_AVAILABLE(1015, "Giao dịch đặt phòng này không tồn tại", HttpStatus.NOT_FOUND),
     BOOKING_CANCELED(1015, "Bạn đã hủy giao dịch này", HttpStatus.NOT_FOUND),
     STEP_ALREADY_COMPLETED(1016, "Bước này đã được thực hiện, không thể thao tác lại", HttpStatus.CONFLICT),
+    RESERVATION_CANNOT_CANCEL(2001, "Đặt phòng đã được xác nhận, không thể hủy!", HttpStatus.BAD_REQUEST),
 
     // dành cho dicount
     INSUFFICIENT_MEMBER_POINTS(123,"khách hàng không đủ điểm thành viên để áp dụng", HttpStatus.BAD_REQUEST),

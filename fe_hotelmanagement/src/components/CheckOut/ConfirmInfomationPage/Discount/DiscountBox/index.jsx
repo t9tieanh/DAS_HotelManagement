@@ -10,8 +10,9 @@ import { useSelector } from "react-redux";
 import PrimaryButton from "../../../../common/button/btn-primary";
 import { FaLocationArrow } from "react-icons/fa";
 import { applyDiscount } from "../../../../../services/ReservationService/reservationService";
+import { getTotalPrice } from "../../../../../services/ReservationService/reservationService";
 
-const DiscountBox = ({appliedDiscounts, setAppliedDiscounts}) => {
+const DiscountBox = ({appliedDiscounts, setAppliedDiscounts, setTotalPrice}) => {
     // lấy mã giảm giá 
     const [discounts, setDiscounts] = useState([])
     const [appliedDiscountsSet, setAppliedDiscountsSet] = useState(new Set());
@@ -36,7 +37,6 @@ const DiscountBox = ({appliedDiscounts, setAppliedDiscounts}) => {
     
             if (data && data.code && data.code === 200 && data?.result) {
                 setDiscounts(data.result)
-                console.log(data)
             } else if (data.response && data.response.data) {
                 toast.error(data.response.data.message) // trường hợp giao dịch hết thời gian
             }
@@ -60,6 +60,12 @@ const DiscountBox = ({appliedDiscounts, setAppliedDiscounts}) => {
         if (data && data.code && data.code === 200) {
             toast.success(data.message)
             setAppliedDiscounts(data.result.discounts) // set lại mã giảm giá đã áp dụng
+
+            // tiến hành cập nhật lại giá tiền 
+            const priceRes = await getTotalPrice(reservationId)
+            if (priceRes && priceRes.code && priceRes.code === 200 && priceRes.result) 
+                setTotalPrice(priceRes.result)
+
         } else if (data.response && data.response.data) {
             toast.error(data.response.data.message) 
         }

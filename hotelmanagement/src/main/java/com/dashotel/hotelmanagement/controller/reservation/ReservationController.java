@@ -10,14 +10,19 @@ import com.dashotel.hotelmanagement.dto.response.CreationResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.ApplyDiscountResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.InitialReservationResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.ReservationStepResponse;
+import com.dashotel.hotelmanagement.dto.response.reservation.history.ReservationHistoryResponse;
+import com.dashotel.hotelmanagement.service.auth.AuthenticationService;
 import com.dashotel.hotelmanagement.service.reservation.ReservationService;
+import com.dashotel.hotelmanagement.utils.JwtUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/reservation")
@@ -25,6 +30,7 @@ import java.text.ParseException;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ReservationController {
     ReservationService reservationService;
+    AuthenticationService authService;
 
     @PostMapping
     ApiResponse<InitialReservationResponse> createReservation (@RequestBody InitialReservationRequest request) throws ParseException {
@@ -95,6 +101,17 @@ public class ReservationController {
 
         return ApiResponse.<ReservationStepResponse>builder()
                 .code(200)
+                .result(result)
+                .build();
+    }
+
+    @GetMapping("/history")
+    ApiResponse<List<ReservationHistoryResponse>> getReservationHistory() {
+        String customerId = authService.getCurrentUserId();
+        List<ReservationHistoryResponse> result = reservationService.getReservationHistory(customerId);
+
+        return ApiResponse.<List<ReservationHistoryResponse>>builder()
+                .code(HttpStatus.OK.value())
                 .result(result)
                 .build();
     }

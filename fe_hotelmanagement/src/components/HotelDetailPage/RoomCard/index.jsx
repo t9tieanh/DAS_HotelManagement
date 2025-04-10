@@ -63,7 +63,7 @@ const IncompleteReservationNotice = ({ handleBooking }) => {
     );
 };
 
-const ConfirmBooking = ({show, setShow, handleBooking, room}) => {
+const ConfirmBooking = ({ show, setShow, handleBooking, room }) => {
     const fileUrl = 'files/image'
 
     return (
@@ -75,12 +75,12 @@ const ConfirmBooking = ({show, setShow, handleBooking, room}) => {
                     <Card.Body>
                         <Card.Title><h5 className="fw-semibold">{room?.name}</h5></Card.Title>
                         <Card.Text>
-                        <h6>{room?.description}</h6>
+                            <h6>{room?.description}</h6>
                         </Card.Text>
                     </Card.Body>
                     <div className="d-flex justify-content-between">
                         <div><PrimaryButton text={'Đặt phòng ngay'} icon={<FaLocationArrow />} className={'ml-3 mb-2'} onClickFunc={handleBooking} /></div>
-                        <div><PrimaryButton text={'Hủy'} className={'bg-light text-dark'} onClickFunc={() => {setShow(false)}} /></div>
+                        <div><PrimaryButton text={'Hủy'} className={'bg-light text-dark'} onClickFunc={() => { setShow(false) }} /></div>
                     </div>
                 </Card>
             </div>
@@ -91,7 +91,7 @@ const ConfirmBooking = ({show, setShow, handleBooking, room}) => {
 }
 
 
-const RoomSection = ({ rooms, checkIn, checkOut}) => {
+const RoomSection = ({ rooms, checkIn, checkOut }) => {
     const fileUrl = 'files/image'
     const isReservation = useSelector(state => state.reservation.reservationId)
     const expireDateTime = useSelector(state => state.reservation.expireDateTime)
@@ -120,7 +120,7 @@ const RoomSection = ({ rooms, checkIn, checkOut}) => {
         setRoomSelected(room)
     }
 
-    const handleBooking = async() => {
+    const handleBooking = async () => {
         const reservationDetails = [
             { roomId: roomSelected.id, quantity: 1 }
         ];
@@ -129,7 +129,7 @@ const RoomSection = ({ rooms, checkIn, checkOut}) => {
             toast.error("Vui lòng đăng nhập để đặt phòng !")
             navigator('/login')
         }
-        
+
         const data = await createReservation(checkIn, checkOut, reservationDetails)
 
         if (data && data.code && data.code === 200 && data.result) {
@@ -185,7 +185,7 @@ const RoomSection = ({ rooms, checkIn, checkOut}) => {
                                                     {room.roomStatus === 1 && <Tag text={'Đang có khuyến mãi'} />}
                                                 </td>
                                                 <td className="text-end">
-                                                    <PrimaryButton text={'Đặt ngay'} onClickFunc={() => {handleBookingRoom(room)}} icon={<FaArrowAltCircleRight />} className={'select-btn'} />
+                                                    <PrimaryButton text={'Đặt ngay'} onClickFunc={() => { handleBookingRoom(room) }} icon={<FaArrowAltCircleRight />} className={'select-btn'} />
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -198,7 +198,7 @@ const RoomSection = ({ rooms, checkIn, checkOut}) => {
             ) : (
                 <p>Không có phòng nào.</p>
             )}
-            <CustomOffCanvas show={bookingRoomState} setShow = {setBookingRoomState} 
+            <CustomOffCanvas show={bookingRoomState} setShow={setBookingRoomState}
                 header={<h5 className="fw-bold">Hệ thống đặt phòng <span className="text-primary"><span className="text-warning">@H</span>otelas</span></h5>}
                 children={<ConfirmBooking setShow={setBookingRoomState} handleBooking={handleBooking} room={roomSelected}
             />} />

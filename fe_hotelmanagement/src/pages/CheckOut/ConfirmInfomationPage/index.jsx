@@ -14,7 +14,7 @@ import { validateEmail, validatePhoneNumber } from "../../../utils/Validate";
 import { MdCancelScheduleSend } from "react-icons/md";
 import { getProfile1 } from "../../../services/CustomerProfile/profileService";
 
-const ConfirmInfomationPage = ({handleNextStep, handleCancelReservation, discounts, setDiscounts})  => {
+const ConfirmInfomationPage = ({handleNextStep, handleCancelReservation, discounts, setDiscounts, setTotalPrice})  => {
 
     const reservationId = useSelector(state => state.reservation.reservationId)
     const [name, setName] = useState("");
@@ -26,20 +26,20 @@ const ConfirmInfomationPage = ({handleNextStep, handleCancelReservation, discoun
             toast.error("Vui lòng điền đầy đủ thông tin trước khi xác nhận!");
             return false;
         }
-    
+
         if (!validateEmail(email)) {
             toast.error("Email không hợp lệ!");
             return false;
         }
-    
+
         if (!validatePhoneNumber(phone)) {
             toast.error("Số điện thoại không hợp lệ!");
             return false;
         }
-    
+
         return true;
     }
-    
+
 
     const handleConfirmInfomation = async () => {
 
@@ -76,12 +76,12 @@ const ConfirmInfomationPage = ({handleNextStep, handleCancelReservation, discoun
 
     return (
         <>
-            <CustomCard icon={<FaUserCircle />}  className={'shadow-3'} name={'Thông tin khách hàng'} subTitle = {"*Mục bắt buộc"} children={<CustomerInfomation
+            <CustomCard icon={<FaUserCircle />} className={'shadow-3'} name={'Thông tin khách hàng'} subTitle={"*Mục bắt buộc"} children={<CustomerInfomation
                 name={name} setName={setName} phone={phone} setPhone={setPhone} email={email} setEmail={setEmail} />} />
 
-            <CustomCard className={'shadow-3 mt-3 mb-3'} name={'Phiếu giảm giá'} 
+            <CustomCard className={'shadow-3 mt-3 mb-3'} name={'Phiếu giảm giá'}
                 subTitle={'Hãy áp dụng mã giảm giá'} icon={<MdDiscount />}
-                children={<Discount appliedDiscounts = {discounts} setAppliedDiscounts = {setDiscounts}/>}
+                children={<Discount appliedDiscounts = {discounts} setAppliedDiscounts = {setDiscounts} setTotalPrice = {setTotalPrice}/>}
             />
 
             <CustomCard className={'shadow-3 mt-3 mb-3'} children=

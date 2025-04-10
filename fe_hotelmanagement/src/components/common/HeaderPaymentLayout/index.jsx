@@ -18,15 +18,17 @@ const Header = ({pageState, expireDateTime}) => {
     const dispatch = useDispatch()
 
     const handleCancelReservation = async () => {
-        const data = await cancelReservation(reservationId)
-        if (data && data.code && data.code === 200 && data?.result) {
-            toast.success("Hủy giao dịch thành công")
-        } else if (data.response && data.response.data) {
-            toast.error(data.response.data.message) // trường hợp giao dịch hết thời gian
+        if (pageState != 2) {
+            const data = await cancelReservation(reservationId)
+            if (data && data.code && data.code === 200 && data?.result) {
+                toast.success("Hủy giao dịch thành công")
+            } else if (data.response && data.response.data) {
+                toast.error(data.response.data.message) // trường hợp giao dịch hết thời gian
+            }
+            else {
+                toast.error(data?.message)
+            } 
         }
-        else {
-            toast.error(data?.message)
-        } 
         dispatch(doDeleteReservation()) // xóa giao dịch phòng khỏi local storage
     }
 
@@ -54,11 +56,15 @@ const Header = ({pageState, expireDateTime}) => {
                         </div>
                     </div>
                 </div>
-
-            <Alert variant="danger" className="text-center">
-                Chúng tôi đang giữ phòng cho quý khách <IoIosTime /> <Countdown onComplete={handleCancelReservation} date={expireDateTime} />
-            </Alert>
-        
+                {  (pageState !== 2) ? (
+                        <Alert variant="danger" className="text-center">
+                            Chúng tôi đang giữ phòng cho quý khách <IoIosTime /> <Countdown onComplete={handleCancelReservation} date={expireDateTime} />
+                        </Alert>
+                    ) :
+                    <Alert variant="primary" className="text-center">
+                        Đặt phòng thành công! Bạn sẽ được chuyển về trang chủ trong <IoIosTime /> <Countdown onComplete={handleCancelReservation} date={Date.now() + (60 * 1000)} />
+                    </Alert>
+                } 
         </>
     )
 }

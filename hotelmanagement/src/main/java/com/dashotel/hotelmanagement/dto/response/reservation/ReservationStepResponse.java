@@ -21,6 +21,7 @@ public class ReservationStepResponse {
     int currentStep;
     LocalDateTime expireDateTime;
     String description;
+    Double totalPrice;
 
     // ngày check in check out
     LocalDate checkIn;
