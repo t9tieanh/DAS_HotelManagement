@@ -7,6 +7,7 @@ import com.dashotel.hotelmanagement.dto.request.reservation.initial.InitialReser
 import com.dashotel.hotelmanagement.dto.request.reservation.updateinfo.UpdateReservationInfoRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.dto.response.CreationResponse;
+import com.dashotel.hotelmanagement.dto.response.reservation.ApplyDiscountResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.InitialReservationResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.ReservationStepResponse;
 import com.dashotel.hotelmanagement.service.reservation.ReservationService;
@@ -37,8 +38,8 @@ public class ReservationController {
 
     @PreAuthorize("@reservationService.isOwnerOfReservation(#request.reservationId, authentication.name)")
     @PostMapping(value = "/update-info")
-    ApiResponse<CreationResponse> updateReservationInfo (@RequestBody UpdateReservationInfoRequest request) throws ParseException {
-        CreationResponse result = reservationService.updateInfoReservation(request);
+    ApiResponse<CreationResponse> updateCustomerInfoReservation (@RequestBody UpdateReservationInfoRequest request) {
+        CreationResponse result = reservationService.updateCustomerInfoReservation(request);
         String message = "Xác nhận thông tin cư trú thành công !";
 
         return ApiResponse.<CreationResponse>builder()
@@ -61,17 +62,6 @@ public class ReservationController {
     }
 
 
-//    @PreAuthorize("@reservationService.isOwnerOfReservation(#id, authentication.name)")
-//    @GetMapping("/current-step")
-//    ApiResponse<ReservationStepResponse> getCurrentStep (@RequestParam("id") String id)  {
-//        ReservationStepResponse result = reservationService.getCurrentStep(id);
-//
-//        return ApiResponse.<ReservationStepResponse>builder()
-//                .code(200)
-//                .result(result)
-//                .build();
-//    }
-
     @PreAuthorize("@reservationService.isOwnerOfReservation(#id, authentication.name)")
     @GetMapping("/total-price/{id}")
     ApiResponse<Double> getTotalPrice (@PathVariable("id") String id)  {
@@ -84,22 +74,24 @@ public class ReservationController {
     }
 
 
+    @PreAuthorize("@reservationService.isOwnerOfReservation(#request.reservationId, authentication.name)")
+    @PostMapping("apply-discount")
+    ApiResponse<ApplyDiscountResponse> applyDiscount (@RequestBody ApplyDiscountRequest request) throws ParseException {
+        ApplyDiscountResponse result = reservationService.applyDiscount(request);
+
+        return ApiResponse.<ApplyDiscountResponse>builder()
+                .code(200)
+                .message("Áp dụng mã giảm giá thành công !")
+                .result(result)
+                .build();
+    }
+
+
 
     @PreAuthorize("@reservationService.isOwnerOfReservation(#id, authentication.name)")
     @GetMapping("/current-step")
     ApiResponse<ReservationStepResponse> getCurrentStep (@RequestParam("id") String id)  {
         ReservationStepResponse result = reservationService.getCurrentStep(id);
-
-        return ApiResponse.<ReservationStepResponse>builder()
-                .code(200)
-                .result(result)
-                .build();
-    }
-
-    @PreAuthorize("@reservationService.isOwnerOfReservation(#request.reservationId, authentication.name)")
-    @GetMapping("/apply-discount")
-    ApiResponse<ReservationStepResponse> applyDiscount (ApplyDiscountRequest request) {
-        ReservationStepResponse result = null;
 
         return ApiResponse.<ReservationStepResponse>builder()
                 .code(200)

@@ -61,7 +61,7 @@ public class JwtUtils {
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
                 .jwtID(UUID.randomUUID().toString())
                 .subject(account.getUsername()) // sub
-                .issuer("freeclassroom.com") // iss
+                .issuer("hotelas.com") // iss
                 .issueTime(new Date()) // iat
                 .expirationTime(new Date(System.currentTimeMillis() + date))
                 .claim("scope", account.getRole()) // Custom claim

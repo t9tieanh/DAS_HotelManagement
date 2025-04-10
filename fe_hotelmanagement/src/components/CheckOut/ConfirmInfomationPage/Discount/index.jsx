@@ -4,15 +4,19 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import TextInput from "../../../common/Input";
-import {Badge} from "react-bootstrap";
 import CustomModal from "../../../common/Modal";
 import { MdDiscount } from "react-icons/md";
 import PrimaryButton from "../../../common/button/btn-primary";
 import { FaSearch } from "react-icons/fa";
 import { FaLocationArrow } from "react-icons/fa";
 import DiscountBox from "./DiscountBox";
+import HorizontalCard from "../../../common/HorizontalCard";
+import { formatCurrency } from "../../../../utils/Format/CurrencyFormat";
+import { MdError } from "react-icons/md";
+import { IoCloseCircleSharp } from "react-icons/io5";
 
-const Discount = () => {
+
+const Discount = ({appliedDiscounts, setAppliedDiscounts}) => {
 
     const [isOpenDiscountBox, setIsOpenDiscountBox] = useState(false)
 
@@ -21,23 +25,22 @@ const Discount = () => {
             <Container>
                 <Row className="mt-3">
                     <Col>
-                        <div className="card mb-3">
-                        <div className="card-body">
-                            <div className="d-flex justify-content-between">
-                            <div className="d-flex flex-row align-items-center">
-                                <div>
-                                <img
-                                    src="https://w7.pngwing.com/pngs/110/471/png-transparent-discounts-and-allowances-advertising-sales-promotion-computer-icons-marketing-logo-discount-sticker.png"
-                                    className="img-fluid rounded-3" alt="Shopping item" width={"50px"} />
-                                </div>
-                                <div className="ms-3">
-                                <h5>Giảm giá mùa đông</h5>
-                                <p className="small mb-0"><Badge bg="primary">Giảm 5%</Badge></p>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
+                    {appliedDiscounts?.length > 0 ? (
+                        appliedDiscounts.map((discount) => (
+                            <HorizontalCard
+                            key={discount.code}
+                            img="https://www.shutterstock.com/image-illustration/red-price-tag-label-percentage-600nw-1947684382.jpg"
+                            name={discount.name}
+                            subName={
+                                <div>Giảm {discount.discountPrecentage}% áp dụng cho hóa đơn từ {formatCurrency(discount.minBookingAmount)} VND</div>
+                            }
+                            >
+                            </HorizontalCard>
+                        ))
+                        ) : 
+                    (
+                        <div className="text-left text-danger mb-2"><MdError />Hiện tại bạn chưa chọn giảm giá nào !</div>
+                    )}
                     </Col>
                     <Col>
                     
@@ -63,8 +66,9 @@ const Discount = () => {
                 </Row>
             </Container>
             <CustomModal  title={'Hãy chọn mã giảm giá'} icon={<MdDiscount />} 
-                show={isOpenDiscountBox} setShow = {setIsOpenDiscountBox} size={'lg'} content={<DiscountBox />}
-                btnClose={<PrimaryButton text={'Áp dụng ngay'} icon={<FaLocationArrow />} className={'bg-warning'} />}
+                show={isOpenDiscountBox} setShow = {setIsOpenDiscountBox} size={'lg'} 
+                content={<DiscountBox appliedDiscounts = {appliedDiscounts} setAppliedDiscounts={setAppliedDiscounts}/>}
+                btnClose={<PrimaryButton text={'Đóng'} className={'bg-light text-dark'} icon={<IoCloseCircleSharp />} onClickFunc={() => {setIsOpenDiscountBox(false)}}/>}
             />
         </>
     )

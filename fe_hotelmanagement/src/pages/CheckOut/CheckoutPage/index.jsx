@@ -28,6 +28,7 @@ const CheckOutPage = () => {
     const [checkIn, setCheckIn] = useState()
     const [checkOut, setCheckOut] = useState()
     const [reservationDetail, setReservationDetail] = useState()
+    const [discounts, setDiscounts] = useState([])
 
     const dispatch = useDispatch();
 
@@ -54,6 +55,7 @@ const CheckOutPage = () => {
 
             //set reservationdetail 
             setReservationDetail(data.result.reservationDetail)
+            setDiscounts(data.result.discounts) // chuyển list -> set
 
         } else if (data.response && data.response.data) {
 
@@ -87,7 +89,7 @@ const CheckOutPage = () => {
         <Container className="resevation-container mb-5" >
             <div className="row mt-4">
                 <div className="col-md-6">
-                    {pageState === 0 && <ConfirmInfomationPage  handleNextStep={handleNextStep} handleCancelReservation = {handleCancelReservation} />}
+                    {pageState === 0 && <ConfirmInfomationPage  handleNextStep={handleNextStep} handleCancelReservation = {handleCancelReservation} discounts = {discounts} setDiscounts = {setDiscounts} />}
                     {pageState === 1 && <PaymentPage handleNextStep={handleNextStep} handleCancelReservation = {handleCancelReservation} />}
                 </div>
 

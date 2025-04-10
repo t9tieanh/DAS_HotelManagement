@@ -26,7 +26,6 @@ const Header = () => {
         // dispatch(doDeleteUser())
 
         navigate('/login')
-        toast.success("Đăng xuất thành công !")
     }
 
     return <>

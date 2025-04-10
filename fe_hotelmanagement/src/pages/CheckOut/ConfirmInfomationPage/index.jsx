@@ -14,13 +14,12 @@ import { validateEmail, validatePhoneNumber } from "../../../utils/Validate";
 import { MdCancelScheduleSend } from "react-icons/md";
 import { getProfile1 } from "../../../services/CustomerProfile/profileService";
 
-const ConfirmInfomationPage = ({handleNextStep, handleCancelReservation})  => {
+const ConfirmInfomationPage = ({handleNextStep, handleCancelReservation, discounts, setDiscounts})  => {
 
     const reservationId = useSelector(state => state.reservation.reservationId)
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
-    const [appliedDiscounts, setAppliedDiscounts] = useState([])
 
     const validate = () => {
         if (!name || !phone || !email ||!name.trim() || !phone.trim() || !email.trim()) {
@@ -47,7 +46,7 @@ const ConfirmInfomationPage = ({handleNextStep, handleCancelReservation})  => {
         // Kiểm tra chuỗi rỗng
         if (!validate()) return;
 
-        const data = await updateReservationInfo(reservationId, name, phone, email, appliedDiscounts)
+        const data = await updateReservationInfo(reservationId, name, phone, email)
 
         console.log(data)
 
@@ -82,7 +81,7 @@ const ConfirmInfomationPage = ({handleNextStep, handleCancelReservation})  => {
 
             <CustomCard className={'shadow-3 mt-3 mb-3'} name={'Phiếu giảm giá'} 
                 subTitle={'Hãy áp dụng mã giảm giá'} icon={<MdDiscount />}
-                children={<Discount appliedDiscounts = {appliedDiscounts} />}
+                children={<Discount appliedDiscounts = {discounts} setAppliedDiscounts = {setDiscounts}/>}
             />
 
             <CustomCard className={'shadow-3 mt-3 mb-3'} children=

@@ -15,5 +15,6 @@ public interface DiscountMapper {
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "name", source = "name")
     @Mapping(target = "discountPrecentage", source = "discountPrecentage")
+    @Mapping(target = "code", source = "code")
     DiscountDTO toDiscountDTOForReservation(DiscountEntity request);
 }

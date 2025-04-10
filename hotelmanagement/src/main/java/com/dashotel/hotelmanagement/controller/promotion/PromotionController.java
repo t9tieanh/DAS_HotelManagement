@@ -20,6 +20,7 @@ public class PromotionController {
 
     DiscountService discountService;
 
+    // lấy những discount có sawnx
     @GetMapping(value = "/available")
     ApiResponse<List<DiscountDTO>> getAvailableDiscount() throws ParseException {
         var result = discountService.getAvailableDiscount();

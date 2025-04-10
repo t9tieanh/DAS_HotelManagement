@@ -45,7 +45,7 @@ const IncompleteReservationNotice = ({ handleBooking }) => {
     }
 
     return (
-      <Container className="my-3">
+      <Container className="my-3 mb-2">
         <Alert variant="danger" className="d-flex justify-content-between align-items-center">
           <div>
             <strong><MdError />Lưu ý: Bạn vẫn còn giao dịch đặt phòng chưa hoàn tất.</strong>

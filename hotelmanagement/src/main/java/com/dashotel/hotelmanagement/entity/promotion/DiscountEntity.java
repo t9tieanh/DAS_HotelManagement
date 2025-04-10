@@ -26,7 +26,7 @@ public class DiscountEntity extends AbstractEntity {
     int discountPrecentage;
     int minloyaltyPoints = 0;
     double minBookingAmount;
-    double maxDiscountAmount;
+    double maxDiscountAmount; // Số tiền cao nhất được giảm
     Boolean isPublic;
     Boolean isActive;
 }

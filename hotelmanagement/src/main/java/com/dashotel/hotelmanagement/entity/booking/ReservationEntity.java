@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,7 +33,7 @@ public class ReservationEntity extends AbstractEntity {
     LocalDateTime expireDateTime;
 
     @ManyToMany
-    List<DiscountEntity> discounts;
+    Set<DiscountEntity> discounts;
 
     @ManyToMany
     List <ServiceEntity> services;

@@ -27,24 +27,19 @@ public enum ErrorCode {
     // lỗi phòng không còn trống
     ROOM_NOT_AVAILABLE(1013, "Phòng không còn trống trong khoảng thời gian yêu cầu", HttpStatus.NOT_FOUND),
 
-    // lỗi hết discount
-    DISCOUNT_NOT_AVAILABLE(1014, "Mã giảm giá đã hết hiệu lực", HttpStatus.NOT_FOUND),
 
     // hết thời gian giao dịch đặt phòng
     BOOKING_TIMEOUT(1015, "Giao dịch đặt phòng đã hết thời gian", HttpStatus.GONE),
-
-    // Giao dịch không tồn tại
     BOOKING_NOT_AVAILABLE(1015, "Giao dịch đặt phòng này không tồn tại", HttpStatus.NOT_FOUND),
-
-    // hết thời gian giao dịch đặt phòng
     BOOKING_CANCELED(1015, "Bạn đã hủy giao dịch này", HttpStatus.NOT_FOUND),
-
-    // đã hoàn thành bước thanh toán
     STEP_ALREADY_COMPLETED(1016, "Bước này đã được thực hiện, không thể thao tác lại", HttpStatus.CONFLICT),
 
     // dành cho dicount
     INSUFFICIENT_MEMBER_POINTS(123,"khách hàng không đủ điểm thành viên để áp dụng", HttpStatus.BAD_REQUEST),
-    DISCOUNT_EXPIRED(123,"Mã giảm giá đã hết hạn hoặc chưa đến thời gian áp dụng.", HttpStatus.BAD_REQUEST)
+    DISCOUNT_EXPIRED(123,"Mã giảm giá đã hết hạn hoặc chưa đến thời gian áp dụng.", HttpStatus.BAD_REQUEST),
+    DISCOUNT_NOT_AVAILABLE(1014, "Mã giảm giá đã hết hiệu lực", HttpStatus.NOT_FOUND),
+    DISCOUNT_NOT_APPLICABLE_FOR_BILL_TOTAL(1234, "Mã giảm giá không được áp dụng vì tổng tiền hóa đơn chưa đạt mức tối thiểu.", HttpStatus.BAD_REQUEST),
+
 
 
     ;

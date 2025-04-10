@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -29,5 +30,5 @@ public class ReservationStepResponse {
     List<ReservationDetailResponse> reservationDetail;
 
     //Thông tin discount được áp dụng
-    List <DiscountDTO> discounts;
+    Set<DiscountDTO> discounts;
 }
