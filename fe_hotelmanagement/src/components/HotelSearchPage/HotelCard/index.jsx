@@ -65,7 +65,7 @@ const HotelCard = ({ hotel, adults, rooms, dateRange }) => {
                     <p className="price-note">
                         Chỉ còn {hotel.roomType ? hotel.roomType.length : 0} phòng có giá này! <br />
                     </p>
-                    <PrimaryButton text={'Chọn phòng'} className={'select-room-button'} icon={<FaLocationArrow />}  onClickFunc={() => handleSubmit(hotel?.id)}/>
+                    <PrimaryButton text={'Chọn phòng'} className={'select-room-button'} icon={<FaLocationArrow />} onClickFunc={() => handleSubmit(hotel?.id)} />
                 </div>
             </div>
         </>

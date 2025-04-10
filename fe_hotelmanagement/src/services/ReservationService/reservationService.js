@@ -42,5 +42,6 @@ export const reservationSuccess = async (reservationId) => {
 
 }
 
-
-
+export const getReservationHistory = async () => {
+  return await axios.get('/reservation/history');
+}
