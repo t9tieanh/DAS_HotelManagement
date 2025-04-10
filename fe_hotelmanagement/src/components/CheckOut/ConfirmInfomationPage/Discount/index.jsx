@@ -14,11 +14,39 @@ import HorizontalCard from "../../../common/HorizontalCard";
 import { formatCurrency } from "../../../../utils/Format/CurrencyFormat";
 import { MdError } from "react-icons/md";
 import { IoCloseCircleSharp } from "react-icons/io5";
+import { applyDiscount } from "../../../../services/ReservationService/reservationService";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 
 const Discount = ({appliedDiscounts, setAppliedDiscounts}) => {
 
     const [isOpenDiscountBox, setIsOpenDiscountBox] = useState(false)
+    const reservationId = useSelector(state => state.reservation.reservationId)
+
+    const [privateCode, setPrivateCode] = useState()
+
+    const applyPrivateDiscountCode = async () => {
+        if (!privateCode || privateCode.trim() === '') {
+            toast.error('Vui lòng nhập mã giảm giá')
+            return
+        }
+
+        // map về set code discount 
+        const updatedAppliedDiscounts = [...appliedDiscounts.map(discount => discount.code), privateCode]
+
+        // tiến hành gọi backend để áp dụng mã giảm giá
+        const data = await applyDiscount(reservationId, updatedAppliedDiscounts)
+        if (data && data.code && data.code === 200) {
+            toast.success(data.message)
+            setAppliedDiscounts(data.result.discounts)
+        } else if (data.response && data.response.data) {
+            toast.error(data.response.data.message) // trường hợp giao dịch hết thời gian
+        }
+        else {
+            toast.error(data?.message)
+        }
+    }
 
     return (
         <>
@@ -54,9 +82,12 @@ const Discount = ({appliedDiscounts, setAppliedDiscounts}) => {
         
         
                             <form className="mt-4">
-                                <TextInput className={'form-white'} name={'Mã giảm giá'} />
+                                <TextInput text={privateCode} setText={setPrivateCode} 
+                                    className={'form-white'} name={'Mã giảm giá'} 
+                                />
                             </form>
-                            <PrimaryButton className={'bg-info mt-2 p-2'} text={'Tìm giảm giá đặc biệt'} icon = {<FaSearch />}/>        
+                            <PrimaryButton className={'bg-info mt-2 p-2'} text={'Tìm giảm giá đặc biệt'} icon = {<FaSearch />}
+                                onClickFunc={applyPrivateDiscountCode} />        
                             <hr className="my-4" />
 
                             <PrimaryButton className={'bg-info mt-2'} text={'Chọn mã giảm giá'} icon={<FaLocationArrow />} onClickFunc={() => {setIsOpenDiscountBox(true)}}/>

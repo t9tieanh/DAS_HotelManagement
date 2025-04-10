@@ -249,15 +249,19 @@ public class ReservationService {
                 .mapToDouble(detail -> detail.getRoomType().getPrice() * detail.getQuantity())
                 .sum();
 
-        // Tính tổng phần trăm giảm giá
-        double totalDiscountPercentage = reservation.getDiscounts().stream()
-                .mapToDouble(DiscountEntity::getDiscountPrecentage)
+        // Tính tổng số tiền được giảm, theo từng mã giảm giá
+        double totalDiscountAmount = reservation.getDiscounts().stream()
+                .mapToDouble(discount -> {
+                    double percentDiscount = (discount.getDiscountPrecentage() / 100.0) * totalPrice;
+                    double maxAllowed = discount.getMaxDiscountAmount(); // cần thêm getter này trong entity
+                    return Math.min(percentDiscount, maxAllowed);
+                })
                 .sum();
 
         // Áp dụng giảm giá
-        totalPrice -= (totalDiscountPercentage / 100.0) * totalPrice;
+        double finalPrice = totalPrice - totalDiscountAmount;
 
-        return totalPrice > 0 ? totalPrice : 0;
+        return finalPrice > 0 ? finalPrice : 0;
     }
 
 

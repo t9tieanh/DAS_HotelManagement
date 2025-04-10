@@ -64,11 +64,16 @@ public class DiscountService {
 
     public DiscountDTO getDiscountByCode (String code) {
 
-        return discountMapper.toDTO(
-                discountRepository.findByCode(code).orElseThrow(
-                        () -> new CustomException(ErrorCode.USER_NOT_FOUND)
-                )
-        );
+        DiscountEntity discount = discountRepository.findByCode(code)
+                .orElseThrow(() -> new CustomException(ErrorCode.DISCOUNT_NOT_AVAILABLE));
+
+        //check xem mã gia giá hết hạn chưa
+        if (discount.getBeginDate().isAfter(LocalDate.now()) ||
+                discount.getEndDate().isBefore(LocalDate.now())) {
+            throw new CustomException(ErrorCode.DISCOUNT_EXPIRED);
+        }
+
+        return discountMapper.toDTO(discount);
     }
 
 
@@ -95,7 +100,4 @@ public class DiscountService {
 
         return true;
     }
-
-
-
 }

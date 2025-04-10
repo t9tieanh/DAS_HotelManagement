@@ -37,10 +37,8 @@ public enum ErrorCode {
     // dành cho dicount
     INSUFFICIENT_MEMBER_POINTS(123,"khách hàng không đủ điểm thành viên để áp dụng", HttpStatus.BAD_REQUEST),
     DISCOUNT_EXPIRED(123,"Mã giảm giá đã hết hạn hoặc chưa đến thời gian áp dụng.", HttpStatus.BAD_REQUEST),
-    DISCOUNT_NOT_AVAILABLE(1014, "Mã giảm giá đã hết hiệu lực", HttpStatus.NOT_FOUND),
+    DISCOUNT_NOT_AVAILABLE(1014, "Mã giảm giá đã hết hiệu lực hoặc không tồn tại", HttpStatus.NOT_FOUND),
     DISCOUNT_NOT_APPLICABLE_FOR_BILL_TOTAL(1234, "Mã giảm giá không được áp dụng vì tổng tiền hóa đơn chưa đạt mức tối thiểu.", HttpStatus.BAD_REQUEST),
-
-
 
     ;
     private int code;
