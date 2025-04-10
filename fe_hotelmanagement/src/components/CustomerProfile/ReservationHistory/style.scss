@@ -5,6 +5,38 @@
     box-sizing: border-box;
     background-color: #fff;
     border-radius: 10px;
-    overflow-y: auto; /* Bật thanh cuộn dọc */
-    max-height: 550px; /* Giới hạn chiều cao tối đa */
+    overflow-y: auto;
+    /* Bật thanh cuộn dọc */
+    max-height: 550px;
+    /* Giới hạn chiều cao tối đa */
+}
+
+.reservation-history {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100% !important;
+
+    @media (min-width: 768px) {
+        max-width: 60%;
+    }
+
+    @media (min-width: 1200px) {
+        max-width: 50%;
+    }
+
+    .property-card {
+        width: 100%;
+    }
+}
+
+.property-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+        transform: translateY(-5px);
+        /* Hiệu ứng nổi lên khi hover */
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        /* Đổ bóng khi hover */
+    }
 }

@@ -9,9 +9,12 @@ import com.dashotel.hotelmanagement.dto.response.reservation.InitialReservationR
 import com.dashotel.hotelmanagement.dto.response.reservation.ReservationStepResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.common.ReservationDetailResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.common.ReservationResponse;
+import com.dashotel.hotelmanagement.dto.response.reservation.history.ReservationHistoryResponse;
 import com.dashotel.hotelmanagement.entity.booking.ReservationDetailEntity;
 import com.dashotel.hotelmanagement.entity.booking.ReservationEntity;
 import com.dashotel.hotelmanagement.entity.booking.RoomOccupantEntity;
+import com.dashotel.hotelmanagement.entity.hotel.AddressEntity;
+import com.dashotel.hotelmanagement.entity.hotel.HotelEntity;
 import com.dashotel.hotelmanagement.entity.promotion.DiscountEntity;
 import com.dashotel.hotelmanagement.entity.room.RoomAvailabilityEntity;
 import com.dashotel.hotelmanagement.entity.room.RoomTypeEntity;
@@ -19,6 +22,7 @@ import com.dashotel.hotelmanagement.entity.user.CustomerEntity;
 import com.dashotel.hotelmanagement.enums.BookingStatusEnum;
 import com.dashotel.hotelmanagement.exception.CustomException;
 import com.dashotel.hotelmanagement.exception.ErrorCode;
+import com.dashotel.hotelmanagement.mapper.AddressMapper;
 import com.dashotel.hotelmanagement.mapper.DiscountMapper;
 import com.dashotel.hotelmanagement.mapper.ReservationMapper;
 import com.dashotel.hotelmanagement.mapper.RoomOccupantMapper;
@@ -59,6 +63,8 @@ public class ReservationService {
     RoomOccupantMapper roomOccupantMapper;
     DiscountMapper discountMapper;
     ReservationMapper reservationMapper;
+    AddressMapper addressMapper;
+
     JwtUtils jwtUtils;
 
     private List <ReservationDetailEntity> getRoomAvailable (List<ReservationDetailRequest> reservationDetailRequests, LocalDate checkInDate, LocalDate checkOutDate, ReservationEntity reservationEntity) {
@@ -266,6 +272,31 @@ public class ReservationService {
             log.error("Lỗi khi cập nhật reservation", e);
             throw new RuntimeException("Lỗi server khi cập nhật");
         }
+    }
+
+    public List<ReservationHistoryResponse> getReservationHistory(String customerId) {
+
+        List<ReservationEntity> reservations = reservationRepository.findAllByCustomerId(customerId);
+
+        return reservations.stream()
+                .filter(reservation -> reservation.getStatus() == BookingStatusEnum.PAID)
+                .map(reservation -> {
+                    ReservationDetailEntity detail = reservation.getReservationDetail().getFirst();
+                    RoomTypeEntity roomType = detail.getRoomType();
+                    HotelEntity hotel = roomType.getHotel();
+                    AddressEntity address = hotel.getAddress();
+
+                    return ReservationHistoryResponse.builder()
+                            .hotelName(hotel.getName())
+                            .img(hotel.getAvatar())
+                            .address(addressMapper.toDTO(address))
+                            .roomTypeName(roomType.getName())
+                            .totalPrice(reservation.getPayment().getAmount() != null ? reservation.getPayment().getAmount() : 0)
+                            .reservationDate(reservation.getReservationDate())
+                            .checkInDate(reservation.getCheckIn())
+                            .checkOutDate(reservation.getCheckOut())
+                            .build();
+                }).collect(Collectors.toList());
     }
 
 }
