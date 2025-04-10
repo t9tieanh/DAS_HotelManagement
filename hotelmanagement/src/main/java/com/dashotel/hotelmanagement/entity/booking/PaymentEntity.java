@@ -3,10 +3,7 @@ package com.dashotel.hotelmanagement.entity.booking;
 import com.dashotel.hotelmanagement.entity.AbstractEntity;
 import com.dashotel.hotelmanagement.enums.PaymentMethodEnum;
 import com.dashotel.hotelmanagement.enums.PaymentStatusEnum;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -26,7 +23,7 @@ public class PaymentEntity extends AbstractEntity {
     PaymentStatusEnum status;
     PaymentMethodEnum paymentMethod;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id")
     ReservationEntity booking;
 }

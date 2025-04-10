@@ -1,10 +1,13 @@
 package com.dashotel.hotelmanagement.service.reservation;
 
 import com.dashotel.hotelmanagement.dto.common.DiscountDTO;
+import com.dashotel.hotelmanagement.dto.common.ResponseDTO;
+import com.dashotel.hotelmanagement.dto.request.reservation.initial.ApplyDiscountRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.initial.InitialReservationRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.initial.ReservationDetailRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.updateinfo.UpdateReservationInfoRequest;
 import com.dashotel.hotelmanagement.dto.response.CreationResponse;
+import com.dashotel.hotelmanagement.dto.response.reservation.ApplyDiscountResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.InitialReservationResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.ReservationStepResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.common.ReservationDetailResponse;
@@ -32,6 +35,7 @@ import com.dashotel.hotelmanagement.repository.reservation.ReservationRepository
 import com.dashotel.hotelmanagement.repository.reservation.RoomOccupantRepository;
 import com.dashotel.hotelmanagement.repository.room.RoomAvailabilityRepository;
 import com.dashotel.hotelmanagement.repository.room.RoomTypeRepository;
+import com.dashotel.hotelmanagement.service.promotion.DiscountService;
 import com.dashotel.hotelmanagement.service.room.RoomTypeService;
 import com.dashotel.hotelmanagement.utils.JwtUtils;
 import lombok.AccessLevel;
@@ -45,8 +49,11 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -59,6 +66,7 @@ public class ReservationService {
     DiscountRepository discountRepository;
 
     RoomTypeService roomTypeService;
+    DiscountService discountService;
 
     RoomOccupantMapper roomOccupantMapper;
     DiscountMapper discountMapper;
@@ -67,6 +75,8 @@ public class ReservationService {
 
     JwtUtils jwtUtils;
 
+
+    // hàm dùng của createReservation, nếu room vẫn thỏa mãn điều kiện có sẵn và sẵn sàng đặt thì trả về room đó
     private List <ReservationDetailEntity> getRoomAvailable (List<ReservationDetailRequest> reservationDetailRequests, LocalDate checkInDate, LocalDate checkOutDate, ReservationEntity reservationEntity) {
         List <ReservationDetailEntity> reservationDetailEntities = new ArrayList<>();
 
@@ -134,7 +144,7 @@ public class ReservationService {
     // method dùng khi user ấn hoàn thành bước 1 (chuyển qua bước 2 (chọn phương thức thanh toán))
     // check lại room available -> lỗi thì roll back
     @Transactional
-    public CreationResponse updateInfoReservation (UpdateReservationInfoRequest request) throws ParseException {
+    public CreationResponse updateCustomerInfoReservation (UpdateReservationInfoRequest request) {
         ReservationEntity reservationEntity = reservationRepository.findById(request.getReservationId())
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
@@ -155,41 +165,9 @@ public class ReservationService {
         RoomOccupantEntity roomOccupantEntity = roomOccupantMapper.toEntity(request);
         reservationEntity.setRoomOccupant(roomOccupantEntity);
 
-        // lấy thông tin discount nếu có
-        List<DiscountEntity> discountEntityList = new ArrayList<>();
-
-        if (request.getAppliedDiscounts() != null) {
-            request.getAppliedDiscounts().forEach(discountId -> {
-                  DiscountEntity appliedDiscount = discountRepository.getDiscountAvailable(discountId);
-                  if (appliedDiscount == null)
-                      throw new CustomException(ErrorCode.DISCOUNT_NOT_AVAILABLE); // không có thì ném exception
-
-                  discountEntityList.add(appliedDiscount);
-            });
-            reservationEntity.setDiscounts(discountEntityList); // thêm discount
-        }
-
-        // tạm thời comment lại dùng cho lần sau -> sai nghiệp vụ
-        // tiến hành cập nhật lại available room
-//        for (ReservationDetailEntity reservationDetail : reservationEntity.getReservationDetail()) {
-//            RoomTypeEntity roomType= reservationDetail.getRoomType();
-//            List<RoomAvailabilityEntity> roomAvailabilityLst = roomAvailabilityRepository.findByAvailableRoomType(
-//                    reservationEntity.getCheckIn(), reservationEntity.getCheckOut(), roomType.getId()
-//            );
-//
-//            for (RoomAvailabilityEntity roomAvailability : roomAvailabilityLst) {
-//                if ((roomAvailability.getTotalRoom() - roomAvailability.getBookedRoom()) < reservationDetail.getQuantity()) {
-//                    throw new CustomException(ErrorCode.ROOM_NOT_AVAILABLE); // phòng này đã không còn trống nữa -> roll back transaction
-//                } else roomAvailability.setBookedRoom(roomAvailability.getBookedRoom() + reservationDetail.getQuantity());
-//                // nếu phòng vẫn còn thì cập nhật
-//            }
-//
-//            roomAvailabilityRepository.saveAll(roomAvailabilityLst);
-//        }
 
         // set trạng thái cho reservation
         reservationEntity.setStatus(BookingStatusEnum.UNPAID);
-
 
         reservationEntity = reservationRepository.save(reservationEntity);
         return CreationResponse.builder()
@@ -198,32 +176,62 @@ public class ReservationService {
                 .build();
     }
 
+    // hủy đặt phòng
+    public ResponseDTO cancelReservation (String id) {
+        ReservationEntity reservationEntity = reservationRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-    public ReservationStepResponse getCurrentStep (String reservationId) {
+        if (reservationEntity.getStatus().equals(BookingStatusEnum.PAID))
+            throw new CustomException(ErrorCode.RESERVATION_CANNOT_CANCEL);
+
+        reservationEntity.setStatus(BookingStatusEnum.CANCELLED);
+        reservationEntity.setExpireDateTime(LocalDateTime.now().minusMinutes(1));
+
+        reservationRepository.save(reservationEntity);
+        return ResponseDTO.builder()
+                .isSuccess(true)
+                .build();
+    }
+
+
+    public ReservationStepResponse getCurrentStep(String reservationId) {
         ReservationEntity reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        //check xem còn trong thời gian transaction không
+        // check trạng thái của reservation
+        if (reservation.getStatus().equals(BookingStatusEnum.CANCELLED))
+            throw new CustomException(ErrorCode.BOOKING_CANCELED);
+
+        // check xem còn trong thời gian transaction không
         if (reservation.getExpireDateTime().isBefore(LocalDateTime.now()))
             throw new CustomException(ErrorCode.BOOKING_TIMEOUT);
 
         // lấy thông tin room, hotel, giá tiền
         List<ReservationDetailResponse> roomInfoForReservationResponses = new ArrayList<>();
-        reservation.getReservationDetail().forEach(
-                reservationDetail -> {
-                    ReservationDetailResponse roomInfoForReservationResponse = roomTypeService.getRoomInfoForReservation(
-                            reservationDetail.getRoomType().getId()
-                    ); // lấy thông tin room, hotel (price, ...) từ room service
-                    roomInfoForReservationResponse.setQuantity(reservationDetail.getQuantity());
-                    roomInfoForReservationResponses.add(roomInfoForReservationResponse);
-                }
-        );
+        double totalPrice = 0;
 
-        // lấy thông tin
-        List<DiscountDTO> discounts = reservation.getDiscounts().stream()
+        for (ReservationDetailEntity reservationDetail : reservation.getReservationDetail()) {
+            ReservationDetailResponse roomInfo = roomTypeService.getRoomInfoForReservation(
+                    reservationDetail.getRoomType().getId()
+            );
+            roomInfo.setQuantity(reservationDetail.getQuantity()); // lấy quantity của từng reservation detail
+            roomInfoForReservationResponses.add(roomInfo);
+
+            // Tính tổng tiền cho mỗi phòng (price * số lượng * số đêm)
+            totalPrice += roomInfo.getPrice() *  reservationDetail.getQuantity()
+                    * ChronoUnit.DAYS.between(reservation.getCheckIn(), reservation.getCheckOut());
+        }
+
+        // lấy thông tin discount
+        Set<DiscountDTO> discounts = reservation.getDiscounts().stream()
                 .map(discountMapper::toDiscountDTOForReservation)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
 
+        // Áp dụng giảm giá (nếu có)
+        for (DiscountDTO discount : discounts) {
+            totalPrice -= Math.min(discount.getMaxDiscountAmount() ,(totalPrice * discount.getDiscountPrecentage() / 100));
+            // số tiền giảm của discount không quá thuộc tính MaxDiscountAmount
+        }
 
         return ReservationStepResponse.builder()
                 .currentStep(reservation.getStatus().getStep())
@@ -233,7 +241,66 @@ public class ReservationService {
                 .checkOut(reservation.getCheckOut())
                 .discounts(discounts)
                 .reservationDetail(roomInfoForReservationResponses)
-                .totalPrice(100000.0)
+                .totalPrice(Math.max(totalPrice, 0))
+                .build();
+    }
+
+
+    // lấy tổng tiền của reservation
+    public Double getTotalPrice(String reservationId) {
+        ReservationEntity reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new CustomException(ErrorCode.BOOKING_NOT_AVAILABLE));
+
+        // Tính tổng giá phòng
+        double totalPrice = reservation.getReservationDetail().stream()
+                .mapToDouble(detail -> detail.getRoomType().getPrice() * detail.getQuantity())
+                .sum();
+
+        // Tính tổng số tiền được giảm, theo từng mã giảm giá
+        double totalDiscountAmount = reservation.getDiscounts().stream()
+                .mapToDouble(discount -> {
+                    double percentDiscount = (discount.getDiscountPrecentage() / 100.0) * totalPrice;
+                    double maxAllowed = discount.getMaxDiscountAmount(); // cần thêm getter này trong entity
+                    return Math.min(percentDiscount, maxAllowed);
+                })
+                .sum();
+
+        // Áp dụng giảm giá
+        double finalPrice = totalPrice - totalDiscountAmount;
+
+        return finalPrice > 0 ? finalPrice : 0;
+    }
+
+
+    //apply discount
+    @Transactional
+    public ApplyDiscountResponse applyDiscount (ApplyDiscountRequest request) throws RuntimeException, ParseException {
+        ReservationEntity reservation = reservationRepository.findById(request.getReservationId())
+                .orElseThrow(() -> new CustomException(ErrorCode.BOOKING_NOT_AVAILABLE));
+
+        // lấy tổng tiền của reservation
+        Double totalPrice = getTotalPrice(request.getReservationId());
+
+        //kiểm tra tính hợp lệ của từng discount -> nếu oke thì thêm vào
+        Set<DiscountEntity> discounts = new HashSet<>();
+        for (String discountCode : request.getDiscountCodes()) {
+            DiscountEntity discount = discountRepository.findByCode(discountCode)
+                    .orElseThrow(() -> new CustomException(ErrorCode.DISCOUNT_NOT_AVAILABLE));
+
+            if (discountService.isApplicableToReservation(discount, totalPrice)) {
+                discounts.add(discount);
+            }
+        }
+
+        // lưu lại reservation
+        reservation.setDiscounts(discounts);
+        reservationRepository.save(reservation);
+
+        return ApplyDiscountResponse.builder()
+                .isSuccess(true)
+                .discounts(reservation.getDiscounts().stream()
+                        .map(discountMapper::toDiscountDTOForReservation)
+                        .collect(Collectors.toSet()))
                 .build();
     }
 
@@ -255,7 +322,7 @@ public class ReservationService {
     public ReservationResponse updateReservationIsSuccess(String reservationId) {
         try {
             ReservationEntity reservation = reservationRepository.findById(reservationId)
-                    .orElseThrow(() -> new IllegalArgumentException("Đơn đặt không tồn tại"));
+                    .orElseThrow(() -> new CustomException(ErrorCode.BOOKING_NOT_AVAILABLE));
             reservation.setStatus(BookingStatusEnum.PAID);
 
             reservation.setReservationDate(LocalDate.now());

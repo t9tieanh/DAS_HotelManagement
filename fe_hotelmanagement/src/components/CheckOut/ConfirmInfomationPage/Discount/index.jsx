@@ -4,40 +4,78 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import TextInput from "../../../common/Input";
-import {Badge} from "react-bootstrap";
 import CustomModal from "../../../common/Modal";
 import { MdDiscount } from "react-icons/md";
 import PrimaryButton from "../../../common/button/btn-primary";
 import { FaSearch } from "react-icons/fa";
 import { FaLocationArrow } from "react-icons/fa";
 import DiscountBox from "./DiscountBox";
+import HorizontalCard from "../../../common/HorizontalCard";
+import { formatCurrency } from "../../../../utils/Format/CurrencyFormat";
+import { MdError } from "react-icons/md";
+import { IoCloseCircleSharp } from "react-icons/io5";
+import { applyDiscount } from "../../../../services/ReservationService/reservationService";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { getTotalPrice } from "../../../../services/ReservationService/reservationService";
 
-const Discount = () => {
+
+const Discount = ({appliedDiscounts, setAppliedDiscounts, setTotalPrice}) => {
 
     const [isOpenDiscountBox, setIsOpenDiscountBox] = useState(false)
+    const reservationId = useSelector(state => state.reservation.reservationId)
+
+    const [privateCode, setPrivateCode] = useState()
+
+    const applyPrivateDiscountCode = async () => {
+        if (!privateCode || privateCode.trim() === '') {
+            toast.error('Vui lòng nhập mã giảm giá')
+            return
+        }
+
+        // map về set code discount 
+        const updatedAppliedDiscounts = [...appliedDiscounts.map(discount => discount.code), privateCode]
+
+        // tiến hành gọi backend để áp dụng mã giảm giá
+        const data = await applyDiscount(reservationId, updatedAppliedDiscounts)
+        if (data && data.code && data.code === 200) {
+            toast.success(data.message)
+            setAppliedDiscounts(data.result.discounts)
+
+            // tiến hành cập nhật lại giá tiền 
+            const priceRes = await getTotalPrice(reservationId)
+            if (priceRes && priceRes.code && priceRes.code === 200 && priceRes.result) 
+                setTotalPrice(priceRes.result)
+
+        } else if (data.response && data.response.data) {
+            toast.error(data.response.data.message) // trường hợp giao dịch hết thời gian
+        }
+        else {
+            toast.error(data?.message)
+        }
+    }
 
     return (
         <>
             <Container>
                 <Row className="mt-3">
                     <Col>
-                        <div className="card mb-3">
-                        <div className="card-body">
-                            <div className="d-flex justify-content-between">
-                            <div className="d-flex flex-row align-items-center">
-                                <div>
-                                <img
-                                    src="https://w7.pngwing.com/pngs/110/471/png-transparent-discounts-and-allowances-advertising-sales-promotion-computer-icons-marketing-logo-discount-sticker.png"
-                                    className="img-fluid rounded-3" alt="Shopping item" width={"50px"} />
-                                </div>
-                                <div className="ms-3">
-                                <h5>Giảm giá mùa đông</h5>
-                                <p className="small mb-0"><Badge bg="primary">Giảm 5%</Badge></p>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
+                    {appliedDiscounts?.length > 0 ? (
+                        appliedDiscounts.map((discount) => (
+                            <HorizontalCard
+                            key={discount.code}
+                            img="https://www.shutterstock.com/image-illustration/red-price-tag-label-percentage-600nw-1947684382.jpg"
+                            name={discount.name}
+                            subName={
+                                <div>Giảm {discount.discountPrecentage}% Giảm tối đa {formatCurrency(discount.maxDiscountAmount)} VND</div>
+                            }
+                            >
+                            </HorizontalCard>
+                        ))
+                        ) : 
+                    (
+                        <div className="text-left text-danger mb-2"><MdError />Hiện tại bạn chưa chọn giảm giá nào !</div>
+                    )}
                     </Col>
                     <Col>
                     
@@ -51,9 +89,12 @@ const Discount = () => {
         
         
                             <form className="mt-4">
-                                <TextInput className={'form-white'} name={'Mã giảm giá'} />
+                                <TextInput text={privateCode} setText={setPrivateCode} 
+                                    className={'form-white'} name={'Mã giảm giá'} 
+                                />
                             </form>
-                            <PrimaryButton className={'bg-info mt-2 p-2'} text={'Tìm giảm giá đặc biệt'} icon = {<FaSearch />}/>        
+                            <PrimaryButton className={'bg-info mt-2 p-2'} text={'Tìm giảm giá đặc biệt'} icon = {<FaSearch />}
+                                onClickFunc={applyPrivateDiscountCode} />        
                             <hr className="my-4" />
 
                             <PrimaryButton className={'bg-info mt-2'} text={'Chọn mã giảm giá'} icon={<FaLocationArrow />} onClickFunc={() => {setIsOpenDiscountBox(true)}}/>
@@ -63,8 +104,9 @@ const Discount = () => {
                 </Row>
             </Container>
             <CustomModal  title={'Hãy chọn mã giảm giá'} icon={<MdDiscount />} 
-                show={isOpenDiscountBox} setShow = {setIsOpenDiscountBox} size={'lg'} content={<DiscountBox />}
-                btnClose={<PrimaryButton text={'Áp dụng ngay'} icon={<FaLocationArrow />} className={'bg-warning'} />}
+                show={isOpenDiscountBox} setShow = {setIsOpenDiscountBox} size={'lg'} 
+                content={<DiscountBox appliedDiscounts = {appliedDiscounts} setAppliedDiscounts={setAppliedDiscounts} setTotalPrice = {setTotalPrice}/>}
+                btnClose={<PrimaryButton text={'Đóng'} className={'bg-light text-dark'} icon={<IoCloseCircleSharp />} onClickFunc={() => {setIsOpenDiscountBox(false)}}/>}
             />
         </>
     )

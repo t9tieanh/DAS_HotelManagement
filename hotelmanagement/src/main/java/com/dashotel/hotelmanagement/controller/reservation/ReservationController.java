@@ -1,10 +1,13 @@
 package com.dashotel.hotelmanagement.controller.reservation;
 
 import com.dashotel.hotelmanagement.dto.common.DiscountDTO;
+import com.dashotel.hotelmanagement.dto.common.ResponseDTO;
+import com.dashotel.hotelmanagement.dto.request.reservation.initial.ApplyDiscountRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.initial.InitialReservationRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.updateinfo.UpdateReservationInfoRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.dto.response.CreationResponse;
+import com.dashotel.hotelmanagement.dto.response.reservation.ApplyDiscountResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.InitialReservationResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.ReservationStepResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.history.ReservationHistoryResponse;
@@ -41,8 +44,8 @@ public class ReservationController {
 
     @PreAuthorize("@reservationService.isOwnerOfReservation(#request.reservationId, authentication.name)")
     @PostMapping(value = "/update-info")
-    ApiResponse<CreationResponse> updateReservationInfo (@RequestBody UpdateReservationInfoRequest request) throws ParseException {
-        CreationResponse result = reservationService.updateInfoReservation(request);
+    ApiResponse<CreationResponse> updateCustomerInfoReservation (@RequestBody UpdateReservationInfoRequest request) {
+        CreationResponse result = reservationService.updateCustomerInfoReservation(request);
         String message = "Xác nhận thông tin cư trú thành công !";
 
         return ApiResponse.<CreationResponse>builder()
@@ -52,17 +55,43 @@ public class ReservationController {
                 .build();
     }
 
-//    @DeleteMapping("/{id}")
-//    public ApiResponse<Cancel> cancelReservation(@PathVariable Long id) {
-//        // Gọi service để xóa reservation theo id
-//        boolean deleted = reservationService.cancelReservation(id);
-//
-//        if (deleted) {
-//            return ResponseEntity.ok("Reservation deleted successfully.");
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Reservation not found.");
-//        }
-//    }
+    @PreAuthorize("@reservationService.isOwnerOfReservation(#id, authentication.name)")
+    @DeleteMapping("/{id}")
+    public ApiResponse<ResponseDTO> cancelReservation(@PathVariable String id) {
+        // Gọi service để xóa reservation theo id
+        ResponseDTO deleted = reservationService.cancelReservation(id);
+
+        return ApiResponse.<ResponseDTO>builder()
+                .code(200)
+                .result(deleted)
+                .build();
+    }
+
+
+    @PreAuthorize("@reservationService.isOwnerOfReservation(#id, authentication.name)")
+    @GetMapping("/total-price/{id}")
+    ApiResponse<Double> getTotalPrice (@PathVariable("id") String id)  {
+        Double result = reservationService.getTotalPrice(id);
+
+        return ApiResponse.<Double>builder()
+                .code(200)
+                .result(result)
+                .build();
+    }
+
+
+    @PreAuthorize("@reservationService.isOwnerOfReservation(#request.reservationId, authentication.name)")
+    @PostMapping("apply-discount")
+    ApiResponse<ApplyDiscountResponse> applyDiscount (@RequestBody ApplyDiscountRequest request) throws ParseException {
+        ApplyDiscountResponse result = reservationService.applyDiscount(request);
+
+        return ApiResponse.<ApplyDiscountResponse>builder()
+                .code(200)
+                .message("Áp dụng mã giảm giá thành công !")
+                .result(result)
+                .build();
+    }
+
 
 
     @PreAuthorize("@reservationService.isOwnerOfReservation(#id, authentication.name)")

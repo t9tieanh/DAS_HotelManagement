@@ -24,6 +24,7 @@ const ReservationHistory = () => {
     return (
         <div className="reservation-history">
             <CustomCard
+                className={'w-100'}
                 name={'Lịch sử đặt phòng'}
                 icon={''} children={''} >
                 {reservation.map((res, index) => (

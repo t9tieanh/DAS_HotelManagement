@@ -40,7 +40,7 @@ public class RoomTypeEntity extends AbstractEntity {
     @OneToMany(mappedBy = "roomType", cascade = CascadeType.ALL)
     List<RoomAvailabilityEntity> roomAvailabilities;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id", nullable = false)
     HotelEntity hotel;
 

@@ -8,6 +8,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.Map;
 
@@ -20,6 +21,15 @@ public class ExceptionsHandler {
         apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXEPTION.getMessage());
 
         return ResponseEntity.badRequest().body(apiResponse);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    ResponseEntity<ApiResponse> handleNoResourceFoundException(NoResourceFoundException ex) {
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(ErrorCode.RESOURCE_NOT_FOUND.getCode());
+        apiResponse.setMessage(ErrorCode.RESOURCE_NOT_FOUND.getMessage());
+
+        return ResponseEntity.status(ErrorCode.RESOURCE_NOT_FOUND.getStatusCode()).body(apiResponse);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

@@ -13,7 +13,7 @@ public interface RoomTypeRepository extends JpaRepository<RoomTypeEntity, String
     @Query("SELECT ra.roomType.id FROM RoomAvailabilityEntity ra " +
             "WHERE ra.availableDate >= :checkIn AND ra.availableDate < :checkOut " +
             "AND (ra.totalRoom - ra.bookedRoom) >= :numRooms " +
-            "AND ra.status = true " +
+//            "AND ra.status = true " +
             "GROUP BY ra.roomType.id " +
             "HAVING COUNT(ra.availableDate) = :numDays")
     List<String> findAvailableRooms(@Param("checkIn") LocalDate checkIn,

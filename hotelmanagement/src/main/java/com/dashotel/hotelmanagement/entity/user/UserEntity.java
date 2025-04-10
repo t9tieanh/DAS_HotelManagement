@@ -15,12 +15,8 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 public class UserEntity extends AbstractEntity {
-
     String name;
-
     String phone;
-
     String email;
-
     String imgUrl;
 }

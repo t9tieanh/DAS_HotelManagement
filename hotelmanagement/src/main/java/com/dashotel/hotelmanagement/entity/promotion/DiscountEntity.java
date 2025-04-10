@@ -26,15 +26,7 @@ public class DiscountEntity extends AbstractEntity {
     int discountPrecentage;
     int minloyaltyPoints = 0;
     double minBookingAmount;
-    double maxDiscountAmount;
+    double maxDiscountAmount; // Số tiền cao nhất được giảm
     Boolean isPublic;
     Boolean isActive;
-
-    @ManyToMany
-    @JoinTable(
-            name = "discount_reservation",
-            joinColumns = @JoinColumn(name = "discount_id"),
-            inverseJoinColumns = @JoinColumn(name = "reservation_id")
-    )
-    List<ReservationEntity> reservations;
 }

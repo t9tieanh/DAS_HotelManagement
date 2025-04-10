@@ -23,8 +23,7 @@ public class RoomAvailabilityEntity extends AbstractEntity {
     LocalDate availableDate;
     Boolean status;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     @JoinColumn(name = "room_type_id")
     RoomTypeEntity roomType;
-
 }

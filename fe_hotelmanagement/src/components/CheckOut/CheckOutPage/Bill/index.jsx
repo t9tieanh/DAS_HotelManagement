@@ -7,9 +7,12 @@ import { calculateNightsAndDays } from "../../../../utils/DateUtils";
 import { formatCurrency } from "../../../../utils/Format/CurrencyFormat";
 
 
-const BillContainer = ({reservationDetails, checkIn, checkOut, totalPrice}) => {
+const BillContainer = ({reservationDetails, checkIn, checkOut, totalPrice, discounts}) => {
 
     const { days } = calculateNightsAndDays(checkIn, checkOut);
+    const originalPrice = reservationDetails?.reduce((total, reservationDetail) => {
+        return total + (reservationDetail.price * reservationDetail.quantity * days);
+    }, 0);
 
     return (
         <div className="bill-container">
@@ -27,11 +30,16 @@ const BillContainer = ({reservationDetails, checkIn, checkOut, totalPrice}) => {
                     }
                 )}
 
-
-                {/* <div className="d-flex justify-content-between mb-3 discount-section">
-                    <h6 className="text-start mb-0 title">Giá gốc (1 phòng x {days} đêm)</h6>
-                    <h6 className="text-end mb-0">36.434.307 ₫</h6>
-                </div> */}
+                {discounts?.map(
+                    (discount) => {
+                        return (
+                            <div className="d-flex justify-content-between mt-3 mb-3 discount-section">
+                                <h6 className="text-start mb-0">Giảm giá ({discount.name})</h6>
+                                <h6 className="text-end mb-0">{Math.min(discount.maxDiscountAmount, (originalPrice * discount.discountPrecentage / 100))}₫</h6>
+                            </div>
+                        )
+                    }
+                )}
 
                 <div className="d-flex justify-content-between mb-3 discount-section">
                     <h6 className="text-start mb-0 title">Phí đặt trước</h6>

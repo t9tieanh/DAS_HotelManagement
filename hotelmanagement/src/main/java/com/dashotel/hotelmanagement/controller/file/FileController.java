@@ -29,7 +29,7 @@ public class FileController {
 
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFilename() + "\"") // 🔥 Hiển thị file thay vì tải về
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + file.getFilename() + "\"") //  Hiển thị file thay vì tải về
                 .body(resizedImage);
     }
 

@@ -3,9 +3,17 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useNavigate } from 'react-router-dom';
 import './style.scss'; // Import file CSS tùy chỉnh
+import { Container } from 'react-bootstrap';
+import Icon from '../../../components/common/Icon';
+import successLogo from '../../../assets/img/common/success_icon.gif'
+import PrimaryButton from '../../../components/common/button/btn-primary';
+import { MdHome } from "react-icons/md";
+import { useSelector } from 'react-redux';
+
 
 const PaymentSuccess = () => {
     const navigate = useNavigate();
+    const reservationId = useSelector(state => state.reservation.reservationId)
 
     // useEffect(() => {
     //     const timer = setTimeout(() => {
@@ -16,26 +24,20 @@ const PaymentSuccess = () => {
 
     return (
         <div className="payment-success-container">
-            <Card className="payment-success-card">
-                <Card.Img
-                    variant="top"
-                    src='https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWRsOG1qN3M3NHkwM3RyYWs0OWhkanJpbGhqMm9lOTBwbWxxbnV6bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tf9jjMcO77YzV4YPwE/giphy.gif'
-                    className="payment-success-image"
-                />
-                <Card.Body>
-                    <Card.Title className="payment-success-title">Đặt phòng thành công</Card.Title>
-                    <Card.Text className="payment-success-text">
-                        Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi! Bạn sẽ được chuyển về trang chủ sau 5 giây.
-                    </Card.Text>
-                    <Button
-                        variant="primary"
-                        className="payment-success-button"
-                        onClick={() => navigate('/')}
-                    >
-                        Trở về trang chủ ngay
-                    </Button>
-                </Card.Body>
-            </Card>
+            <Container className="justify-content-center vh-100">
+                <Card className="text-center shadow-2">
+                    <Card.Body>
+                        <Icon logo={successLogo} size={50} />
+                        <Card.Title className="mb-4">Thanh toán thành công!</Card.Title>
+                        <p className='text-muted fs-15'>Mã đặt phòng của quý khách là: {reservationId}</p>
+                        <Card.Text className="mb-4">
+                            Cảm ơn bạn đã đặt phòng với <span className="text-primary"><span className="text-warning">@H</span>otelas</span>
+                            <br></br>! Chúng tôi đã nhận được thanh toán của bạn.
+                        </Card.Text>
+                        <PrimaryButton className={'mb-3 bg-primary'} icon={<MdHome size={19} />} text={"Quay về trang chủ"} />
+                    </Card.Body>
+                </Card>
+            </Container>
         </div>
     );
 };

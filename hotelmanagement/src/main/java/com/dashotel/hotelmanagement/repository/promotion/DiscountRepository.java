@@ -16,8 +16,8 @@ public interface DiscountRepository extends JpaRepository<DiscountEntity, String
     Optional<DiscountEntity> findByCode(String code);
 
     @Query("select dc from DiscountEntity dc where dc.beginDate <= CURRENT_TIMESTAMP and dc.endDate > CURRENT_TIMESTAMP " +
-            "and dc.isPublic = true and dc.isActive = true")
-    List<DiscountEntity> findAvailabeDiscount();
+            "and dc.isPublic = true and dc.isActive = true and dc.minloyaltyPoints < :loyaltPoint ")
+    List<DiscountEntity> findAvailabeDiscountByLoyaltPoint(Long loyaltPoint);
 
 
     @Query("SELECT dc FROM DiscountEntity dc " +

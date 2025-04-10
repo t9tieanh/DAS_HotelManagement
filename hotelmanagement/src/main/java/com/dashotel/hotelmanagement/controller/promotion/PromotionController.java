@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 
@@ -19,8 +20,9 @@ public class PromotionController {
 
     DiscountService discountService;
 
+    // lấy những discount có sawnx
     @GetMapping(value = "/available")
-    ApiResponse<List<DiscountDTO>> getAvailableDiscount() {
+    ApiResponse<List<DiscountDTO>> getAvailableDiscount() throws ParseException {
         var result = discountService.getAvailableDiscount();
         return ApiResponse.<List<DiscountDTO>>builder()
                 .code(200)
@@ -36,6 +38,4 @@ public class PromotionController {
                 .result(result)
                 .build();
     }
-
-
 }

@@ -29,6 +29,7 @@ const CheckOutPage = () => {
     const [checkIn, setCheckIn] = useState()
     const [checkOut, setCheckOut] = useState()
     const [reservationDetail, setReservationDetail] = useState()
+    const [discounts, setDiscounts] = useState([])
 
     // tổng tiền 
     const [totalPrice, setTotalPrice] = useState()
@@ -58,6 +59,7 @@ const CheckOutPage = () => {
 
             //set reservationdetail 
             setReservationDetail(data.result.reservationDetail)
+            setDiscounts(data.result.discounts) // chuyển list -> set
 
             // lấy tổng tiền 
             setTotalPrice(data.result.totalPrice)
@@ -94,10 +96,11 @@ const CheckOutPage = () => {
         <Container className="resevation-container mb-5" >
             <div className="row mt-4">
                 <div className="col-md-6">
-                    {pageState === 0 && <ConfirmInfomationPage handleNextStep={handleNextStep} handleCancelReservation={handleCancelReservation} />}
+                    {pageState === 0 && <ConfirmInfomationPage  handleNextStep={handleNextStep} handleCancelReservation = {handleCancelReservation} 
+                        discounts = {discounts} setDiscounts = {setDiscounts} setTotalPrice = {setTotalPrice}
+                    />}
                     {pageState === 1 && <PaymentPage handleNextStep={handleNextStep} handleCancelReservation={handleCancelReservation} totalPrice={totalPrice} />}
                     {pageState === 2 && <ReservationSuccess />}
-
                 </div>
 
                 <div className="col-md-6">
@@ -117,7 +120,11 @@ const CheckOutPage = () => {
                     < CustomCard className={'shadow-3 mt-3 property-card border p-3 mb-3 rounded'}
                         subTitle={'Xem chi tiết hóa đơn của bạn'}
                         name={'Hóa đơn của bạn'} icon={< MdOutlinePayments />}
-                        children={< BillContainer totalPrice={totalPrice} reservationDetails={reservationDetail} checkIn={checkIn} checkOut={checkOut} />} />
+                        children={< BillContainer totalPrice={totalPrice} reservationDetails={reservationDetail} 
+                        checkIn={checkIn} checkOut={checkOut}
+                        discounts = {discounts}     
+                    />} 
+                    />
                 </div >
             </div >
         </Container >

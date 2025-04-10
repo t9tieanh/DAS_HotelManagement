@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,23 +32,23 @@ public class ReservationEntity extends AbstractEntity {
 
     LocalDateTime expireDateTime;
 
-    @ManyToMany(mappedBy = "reservations")
-    List<DiscountEntity> discounts;
+    @ManyToMany
+    Set<DiscountEntity> discounts;
 
     @ManyToMany
     List <ServiceEntity> services;
 
-    @OneToOne(mappedBy = "booking")
+    @OneToOne(mappedBy = "booking", fetch = FetchType.LAZY)
     PaymentEntity payment;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     CustomerEntity customer;
 
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
     List<ReservationDetailEntity> reservationDetail;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "room_occupant", referencedColumnName = "id")
     private RoomOccupantEntity roomOccupant;
 }

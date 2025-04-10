@@ -19,7 +19,4 @@ public class UpdateReservationInfoRequest {
     String name;
     String phone;
     String email;
-
-    //thông tin discount
-    List<String> appliedDiscounts;
 }
