@@ -6,6 +6,8 @@ import VerifyOTP from "../../../pages/VerifyOTP";
 import ImageComponent from "../ImageComponent";
 import { registerService, sendOtp } from "../../../services/RegisterService/registerService";
 import { useNavigate } from "react-router-dom";
+import TextInput from "../../common/Input/Input2";
+import PrimaryButton from "../../common/button/btn-primary";
 
 const InfoComponent = () => {
 
@@ -100,87 +102,66 @@ const InfoComponent = () => {
         <>
             <ImageComponent />
 
-            <div className="info-card-body p-4 p-md-5">
+            <div className="info-card-body p-md-5">
 
                 <h3 className="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2 text-center">Thông tin đăng ký</h3>
 
                 <form className="px-md-2" onSubmit={handleSubmit}>
-                    <div className="form-outline mb-4">
-                        <input
-                            type="text"
-                            id="form3Example1q"
-                            className="form-control"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            placeholder=""
-                        />
-                        <label className="form-label" htmlFor="form3Example1q">Tên</label>
-                    </div>
+                    <TextInput
+                        name="Tên của bạn"
+                        placeholder="Nhập tên của bạn"
+                        value={formData.name}
+                        setValue={(value) => setFormData({ ...formData, name: value })}
+                        idInput="form3Example1q"
+                        inputType="text"
+                    />
 
-                    <div className="form-outline mb-4">
-                        <input
-                            type="email"
-                            id="form3Example2q"
-                            className="form-control"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                        />
-                        <label className="form-label" htmlFor="form3Example2q">Email</label>
-                    </div>
+                    <TextInput
+                        name="Email của bạn"
+                        placeholder="Nhập email của bạn"
+                        value={formData.email}
+                        setValue={(value) => setFormData({ ...formData, email: value })}
+                        idInput="form3Example2q"
+                        inputType="email"
+                    />
 
-                    <div className="form-outline mb-4">
-                        <input
-                            type="text"
-                            id="form3Example3q"
-                            className="form-control"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleChange}
-                        />
-                        <label className="form-label" htmlFor="form3Example3q">Số điện thoại</label>
-                    </div>
+                    <TextInput
+                        name="Số điện thoại của bạn"
+                        placeholder="Nhập số điện thoại của bạn"
+                        value={formData.phone}
+                        setValue={(value) => setFormData({ ...formData, phone: value })}
+                        idInput="form3Example3q"
+                        inputType="tel"
+                    />
 
-                    <div className="form-outline mb-4">
-                        <input
-                            type="text"
-                            id="form3Example4q"
-                            className="form-control"
-                            name="username"
-                            value={formData.username}
-                            onChange={handleChange}
-                        />
-                        <label className="form-label" htmlFor="form3Example4q">Tên đăng nhập</label>
-                    </div>
+                    <TextInput
+                        name="Tên đăng nhập"
+                        placeholder="Nhập tên đăng nhập"
+                        value={formData.username}
+                        setValue={(value) => setFormData({ ...formData, username: value })}
+                        idInput="form3Example4q"
+                        inputType="text"
+                    />
 
-                    <div className="form-outline mb-4">
-                        <input
-                            type="password"
-                            id="form3Example5q"
-                            className="form-control"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                        />
-                        <label className="form-label" htmlFor="form3Example5q">Mật khẩu</label>
-                    </div>
+                    <TextInput
+                        name="Mật khẩu"
+                        placeholder="Nhập mật khẩu"
+                        value={formData.password}
+                        setValue={(value) => setFormData({ ...formData, password: value })}
+                        idInput="form3Example5q"
+                        inputType="password"
+                    />
 
-                    <div className="form-outline mb-4">
-                        <input
-                            type="password"
-                            id="form3Example6q"
-                            className="form-control"
-                            name="confirmPassword"
-                            value={formData.confirmPassword}
-                            onChange={handleChange}
-                        />
-                        <label className="form-label" htmlFor="form3Example6q">Nhập lại mật khẩu</label>
-                    </div>
+                    <TextInput
+                        name="Nhập lại mật khẩu"
+                        placeholder="Nhập lại mật khẩu"
+                        value={formData.confirmPassword}
+                        setValue={(value) => setFormData({ ...formData, confirmPassword: value })}
+                        idInput="form3Example6q"
+                        inputType="password"
+                    />
 
-                    <div className="text-center">
-                        <button type="submit" className="btn btn-primary btn-lg mb-1">Đăng ký</button>
-                    </div>
+                    <PrimaryButton text={'Đăng ký'} className={'btn-lg mt-4'} />
                 </form>
             </div>
         </>

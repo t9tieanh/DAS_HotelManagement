@@ -156,22 +156,19 @@ const RoomSection = ({ rooms, checkIn, checkOut }) => {
                                     <img
                                         src={`${BASE_URL}/${fileUrl}/${room.avatar}`}
                                         alt={room.name}
+                                        className="mb-2"
                                     />
-                                    <ArrowButton text={'Xem chi tiết phòng'} style={{ fontSize: "15px", marginTop: "5px" }} />
+                                    <ArrowButton style={{fontSize : "13px"}} text={'Xem chi tiết phòng'} />
                                 </div>
                             </div>
                             <div className="col-md-8">
                                 <div className="room-details">
-                                    <h5>{room.name}</h5>
+                                    <h5 className="fw-bold">{room.name}</h5>
                                     <table>
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <strong>{room.description}</strong><br />
-                                                    <span className="text-muted">
-                                                        {room.roomStatus === 1 ? "Có sẵn" : "Hết phòng"}
-                                                    </span><br />
-                                                    <i className="fas fa-bed"></i> {room.maxOccupation} người<br />
+                                                    <i className="fas fa-bed"></i> Số lượng người: {room.maxOccupation}<br />
                                                     <span className="text-success">
                                                         {room.freeChildren > 0 ? `Miễn phí ${room.freeChildren} trẻ em` : "Không miễn phí trẻ em"}
                                                     </span>
@@ -181,11 +178,11 @@ const RoomSection = ({ rooms, checkIn, checkOut }) => {
                                                 </td>
                                                 <td className="text-end">
                                                     <span className="price-new">{formatCurrency(room.price)} VND</span><br />
-                                                    <small className="text-muted">Chưa bao gồm thuế và phí</small><br />
+                                                    <small className="text-muted">Đã bao gồm thuế và phí</small><br />
                                                     {room.roomStatus === 1 && <Tag text={'Đang có khuyến mãi'} />}
                                                 </td>
                                                 <td className="text-end">
-                                                    <PrimaryButton text={'Đặt ngay'} onClickFunc={() => { handleBookingRoom(room) }} icon={<FaArrowAltCircleRight />} className={'select-btn'} />
+                                                    <PrimaryButton text={'Đặt ngay'} onClickFunc={() => { handleBookingRoom(room) }} icon={<FaArrowAltCircleRight />} />
                                                 </td>
                                             </tr>
                                         </tbody>

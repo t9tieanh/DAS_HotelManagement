@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { OAuthConfig } from "../../../conf/conf";
 import { useDispatch } from "react-redux";
 import { doUpdateUser } from "../../../redux/action/updateUserAction";
+import logo from '../../../assets/img/logo1.png'
 
 const LoginForm = () => {
 
@@ -80,12 +81,12 @@ const LoginForm = () => {
       <div className="col-lg-6 loginform-container">
         <div className="card-body p-md-5 mx-md-4">
           <div className="text-center">
-            <img
-              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-              style={{ width: "185px" }}
-              alt="logo"
-            />
-            <h4 className="mt-1 mb-5 pb-1">Chào mừng đến với DAS Hotel</h4>
+          <div className="logo">
+              <a href="#">
+                  <h3 className="fw-bold"><span className="text-danger">@H</span><span className='text-primary'>otelas</span></h3>
+              </a>
+          </div>
+            <h4 className="mt-1 mb-5 pb-1 text-muted">Chào mừng đến với DAS Hotel</h4>
           </div>
 
           <form>

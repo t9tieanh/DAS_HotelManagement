@@ -4,8 +4,6 @@ import hero4 from "../../../assets/img/hero/hero-4.jpeg";
 import hero5 from "../../../assets/img/hero/hero-5.jpeg";
 import hero6 from "../../../assets/img/hero/hero-6.jpg";
 import { GoPaperAirplane } from "react-icons/go";
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Dropdown from 'react-bootstrap/Dropdown';
 import PrimaryButton from "../../common/button/btn-primary";
 import './style.scss'
 import LocationSearch from "../../HotelSearchPage/SearchBarComponent/LocationSearch";
@@ -13,8 +11,9 @@ import Overlay from "../../common/Overlay";
 import { useRef } from "react";
 import { MdTipsAndUpdates } from "react-icons/md";
 import './style.scss';
-import {FaUser, FaSearch } from 'react-icons/fa'; // Icons từ react-icons
+import {FaUser } from 'react-icons/fa'; // Icons từ react-icons
 import { CapacitySearch } from "../../HotelSearchPage/SearchBarComponent";
+import TextInput from "../../common/Input/Input2";
 
 const images = [hero5, hero4, hero6];
 
@@ -108,7 +107,7 @@ const BookingForm = () => {
                                 <form onSubmit={handleSubmit}>
 
                                     {/* nhập location */}
-                                    <div className="check-date" ref={ref}>
+                                    {/* <div className="check-date" ref={ref}>
                                         <label htmlFor="date-in">Chọn địa điểm:</label>
                                         <input type="text" className="date-input" id="date-in" value={location} placeholder="Nhập địa chỉ"
                                             onChange={handleLocationSearch} />
@@ -116,7 +115,23 @@ const BookingForm = () => {
                                             children={<LocationSearch handleSelectLocation = {handleSelectLocation} textSearch = {location} />}
                                             header={<><MdTipsAndUpdates />&nbsp;Nhập thêm ký tự để tìm vị trí chính xác hơn</>}
                                         />
-                                    </div>
+                                    </div> */}
+                                    <TextInput
+                                        ref={ref}
+                                        value={location}
+                                        setValue={setLocation}  // ← dùng setValue để xử lý mặc định
+                                        onChangeFunc={handleLocationSearch}
+                                        placeholder="Nhập địa điểm"
+                                        name="Địa điểm"
+                                        idInput="location-input"
+                                        className="check-date"
+                                        overlayElement={
+                                            <Overlay show={show} target={target} ref={ref} 
+                                                children={<LocationSearch handleSelectLocation = {handleSelectLocation} textSearch = {location} />}
+                                                header={<><MdTipsAndUpdates />&nbsp;Nhập thêm ký tự để tìm vị trí chính xác hơn</>}
+                                            />
+                                        }
+                                    />
 
                                     {/* nhập ngày check in check out */}
                                     <div className="check-date">
