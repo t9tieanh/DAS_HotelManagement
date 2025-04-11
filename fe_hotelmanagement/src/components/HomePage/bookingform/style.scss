@@ -1,8 +1,10 @@
 .hero-section {
     .custom-dropdown {
         background-color: rgb(255, 255, 255) !important;
-        border: none !important;
-        color: white !important;
+        // border: none !important;
+        border: solid 1px #e0e0e0 !important;
+        padding: 10px !important;
+        border-radius: 8px !important;
     }
 
     .search-button {

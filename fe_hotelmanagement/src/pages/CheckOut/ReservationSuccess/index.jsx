@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useNavigate } from 'react-router-dom';
 import './style.scss'; // Import file CSS tùy chỉnh
@@ -34,7 +32,7 @@ const PaymentSuccess = () => {
                             Cảm ơn bạn đã đặt phòng với <span className="text-primary"><span className="text-warning">@H</span>otelas</span>
                             <br></br>! Chúng tôi đã nhận được thanh toán của bạn.
                         </Card.Text>
-                        <PrimaryButton className={'mb-3 bg-primary'} icon={<MdHome size={19} />} text={"Quay về trang chủ"} />
+                        <PrimaryButton className={'mb-3 bg-primary'} icon={<MdHome size={19} />} onClickFunc={() => {navigator('/')}} text={"Quay về trang chủ"} />
                     </Card.Body>
                 </Card>
             </Container>

@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { doDeleteUser } from "../../../redux/action/updateUserAction";
 import { logout } from "../../../services/AuthService/authService";
 import './style.scss'
-import { toast } from "react-toastify";
+import { IoLogOutSharp } from "react-icons/io5";
 import { BASE_URL } from "../../../conf/baseUrl";
 
 const Header = () => {
@@ -49,7 +49,7 @@ const Header = () => {
                                 {isAuthentication && (
                                     <>
                                         <a href="#" className="bk-btn">Xin chào {account?.username}</a>
-                                        <button href="#" onClick={handleLogOut} className="bk-btn btn-logout ml-1">Đăng xuất</button>
+                                        <button href="#" onClick={handleLogOut} className="bk-btn btn-logout ml-1"><IoLogOutSharp size = {"20"}/>Đăng xuất</button>
 
                                         <div className="user-profile">
                                             <img
@@ -60,7 +60,6 @@ const Header = () => {
                                                 <ul>
                                                     <li><a href="/profile">Hồ sơ</a></li>
                                                     <li><a href="#">Cài đặt</a></li>
-                                                    <li><a href="#">Đăng xuất</a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -88,22 +87,10 @@ const Header = () => {
                                 <nav className="mainmenu">
                                     <ul>
                                         <li onClick={() => { navigate('/') }} className="active"><a>Trang chủ</a></li>
-                                        <li><a href="./about-us.html">Về chúng tôi</a></li>
-                                        <li><a href="./pages.html">Pages</a>
-                                            <ul className="dropdown">
-                                                <li><a href="./room-details.html">Room Details</a></li>
-                                                <li><a href="./blog-details.html">Blog Details</a></li>
-                                                <li><a href="#">Family Room</a></li>
-                                                <li><a href="#">Premium Room</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="./blog.html">Bài viết</a></li>
-                                        <li><a href="./contact.html">Liên hệ</a></li>
+                                        <li onClick={() => { navigate('/about-us') }}><a> Về chúng tôi</a></li>
+                                        <li onClick={() => { navigate('/about-dev') }} ><a>Về nhà phát triển</a></li>
                                     </ul>
                                 </nav>
-                                <div className="nav-right search-switch">
-                                    <i className="icon_search"></i>
-                                </div>
                             </div>
                         </div>
                     </div>

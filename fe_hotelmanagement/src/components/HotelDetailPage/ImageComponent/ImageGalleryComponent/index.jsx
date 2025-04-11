@@ -55,21 +55,37 @@ const TabDetail = ({keyParent,hotelId,imageType}) => {
 }
 
 
-const ImageGallery = ({show,setShow,imgCategorys,hotelId}) => {
+const ImageGallery = ({show, setShow, imgCategorys, hotelId}) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [key, setKey] = useState('SẢNH CHỜ');
+  const [key, setKey] = useState();
 
   const handleTabSelect = (selectedKey) => {
     setKey(selectedKey);
     console.log('Tab hiện tại:', selectedKey); 
   };
 
+  useEffect(() => {
+    if (imgCategorys && imgCategorys.length > 0) {
+      const firstTab = `${imgCategorys[0].imageType}`;
+      setKey(firstTab);
+    }
+  }, [imgCategorys]);
+
   return (
     <div>
       <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
-          <Modal.Title><h5 className="d-flex align-items-center gap-1"><FaCamera /> Thư Viện Ảnh</h5></Modal.Title>
+          <Modal.Title>
+          <div className="d-flex flex-column">
+            <h5 className="d-flex align-items-center gap-1">
+              <FaCamera /> Thư Viện Ảnh
+            </h5>
+            <p className="mb-0 text-muted" style={{ fontSize: '14px' }}>
+              Khám phá kho lưu trữ ảnh của khách sạn này!
+            </p>
+          </div>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <Tabs

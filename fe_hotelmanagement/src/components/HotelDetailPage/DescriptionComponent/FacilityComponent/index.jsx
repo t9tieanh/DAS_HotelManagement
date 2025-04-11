@@ -22,10 +22,8 @@ const HotelLocationDetailBody = ({facilities}) => {
 
       <div style={{ padding : "10px"}}>
           <Row>
-
             <div className = "background-img">
-                <h1>Các tiện nghi của khách sạn</h1>
-                <p class="text-muted">from DAS Hotel - 2024</p>
+                <h1>Các tiện nghi có sẵn của khách sạn</h1>
             </div>
 
             {Object?.entries(facilitiesUpdated)?.map(([icon,facilitys]) => (
@@ -47,7 +45,6 @@ const HotelLocationDetailBody = ({facilities}) => {
                     </Card>
                 </Col>
             ))}
-
           </Row>
       </div>
       </Container>
@@ -93,7 +90,11 @@ const HotelFacility = ({facilities}) => {
         >
             <HotelLocationBody facilities={facilities?.slice(0, 6)} />
             
-            <CustomModal show={show} setShow={setShow} icon={<FaServicestack />} title={`Các tiện ích của khách sạn này`} content={<HotelLocationDetailBody facilities={facilities} />} />
+            <CustomModal show={show} setShow={setShow} icon={<FaServicestack />} 
+                title={`Các tiện ích của khách sạn này`} 
+                subtitle={`Tìm hiểu thêm thông tin chi tiết về các tiện ích mà khách sạn này cung cấp!`}
+                content={<HotelLocationDetailBody facilities={facilities} />} 
+            />
         </CustomCard>
     );
 };

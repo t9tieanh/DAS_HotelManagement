@@ -21,7 +21,9 @@ const DescriptionBody = ({ text, maxLength = 400 }) => {
             {text?.length > maxLength && (
                 <ArrowButton style={{fontSize : "13px"}} onClickFunc={handleShowDescription} text={isExpanded ? "Thu gọn" : "Xem thêm"} />
             )}
-            <CustomModal icon={<FaInfo />} show={show} setShow={setShow} title={'Mô tả về khách sạn này'} content={text}  />
+            <CustomModal icon={<FaInfo />} show={show} setShow={setShow} 
+                title={'Mô tả về khách sạn này'} subtitle={'Tìm hiểu thêm thông tin chi tiết về khách sạn mà bạn đang quan tâm!'} content={text}  
+            />
         </div>
     );
 };
