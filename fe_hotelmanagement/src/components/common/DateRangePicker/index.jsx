@@ -9,7 +9,7 @@ const DateRangePickerComponent = ({date, setDate}) => {
         <>
             <div className="calendar-custom card p-2">
                 <DateRangePicker
-                onChange={setDate}
+                onChange={(value) => setDate(value)}
                 value={date}
                 minDate={new Date('2020-01-01')}
                 maxDate={new Date('2030-12-31')}

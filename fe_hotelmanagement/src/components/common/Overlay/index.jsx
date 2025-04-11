@@ -1,17 +1,15 @@
-import { Children } from 'react';
 import Overlay from 'react-bootstrap/Overlay';
 import Popover from 'react-bootstrap/Popover';
 import './style.scss';
 
 const CustomOverlay = ({header, children, show, target, ref}) => {
-    return (
-        <>   
+    return (   
         <Overlay
             show={show}
             target={target}
             placement="bottom"
             container={ref}
-            className="custom-overlay"
+            className="custom-overlay-container"
             containerPadding={0}
         >
             <Popover id="popover-contained">
@@ -21,7 +19,6 @@ const CustomOverlay = ({header, children, show, target, ref}) => {
             </Popover.Body>
             </Popover>
         </Overlay>
-        </>
     )
 }
 

@@ -33,7 +33,7 @@ const HotelSearchPage = () => {
   ]);
 
 
-  const [locationValue, setLocationValue] = useState(getSearchParam("location", "Thành phố Hồ Chí Minh"));
+  const [locationValue, setLocationValue] = useState(getSearchParam("location", ""));
   const checkIn = dateRange[0];
   const checkOut = dateRange[1];
   const [numAdults, setNumAdults] = useState(Number(getSearchParam("numAdults", 1)));

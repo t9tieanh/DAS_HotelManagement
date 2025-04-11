@@ -10,6 +10,8 @@
     max-height: 550px;
     /* Giới hạn chiều cao tối đa */
     width: 80%;
+    height: 800px !important;
+    min-height: 100vh !important;
 }
 
 .reservation-history {

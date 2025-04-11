@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { VscDebugContinue } from "react-icons/vsc";
 import { FaLocationArrow } from "react-icons/fa";
 
-function CustomModal({show, setShow, title, content, icon, size, btnClose}) {
+function CustomModal({show, setShow, title, subtitle, content, icon, size, btnClose}) {
 
   const handleClose = () => setShow(false);
 
@@ -14,7 +14,16 @@ function CustomModal({show, setShow, title, content, icon, size, btnClose}) {
       aria-labelledby="contained-modal-title-vcenter"
       centered show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title><h5 className='d-flex align-items-center gap-1'>{icon}{title}</h5></Modal.Title>
+          <Modal.Title>
+          <div className="d-flex flex-column">
+              <h5 className="d-flex align-items-center gap-1">{icon}{title}</h5>
+              {subtitle && (
+                <p className="mb-0 mt-1 text-muted" style={{ fontSize: '14px' }}>
+                  {subtitle}
+                </p>
+              )}
+          </div>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body><span className='text-muted'>{content}</span></Modal.Body>
         <Modal.Footer>

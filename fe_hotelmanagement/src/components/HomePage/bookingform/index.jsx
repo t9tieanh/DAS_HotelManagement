@@ -8,6 +8,13 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 import PrimaryButton from "../../common/button/btn-primary";
 import './style.scss'
+import LocationSearch from "../../HotelSearchPage/SearchBarComponent/LocationSearch";
+import Overlay from "../../common/Overlay";
+import { useRef } from "react";
+import { MdTipsAndUpdates } from "react-icons/md";
+import './style.scss';
+import {FaUser, FaSearch } from 'react-icons/fa'; // Icons từ react-icons
+import { CapacitySearch } from "../../HotelSearchPage/SearchBarComponent";
 
 const images = [hero5, hero4, hero6];
 
@@ -18,6 +25,8 @@ const BookingForm = () => {
     const defaultCheckOut = new Date();
     defaultCheckOut.setDate(defaultCheckIn.getDate() + 1);
 
+    // state để search phòng
+    const [location, setLocation] = useState("");
     const [currentImage, setCurrentImage] = useState(0);
     const [checkIn, setCheckIn] = useState(defaultCheckIn.toISOString().split("T")[0]);
     const [checkOut, setCheckOut] = useState(defaultCheckOut.toISOString().split("T")[0]);
@@ -25,11 +34,43 @@ const BookingForm = () => {
     const [numRooms, setNumRooms] = useState(1);
     const navigate = useNavigate();
 
+    // dùng cho search location 
+    const [show, setShow] = useState(false);
+    const [target, setTarget] = useState(null);
+    const ref = useRef(null);
+    // người dùng tiến hành chọn location 
+    const handleSelectLocation = (location) => {
+        setLocation(location)
+        setShow(false);
+    }
+
+    // xử lý cho sự kiện search location
+    const handleLocationSearch = (event) => {
+        setShow(true);
+        const value = event.target.value;
+        setLocation(value);
+
+        setTarget(event.target);
+    };
+
+
+    // cho phần chọn người lớn, trẻ em, phòng
+    const capacityRef = useRef(null);
+    const [capacityTarget, setCapacityTarget] = useState(null);
+    const [capacityShow, setCapacityShow] = useState(false);
+
+    const handleClickCapacity = (event) => { 
+        setCapacityShow(!capacityShow);
+        setCapacityTarget(event.target);
+    };
+
+
+    // nhấn nút tìm phòng 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            navigate(`/hotel-result?checkIn=${checkIn}&checkOut=${checkOut}&numAdults=${numAdults}&numRooms=${numRooms}`);
+            navigate(`/hotel-result?checkIn=${checkIn}&checkOut=${checkOut}&numAdults=${numAdults}&numRooms=${numRooms}&location=${location}`);
         } catch (error) {
             console.error("Lỗi khi tìm phòng:", error);
             alert("Đã xảy ra lỗi khi tìm phòng.");
@@ -65,6 +106,19 @@ const BookingForm = () => {
                             <div className="booking-form">
                                 <h3>Đặt phòng khách sạn</h3>
                                 <form onSubmit={handleSubmit}>
+
+                                    {/* nhập location */}
+                                    <div className="check-date" ref={ref}>
+                                        <label htmlFor="date-in">Chọn địa điểm:</label>
+                                        <input type="text" className="date-input" id="date-in" value={location} placeholder="Nhập địa chỉ"
+                                            onChange={handleLocationSearch} />
+                                        <Overlay show={show} target={target} ref={ref} 
+                                            children={<LocationSearch handleSelectLocation = {handleSelectLocation} textSearch = {location} />}
+                                            header={<><MdTipsAndUpdates />&nbsp;Nhập thêm ký tự để tìm vị trí chính xác hơn</>}
+                                        />
+                                    </div>
+
+                                    {/* nhập ngày check in check out */}
                                     <div className="check-date">
                                         <label htmlFor="date-in">Nhận phòng:</label>
                                         <input type="date" className="date-input" id="date-in" value={checkIn}
@@ -75,25 +129,22 @@ const BookingForm = () => {
                                         <input type="date" className="date-input" id="date-out" value={checkOut}
                                             onChange={(e) => setCheckOut(e.target.value)} />
                                     </div>
+
+                                    {/* nhập capacity */}
                                     <div className="select-option">
                                         <label htmlFor="guest">Số người:</label>
-                                        <DropdownButton variant="dark" id="dropdown-basic-button" className="custom-dropdown" title={`${numAdults} guest${numAdults > 1 ? "s" : ""}`}>
-                                            {Array.from({ length: 5 }, (_, i) => i + 1).map((num) => (
-                                                <Dropdown.Item key={num} onClick={() => { setNumAdults(num) }}>
-                                                    {num} Người
-                                                </Dropdown.Item>
-                                            ))}
-                                        </DropdownButton>
-                                    </div>
-                                    <div className="select-option">
-                                        <label htmlFor="room">Số phòng:</label>
-                                        <DropdownButton variant="dark" id="dropdown-basic-button" className="custom-dropdown" title={`${numRooms} room${numAdults > 1 ? "s" : ""}`}>
-                                            {Array.from({ length: 5 }, (_, i) => i + 1).map((num) => (
-                                                <Dropdown.Item key={num} onClick={() => { setNumRooms(num) }}>
-                                                    {num} Phòng
-                                                </Dropdown.Item>
-                                            ))}
-                                        </DropdownButton>
+                                        <div className="check-date shadow-2 p-2 custom-dropdown" id="guest">
+                                            <div ref={capacityRef} className="bg-light" onClick={(e) => {handleClickCapacity(e)}}>
+                                            <FaUser />&nbsp;
+                                            <span>{numAdults} người lớn, {numRooms} phòng</span>
+                                            </div>
+                                
+                                            <Overlay show={capacityShow} target={capacityTarget} ref={capacityRef} 
+                                                children={<CapacitySearch adults = {numAdults} setAdults = {setNumAdults} 
+                                                    rooms = {numRooms} setRooms = {setNumRooms} setShow={setCapacityShow}  />}
+                                                header={<><MdTipsAndUpdates />&nbsp;Điền thông tin khách và phòng</>}
+                                            />
+                                        </div>
                                     </div>
 
                                     <PrimaryButton className={'search-button'} type="submit" text={"Tìm phòng ngay"} icon={<GoPaperAirplane />} />

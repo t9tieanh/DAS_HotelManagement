@@ -24,6 +24,7 @@ import CheckOutPage from './pages/CheckOut/CheckoutPage/index.jsx';
 import PrivateBookingRoute from './routes/PrivateBookingRoute.jsx';
 import VNPayCallback from './services/PaymentService/VNPayCallback.js';
 import ReservationSuccess from './pages/CheckOut/ReservationSuccess/index.jsx';
+import AboutUsPage from './pages/AboutUs/index.jsx';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
       {
         path: '/', element: <HomeLayout />, children: [
           { index: true, element: <HomePage /> },
+          { path: 'about-us', element: <AboutUsPage /> },
           { path: 'hotel-detail/:id', element: <HotelDetail /> },
           { path: 'login', element: <LoginPage /> },
           { path: 'authentication', element: <AuthenticatePage /> },
