@@ -5,7 +5,7 @@ import RoomSection from "../../components/HotelDetailPage/RoomCard/index.jsx";
 import HotelName from "../../components/HotelDetailPage/NameComponent/index.jsx";
 import HotelDescription from "../../components/HotelDetailPage/DescriptionComponent/index.jsx";
 import { getHotelDetail } from "../../services/HotelService/hotelService.js";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 

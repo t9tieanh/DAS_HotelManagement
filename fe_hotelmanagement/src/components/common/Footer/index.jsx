@@ -11,7 +11,7 @@ const Footer = () => {
                                 <div className="ft-about">
                                     <div className="logo">
                                         <a href="#">
-                                            <img src={logo} alt="Hotelas Logo" />
+                                            <h3><span className="text-danger">@H</span><span className='text-primary'>otelas</span></h3>
                                         </a>
                                     </div>
                                     <p>
