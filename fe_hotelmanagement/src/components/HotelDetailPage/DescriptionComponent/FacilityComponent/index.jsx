@@ -18,7 +18,7 @@ const HotelLocationDetailBody = ({facilities}) => {
     const [facilitiesUpdated, setFacilitiesUpdated] = useState(_.groupBy(facilities, "category"))
 
     return <>
-      <Container className="shadow-0">
+      <Container className="shadow-0 modal-facility-detail">
 
       <div style={{ padding : "10px"}}>
           <Row>
@@ -86,7 +86,7 @@ const HotelFacility = ({facilities}) => {
             name="Các tiện ích của khách sạn" 
             subTitle="Danh sách các tiện ích chính mà khách sạn cung cấp" 
             buttonFunc={facilities?.length > 6 ? handleShowDescription : undefined} 
-            className="col-8 facility-component"
+            className="col-12 col-md-8 facility-component"
         >
             <HotelLocationBody facilities={facilities?.slice(0, 6)} />
             

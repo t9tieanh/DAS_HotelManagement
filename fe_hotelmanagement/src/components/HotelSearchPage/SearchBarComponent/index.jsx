@@ -1,7 +1,7 @@
 import React, { useState, useRef} from "react";
 import './style.scss';
 import {FaUser, FaSearch } from 'react-icons/fa'; // Icons từ react-icons
-import TextInput from "../../common/Input";
+import TextInput from "../../common/Input/Input1";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdTipsAndUpdates } from "react-icons/md";
 import '@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css';

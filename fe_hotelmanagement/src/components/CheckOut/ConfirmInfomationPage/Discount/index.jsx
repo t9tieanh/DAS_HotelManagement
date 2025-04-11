@@ -3,7 +3,7 @@ import "./style.scss";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import TextInput from "../../../common/Input";
+import TextInput from "../../../common/Input/Input1";
 import CustomModal from "../../../common/Modal";
 import { MdDiscount } from "react-icons/md";
 import PrimaryButton from "../../../common/button/btn-primary";

@@ -62,7 +62,7 @@ const Header = ({pageState, expireDateTime}) => {
                         </Alert>
                     ) :
                     <Alert variant="primary" className="text-center">
-                        Đặt phòng thành công! Bạn sẽ được chuyển về trang chủ trong <IoIosTime /> <Countdown onComplete={handleCancelReservation} date={Date.now() + (60 * 1000)} />
+                        Đặt phòng thành công! Bạn sẽ được chuyển về trang chủ trong <IoIosTime /> <Countdown onComplete={handleCancelReservation} date={Date.now() + (10 * 1000)} />
                     </Alert>
                 } 
         </>
