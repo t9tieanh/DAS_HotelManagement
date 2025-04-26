@@ -110,7 +110,7 @@ public class ReservationService {
                 .customer(customerEntity)
                 .checkIn(request.getCheckIn())
                 .checkOut(request.getCheckOut())
-                .expireDateTime(LocalDateTime.now().plusMinutes(20)) // thời gian transaction là 20 phút
+                .expireDateTime(LocalDateTime.now().plusMinutes(100)) // thời gian transaction là 20 phút
                 .status(BookingStatusEnum.CREATED) // set trạng thái mới khởi tạo
                 .build();
 

@@ -111,9 +111,9 @@ public class AuthenticationService {
 
 
     public AuthenticationResponse authentication (AuthenticationRequest request) throws JOSEException, ParseException {
-        AccountEntity account = accountRepository.findByUsername(request.getUsername()).orElseThrow(
-                () -> new CustomException(ErrorCode.USER_NOT_FOUND)
-        );
+        AccountEntity account = accountRepository
+                .findByUsernameOrEmail(request.getUsername(), request.getUsername()) // dùng chung nếu input có thể là username hoặc email
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         // nếu tài khoản chưa active
         if (account.getStatus() != AccountStatusEnum.ACTIVE) {

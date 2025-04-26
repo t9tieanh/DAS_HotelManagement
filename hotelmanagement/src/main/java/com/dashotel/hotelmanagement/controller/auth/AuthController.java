@@ -52,7 +52,6 @@ public class AuthController {
     }
 
     @PostMapping(value="/sign-up", consumes = "multipart/form-data")
-
     public ApiResponse<CreationUserResponse> signUp(@ModelAttribute CreationUserRequest request) throws IOException {
 
         CreationUserResponse response = userService.addUser(request);
@@ -94,6 +93,18 @@ public class AuthController {
 
         return ApiResponse.<Void>builder()
                 .code(200)
+                .message("login successfully")
+                .build();
+    }
+
+    // viết thêm cho android
+    @GetMapping(value="/email-exists")
+    public ApiResponse<Boolean> checkEmailExists(@RequestParam String email) {
+        boolean exists = userService.emailExists(email);
+
+        return ApiResponse.<Boolean>builder()
+                .code(200)
+                .result(exists)
                 .message("login successfully")
                 .build();
     }

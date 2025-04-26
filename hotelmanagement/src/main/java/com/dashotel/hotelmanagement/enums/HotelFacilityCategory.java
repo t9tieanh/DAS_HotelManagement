@@ -1,7 +1,11 @@
 package com.dashotel.hotelmanagement.enums;
 
+import com.dashotel.hotelmanagement.exception.CustomException;
+import com.dashotel.hotelmanagement.exception.ErrorCode;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +46,11 @@ public enum HotelFacilityCategory {
         return imageUrl;
     }
 
-    public static HotelFacilityCategory fromValue(String value) {
-        return LOOKUP_MAP.getOrDefault(value, null);
+    @JsonCreator
+    public static HotelFacilityCategory fromJson(String value) {
+        return Arrays.stream(values())
+                .filter(e -> e.name().equalsIgnoreCase(value)) // parse theo Enum.name()
+                .findFirst()
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
     }
 }

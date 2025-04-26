@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.xml.transform.Source;
 import java.io.IOException;
+import java.nio.file.Files;
 
 @RestController
 @RequestMapping("/files")
@@ -41,5 +42,21 @@ public class FileController {
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(image.getInputStream().readAllBytes());
     }
+
+    @GetMapping("/image-android/{fileName}")
+    public ResponseEntity<Resource> getImage(@PathVariable String fileName) throws IOException {
+        Resource image = fileStorageService.getImage(fileName);
+
+        String contentType = Files.probeContentType(image.getFile().toPath());
+        if (contentType == null) {
+            contentType = "application/octet-stream"; // fallback
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .contentLength(image.contentLength())
+                .body(image);
+    }
+
 
 }
