@@ -21,7 +21,10 @@ public class AccountEntity extends AbstractEntity {
     String username;
     String password;
     RoleAccountEnum role;
+
+    @Enumerated(EnumType.STRING)
     AccountStatusEnum status;
+
     String email;
     String imgUrl;
 

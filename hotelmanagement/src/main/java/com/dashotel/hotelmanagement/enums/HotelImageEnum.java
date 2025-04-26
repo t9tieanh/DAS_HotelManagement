@@ -11,7 +11,18 @@ public enum HotelImageEnum {
     LOBBY("Sảnh chờ"),
     OUTSIDE("Bên ngoài"),
     INSIDE("Bên trong"),
-    AVARTAR("Hình đại diện");
+    AVARTAR("Hình đại diện"),
+    RESTAURANT("Nhà hàng"),
+    POOL("Hồ bơi"),
+    ROOM("Phòng nghỉ"),
+    GYM("Phòng gym"),
+    BAR("Quầy bar"),
+    RECEPTION("Quầy lễ tân"),
+    BATHROOM("Phòng tắm"),
+    CONFERENCE("Phòng hội nghị"),
+    SPA("Spa"),
+    PARKING("Bãi đỗ xe"),
+    VIEW("Cảnh quan");
 
     private final String description;
 

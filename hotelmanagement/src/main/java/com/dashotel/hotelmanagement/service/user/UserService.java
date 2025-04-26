@@ -1,5 +1,6 @@
 package com.dashotel.hotelmanagement.service.user;
 
+import com.dashotel.hotelmanagement.dto.common.ResponseDTO;
 import com.dashotel.hotelmanagement.dto.request.CreationUserRequest;
 import com.dashotel.hotelmanagement.dto.response.CreationUserResponse;
 import com.dashotel.hotelmanagement.entity.account.AccountEntity;
@@ -112,5 +113,10 @@ public class UserService {
 
         // update user từ request
         userMapper.toUser(request,userEntity);
+    }
+
+    // viết cho android
+    public Boolean emailExists (String email) {
+        return accountRepository.existsByEmail(email);
     }
 }

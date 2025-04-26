@@ -27,6 +27,8 @@ public class ReservationEntity extends AbstractEntity {
     LocalDate checkIn;
     LocalDate checkOut;
     LocalDate reservationDate;
+
+    @Enumerated(EnumType.STRING)
     BookingStatusEnum status;
 
 

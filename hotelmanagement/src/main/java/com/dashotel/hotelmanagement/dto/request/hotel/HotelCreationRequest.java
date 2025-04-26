@@ -1,5 +1,5 @@
 package com.dashotel.hotelmanagement.dto.request.hotel;
-import com.dashotel.hotelmanagement.dto.common.AddressDTO;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
