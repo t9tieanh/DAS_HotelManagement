@@ -15,10 +15,11 @@ file:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/hotel_management
-    username: root
-    password: 1942004anh
+    url: jdbc:mysql://${SPRING_DATASOURCE_HOST:localhost}:${SPRING_DATASOURCE_PORT:3306}/${SPRING_DATASOURCE_DB:hotel_management}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:1942004anh}
     driver-class-name: com.mysql.cj.jdbc.Driver
+
 
   jpa:
     hibernate:
@@ -39,8 +40,8 @@ spring:
 
   data:
     redis:
-      host: localhost
-      port: 6379
+      host: ${SPRING_REDIS_HOST:localhost}
+      port: ${SPRING_REDIS_PORT:6379}
 
   mail:
     host: smtp.gmail.com

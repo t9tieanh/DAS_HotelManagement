@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: hotel_db
+      MYSQL_USER: hotel_user
+      MYSQL_PASSWORD: hotel_pass
+    ports:
+      - "3300:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:7.0
+    container_name: redis_cache
+    restart: always
+    ports:
+      - "6379:6379"
+
+
+  hotel-backend:
+    build:
+      context: ./hotelmanagement 
+      dockerfile: Dockerfile
+    container_name: hotel_backend
+    depends_on:
+      - mysql
+      - redis
+    ports:
+      - "8080:8080"
+    environment:
+      DOTENV_CONFIG_PATH: /app/params.env
+      SPRING_DATASOURCE_HOST: mysql
+      SPRING_DATASOURCE_PORT: 3306
+      SPRING_DATASOURCE_DB: hotel_db
+      SPRING_DATASOURCE_USERNAME: hotel_user
+      SPRING_DATASOURCE_PASSWORD: hotel_pass
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+    volumes:
+      - upload_data:/uploads
+
+  hotel-frontend:
+    build:
+      context: ./fe_hotelmanagement  
+      dockerfile: Dockerfile
+    container_name: hotel_frontend
+    depends_on:
+      - hotel-backend
+    ports:
+      - "3000:80" 
+
+volumes:
+  mysql_data:
+  upload_data:

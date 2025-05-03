@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.Map;
 
 @ControllerAdvice
@@ -19,6 +21,25 @@ public class ExceptionsHandler {
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXEPTION.getCode());
         apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXEPTION.getMessage());
+
+        return ResponseEntity.badRequest().body(apiResponse);
+    }
+
+    @ExceptionHandler(ParseException.class)
+    public ResponseEntity<ApiResponse> handleParseException(ParseException ex) {
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(ErrorCode.UNAUTHORIZED.getCode());
+        apiResponse.setMessage(ErrorCode.UNAUTHORIZED.getMessage());
+
+        return ResponseEntity.badRequest().body(apiResponse);
+    }
+
+    // 2. Bắt IOException (ví dụ: lỗi đọc/ghi file, stream)
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<ApiResponse> handleIOException(IOException ex) {
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(ErrorCode.IO_EXCEPTION.getCode());
+        apiResponse.setMessage(ErrorCode.IO_EXCEPTION.getMessage());
 
         return ResponseEntity.badRequest().body(apiResponse);
     }
