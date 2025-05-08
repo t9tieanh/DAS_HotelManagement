@@ -14,3 +14,11 @@ export const callBackVNPay = async (callbackUrl) => {
     });
     return response;
 }
+
+// thanh toán tại khách sạn
+export const payAtHotel = async (reservationId) => {
+      return await axios.post(
+        '/api/v1/payment/at-hotel',
+        { id: reservationId }, // body dạng RequestDTO
+      );
+};

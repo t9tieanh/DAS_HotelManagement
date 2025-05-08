@@ -1,6 +1,6 @@
 package com.dashotel.hotelmanagement.repository.httpclient;
 
-import com.dashotel.hotelmanagement.dto.response.UserInfoResponse;
+import com.dashotel.hotelmanagement.dto.response.common.UserInfoResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -1,12 +1,8 @@
 package com.dashotel.hotelmanagement.service.service;
 
-import com.dashotel.hotelmanagement.dto.request.CustomerRequestDTO;
 import com.dashotel.hotelmanagement.dto.request.service.HotelFacilityRequest;
-import com.dashotel.hotelmanagement.dto.response.CreationResponse;
-import com.dashotel.hotelmanagement.dto.response.CustomerResponseDTO;
+import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
 import com.dashotel.hotelmanagement.entity.service.HotelFacilityEntity;
-import com.dashotel.hotelmanagement.entity.user.CustomerEntity;
-import com.dashotel.hotelmanagement.enums.HotelFacilityCategory;
 import com.dashotel.hotelmanagement.mapper.HotelFacilityMapper;
 import com.dashotel.hotelmanagement.repository.HotelFacilityRepository;
 import lombok.AccessLevel;

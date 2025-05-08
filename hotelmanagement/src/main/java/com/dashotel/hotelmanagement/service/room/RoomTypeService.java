@@ -3,7 +3,7 @@ package com.dashotel.hotelmanagement.service.room;
 import com.dashotel.hotelmanagement.dto.request.room.OpenRoomRequest;
 import com.dashotel.hotelmanagement.dto.request.room.RoomTypeCreationRequest;
 import com.dashotel.hotelmanagement.dto.request.room.RoomTypeImageRequest;
-import com.dashotel.hotelmanagement.dto.response.CreationResponse;
+import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.common.ReservationDetailResponse;
 import com.dashotel.hotelmanagement.dto.response.room.RoomTypeResponse;
 import com.dashotel.hotelmanagement.entity.hotel.HotelEntity;
@@ -20,7 +20,6 @@ import com.dashotel.hotelmanagement.service.other.FileStorageService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +29,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service

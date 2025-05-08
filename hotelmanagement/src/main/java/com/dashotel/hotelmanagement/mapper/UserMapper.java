@@ -1,7 +1,7 @@
 package com.dashotel.hotelmanagement.mapper;
 
-import com.dashotel.hotelmanagement.dto.request.CreationUserRequest;
-import com.dashotel.hotelmanagement.dto.response.CreationUserResponse;
+import com.dashotel.hotelmanagement.dto.request.common.CreationUserRequest;
+import com.dashotel.hotelmanagement.dto.response.common.CreationUserResponse;
 import com.dashotel.hotelmanagement.entity.user.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

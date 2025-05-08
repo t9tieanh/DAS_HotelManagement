@@ -5,6 +5,8 @@ import com.dashotel.hotelmanagement.dto.response.room.RoomAvailabilityResponse;
 import com.dashotel.hotelmanagement.entity.booking.ReservationDetailEntity;
 import com.dashotel.hotelmanagement.entity.booking.ReservationEntity;
 import com.dashotel.hotelmanagement.entity.room.RoomAvailabilityEntity;
+import com.dashotel.hotelmanagement.exception.CustomException;
+import com.dashotel.hotelmanagement.exception.ErrorCode;
 import com.dashotel.hotelmanagement.mapper.RoomAvailabilityMapper;
 import com.dashotel.hotelmanagement.mapper.RoomTypeMapper;
 import com.dashotel.hotelmanagement.repository.reservation.ReservationRepository;
@@ -16,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
@@ -25,33 +29,36 @@ public class RoomAvailabilityService {
     RoomAvailabilityRepository roomAvailabilityRepository;
 
     @Transactional
-    public Boolean updateRoomAvail(String reservationId) {
-        try {
-            ReservationEntity reservation = reservationRepository.findById(reservationId)
-                    .orElseThrow(() -> new IllegalArgumentException("Đơn đặt không tồn tại"));
+    public Boolean updateRoomAvailable(String reservationId) {
 
-            if (reservation == null || reservation.getReservationDetail().isEmpty()) {
-                return false; // Không tìm thấy reservation
-            }
+        ReservationEntity reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new CustomException(ErrorCode.BOOKING_NOT_AVAILABLE));
 
-            ReservationDetailEntity detail = reservation.getReservationDetail().getFirst();
-            if(detail.getRoomType() == null || detail.getRoomType().getRoomAvailabilities() == null) {
-                return false;
-            }
-
-            Long bookedQuantity = detail.getQuantity();
-            for (RoomAvailabilityEntity entity : detail.getRoomType().getRoomAvailabilities()) {
-                if(entity.getBookedRoom() == null) {
-                    entity.setBookedRoom(0L);
-                }
-                entity.setBookedRoom(entity.getBookedRoom() + bookedQuantity);
-                roomAvailabilityRepository.save(entity);
-            }
-
-            return true;
-        } catch (Exception e) {
-            log.error("Lỗi khi cập nhật phòng: " + e.getMessage());
-            return false;
+        if (reservation.getReservationDetail().isEmpty()) {
+            throw new CustomException(ErrorCode.BOOKING_NOT_AVAILABLE);
         }
+
+        for (var reservationDetail : reservation.getReservationDetail()) {
+            // -> lấy ra những roomavailable của phòng đó, từ checkIn -> checkOut
+            List<RoomAvailabilityEntity> roomAvailabilitys = roomAvailabilityRepository.findByAvailableRoomType(
+                    reservation.getCheckIn(), reservation.getCheckOut(), reservationDetail.getRoomType().getId()
+            );
+
+            for (RoomAvailabilityEntity roomAvailability : roomAvailabilitys) {
+                // check lại số lượng phòng
+                if (roomAvailability.getBookedRoom() + reservationDetail.getQuantity() > roomAvailability.getTotalRoom()) {
+                    throw new CustomException(ErrorCode.ROOM_NOT_ENOUGH);
+                }
+
+                roomAvailability.setBookedRoom(
+                        roomAvailability.getBookedRoom() + reservationDetail.getQuantity()
+                );
+            }
+
+            // lưu lại room availility
+            roomAvailabilityRepository.saveAll(roomAvailabilitys);
+        }
+
+        return true;
     }
 }

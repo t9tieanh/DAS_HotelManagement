@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.dto.response;
+package com.dashotel.hotelmanagement.dto.response.common;
 
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;

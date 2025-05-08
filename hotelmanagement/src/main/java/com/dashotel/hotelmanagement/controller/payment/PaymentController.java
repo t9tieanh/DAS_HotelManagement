@@ -1,15 +1,12 @@
 package com.dashotel.hotelmanagement.controller.payment;
 
+import com.dashotel.hotelmanagement.dto.common.RequestDTO;
 import com.dashotel.hotelmanagement.dto.other.PaymentDTO;
 import com.dashotel.hotelmanagement.dto.request.payment.VNPayRequest;
 import com.dashotel.hotelmanagement.dto.request.payment.VnPayCallbackRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
-import com.dashotel.hotelmanagement.dto.response.payment.PaymentResponse;
-import com.dashotel.hotelmanagement.dto.response.reservation.common.ReservationResponse;
-import com.dashotel.hotelmanagement.enums.PaymentMethodEnum;
+import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
 import com.dashotel.hotelmanagement.service.payment.PaymentService;
-import com.dashotel.hotelmanagement.service.reservation.ReservationService;
-import com.dashotel.hotelmanagement.service.room.RoomAvailabilityService;
 import com.dashotel.hotelmanagement.utils.VNPayUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
@@ -17,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -28,21 +26,8 @@ import java.net.URI;
 public class PaymentController {
     PaymentService paymentService;
 
-//    @GetMapping("/vn-pay")
-//    public ApiResponse<PaymentDTO.VNPayResponse> pay(
-//            HttpServletRequest request,
-//            @RequestParam(value = "platform",  defaultValue = "web") String platform
-//    ) {
-//        if ("android".equalsIgnoreCase(platform)) {
-//            System.out.println("Request đến từ Android app");
-//        } else {
-//            System.out.println("Request đến từ Web app hoặc không xác định");
-//        }
-//
-//        return new ApiResponse<>(HttpStatus.OK.value(), "Success", paymentService.creatVNPayPayment(request));
-//    }
-
     @GetMapping("/vn-pay")
+    @PreAuthorize("@reservationService.isOwnerOfReservation(#reservationId, authentication.name)")
     public ApiResponse<PaymentDTO.VNPayResponse> pay(
             HttpServletRequest servletRequest,
             @RequestParam(value = "platform", defaultValue = "web") String platform,
@@ -66,6 +51,8 @@ public class PaymentController {
         return new ApiResponse<>(HttpStatus.OK.value(), "Success", paymentService.creatVNPayPayment(vnPayRequest));
     }
 
+
+    // api nhận callback từ vnpay
     @GetMapping("/vn-pay-callback/{id}")
     public ResponseEntity<Void> payCallbackHandler(
             HttpServletRequest servletRequest,
@@ -100,4 +87,18 @@ public class PaymentController {
         }
     }
 
+
+    @PostMapping("/at-hotel")
+    @PreAuthorize("@reservationService.isOwnerOfReservation(#requestDTO.id, authentication.name)")
+    public ApiResponse<CreationResponse> payAtHotel(@RequestBody RequestDTO requestDTO) {
+        CreationResponse result = paymentService.payAtHotel(requestDTO);
+
+        String message = (result.getIsSuccess()) ? "Bạn đã thanh toán thành công !" : "Thanh toán thất bại";
+
+        return ApiResponse.<CreationResponse>builder()
+                .code(200)
+                .result(result)
+                .message(message)
+                .build();
+    }
 }

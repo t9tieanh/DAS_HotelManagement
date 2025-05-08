@@ -1,11 +1,10 @@
 package com.dashotel.hotelmanagement.controller.room;
 
-import com.dashotel.hotelmanagement.dto.request.hotel.HotelImageRequest;
 import com.dashotel.hotelmanagement.dto.request.room.OpenRoomRequest;
 import com.dashotel.hotelmanagement.dto.request.room.RoomTypeCreationRequest;
 import com.dashotel.hotelmanagement.dto.request.room.RoomTypeImageRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
-import com.dashotel.hotelmanagement.dto.response.CreationResponse;
+import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
 import com.dashotel.hotelmanagement.service.room.RoomTypeService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

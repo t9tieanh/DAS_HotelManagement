@@ -49,7 +49,13 @@ public enum ErrorCode {
     DISCOUNT_NOT_AVAILABLE(1014, "Mã giảm giá đã hết hiệu lực hoặc không tồn tại", HttpStatus.NOT_FOUND),
     DISCOUNT_NOT_APPLICABLE_FOR_BILL_TOTAL(1234, "Mã giảm giá không được áp dụng vì tổng tiền hóa đơn chưa đạt mức tối thiểu.", HttpStatus.BAD_REQUEST),
 
+    // dành cho thanh toán
+    PAYMENT_RESERVATION_AVAILABILITY_FAILED(1942, "Không thể xử lý thanh toán, đặt phòng hoặc kiểm tra tình trạng phòng", HttpStatus.CONFLICT),
+    PAYMENT_FAILED_WITH_RESPONSE_CODE(1943, "Thanh toán thất bại với mã phản hồi từ cổng thanh toán", HttpStatus.BAD_GATEWAY),
+    ROOM_NOT_ENOUGH(1944, "Số lượng phòng không đủ để đáp ứng yêu cầu đặt phòng", HttpStatus.CONFLICT)
     ;
+
+
     private int code;
     private HttpStatusCode statusCode;
     private String message;

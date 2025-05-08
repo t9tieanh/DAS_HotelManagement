@@ -1,24 +1,21 @@
 package com.dashotel.hotelmanagement.controller.user;
 
-import com.dashotel.hotelmanagement.dto.request.CustomerRequestDTO;
+import com.dashotel.hotelmanagement.dto.request.common.CustomerRequestDTO;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
-import com.dashotel.hotelmanagement.dto.response.CreationResponse;
-import com.dashotel.hotelmanagement.dto.response.CustomerResponseDTO;
+import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
+import com.dashotel.hotelmanagement.dto.response.common.CustomerResponseDTO;
 import com.dashotel.hotelmanagement.service.auth.AuthenticationService;
 import com.dashotel.hotelmanagement.service.user.CustomerService;
-import com.dashotel.hotelmanagement.utils.JwtUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/")

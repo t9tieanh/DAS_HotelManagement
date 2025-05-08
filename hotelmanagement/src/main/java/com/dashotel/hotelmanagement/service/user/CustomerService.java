@@ -1,12 +1,10 @@
 package com.dashotel.hotelmanagement.service.user;
 
-import com.dashotel.hotelmanagement.dto.request.CustomerRequestDTO;
-import com.dashotel.hotelmanagement.dto.response.CreationResponse;
-import com.dashotel.hotelmanagement.dto.response.CustomerResponseDTO;
+import com.dashotel.hotelmanagement.dto.request.common.CustomerRequestDTO;
+import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
+import com.dashotel.hotelmanagement.dto.response.common.CustomerResponseDTO;
 import com.dashotel.hotelmanagement.entity.account.AccountEntity;
 import com.dashotel.hotelmanagement.entity.user.CustomerEntity;
-import com.dashotel.hotelmanagement.enums.AccountStatusEnum;
-import com.dashotel.hotelmanagement.enums.RoleAccountEnum;
 import com.dashotel.hotelmanagement.exception.CustomException;
 import com.dashotel.hotelmanagement.exception.ErrorCode;
 import com.dashotel.hotelmanagement.mapper.CustomerMapper;

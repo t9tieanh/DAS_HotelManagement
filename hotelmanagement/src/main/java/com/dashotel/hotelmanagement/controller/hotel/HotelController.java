@@ -3,7 +3,7 @@ package com.dashotel.hotelmanagement.controller.hotel;
 import com.dashotel.hotelmanagement.dto.request.hotel.HotelCreationRequest;
 import com.dashotel.hotelmanagement.dto.request.hotel.HotelImageRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
-import com.dashotel.hotelmanagement.dto.response.CreationResponse;
+import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
 import com.dashotel.hotelmanagement.dto.response.hotel.HotelDestailResponse;
 import com.dashotel.hotelmanagement.dto.response.hotel.HotelImageResponse;
 import com.dashotel.hotelmanagement.dto.response.hotel.HotelImageTypeCountReponse;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController

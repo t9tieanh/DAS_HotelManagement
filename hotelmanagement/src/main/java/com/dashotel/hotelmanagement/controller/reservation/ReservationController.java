@@ -1,19 +1,17 @@
 package com.dashotel.hotelmanagement.controller.reservation;
 
-import com.dashotel.hotelmanagement.dto.common.DiscountDTO;
 import com.dashotel.hotelmanagement.dto.common.ResponseDTO;
 import com.dashotel.hotelmanagement.dto.request.reservation.initial.ApplyDiscountRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.initial.InitialReservationRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.updateinfo.UpdateReservationInfoRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
-import com.dashotel.hotelmanagement.dto.response.CreationResponse;
+import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.ApplyDiscountResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.InitialReservationResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.ReservationStepResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.history.ReservationHistoryResponse;
 import com.dashotel.hotelmanagement.service.auth.AuthenticationService;
 import com.dashotel.hotelmanagement.service.reservation.ReservationService;
-import com.dashotel.hotelmanagement.utils.JwtUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
