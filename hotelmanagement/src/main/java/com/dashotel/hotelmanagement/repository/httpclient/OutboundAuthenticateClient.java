@@ -1,7 +1,7 @@
 package com.dashotel.hotelmanagement.repository.httpclient;
 
-import com.dashotel.hotelmanagement.dto.request.ExchanceTokenRequest;
-import com.dashotel.hotelmanagement.dto.response.ExchanceTokenResponse;
+import com.dashotel.hotelmanagement.dto.request.common.ExchanceTokenRequest;
+import com.dashotel.hotelmanagement.dto.response.common.ExchanceTokenResponse;
 import feign.QueryMap;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;

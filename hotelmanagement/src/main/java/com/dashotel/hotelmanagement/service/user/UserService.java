@@ -1,8 +1,7 @@
 package com.dashotel.hotelmanagement.service.user;
 
-import com.dashotel.hotelmanagement.dto.common.ResponseDTO;
-import com.dashotel.hotelmanagement.dto.request.CreationUserRequest;
-import com.dashotel.hotelmanagement.dto.response.CreationUserResponse;
+import com.dashotel.hotelmanagement.dto.request.common.CreationUserRequest;
+import com.dashotel.hotelmanagement.dto.response.common.CreationUserResponse;
 import com.dashotel.hotelmanagement.entity.account.AccountEntity;
 import com.dashotel.hotelmanagement.entity.user.AdminEntity;
 import com.dashotel.hotelmanagement.entity.user.CustomerEntity;

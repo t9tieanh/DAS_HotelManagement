@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.dto.request;
+package com.dashotel.hotelmanagement.dto.request.common;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;

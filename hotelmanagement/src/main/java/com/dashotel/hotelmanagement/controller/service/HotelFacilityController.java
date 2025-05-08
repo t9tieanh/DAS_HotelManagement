@@ -1,13 +1,9 @@
 package com.dashotel.hotelmanagement.controller.service;
 
-import com.dashotel.hotelmanagement.dto.request.CreationUserRequest;
 import com.dashotel.hotelmanagement.dto.request.service.HotelFacilityRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
-import com.dashotel.hotelmanagement.dto.response.AuthenticationResponse;
-import com.dashotel.hotelmanagement.dto.response.CreationResponse;
-import com.dashotel.hotelmanagement.enums.HotelFacilityCategory;
+import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
 import com.dashotel.hotelmanagement.service.service.HotelFacilityService;
-import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

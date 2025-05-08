@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.dto.request;
+package com.dashotel.hotelmanagement.dto.request.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

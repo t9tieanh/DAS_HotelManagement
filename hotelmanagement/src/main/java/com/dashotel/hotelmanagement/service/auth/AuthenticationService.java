@@ -1,9 +1,9 @@
 package com.dashotel.hotelmanagement.service.auth;
 
-import com.dashotel.hotelmanagement.dto.request.AuthenticationRequest;
-import com.dashotel.hotelmanagement.dto.request.ExchanceTokenRequest;
-import com.dashotel.hotelmanagement.dto.response.AuthenticationResponse;
-import com.dashotel.hotelmanagement.dto.response.UserInfoResponse;
+import com.dashotel.hotelmanagement.dto.request.common.AuthenticationRequest;
+import com.dashotel.hotelmanagement.dto.request.common.ExchanceTokenRequest;
+import com.dashotel.hotelmanagement.dto.response.common.AuthenticationResponse;
+import com.dashotel.hotelmanagement.dto.response.common.UserInfoResponse;
 import com.dashotel.hotelmanagement.entity.account.AccountEntity;
 import com.dashotel.hotelmanagement.entity.auth.InvalidTokenEntity;
 import com.dashotel.hotelmanagement.enums.AccountStatusEnum;
@@ -22,16 +22,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Service

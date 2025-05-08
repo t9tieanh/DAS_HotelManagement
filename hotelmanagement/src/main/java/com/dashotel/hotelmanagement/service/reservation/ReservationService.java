@@ -6,7 +6,7 @@ import com.dashotel.hotelmanagement.dto.request.reservation.initial.ApplyDiscoun
 import com.dashotel.hotelmanagement.dto.request.reservation.initial.InitialReservationRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.initial.ReservationDetailRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.updateinfo.UpdateReservationInfoRequest;
-import com.dashotel.hotelmanagement.dto.response.CreationResponse;
+import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.ApplyDiscountResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.InitialReservationResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.ReservationStepResponse;
@@ -19,7 +19,6 @@ import com.dashotel.hotelmanagement.entity.booking.RoomOccupantEntity;
 import com.dashotel.hotelmanagement.entity.hotel.AddressEntity;
 import com.dashotel.hotelmanagement.entity.hotel.HotelEntity;
 import com.dashotel.hotelmanagement.entity.promotion.DiscountEntity;
-import com.dashotel.hotelmanagement.entity.room.RoomAvailabilityEntity;
 import com.dashotel.hotelmanagement.entity.room.RoomTypeEntity;
 import com.dashotel.hotelmanagement.entity.user.CustomerEntity;
 import com.dashotel.hotelmanagement.enums.BookingStatusEnum;
@@ -32,9 +31,6 @@ import com.dashotel.hotelmanagement.mapper.RoomOccupantMapper;
 import com.dashotel.hotelmanagement.repository.CustomerRepository;
 import com.dashotel.hotelmanagement.repository.promotion.DiscountRepository;
 import com.dashotel.hotelmanagement.repository.reservation.ReservationRepository;
-import com.dashotel.hotelmanagement.repository.reservation.RoomOccupantRepository;
-import com.dashotel.hotelmanagement.repository.room.RoomAvailabilityRepository;
-import com.dashotel.hotelmanagement.repository.room.RoomTypeRepository;
 import com.dashotel.hotelmanagement.service.promotion.DiscountService;
 import com.dashotel.hotelmanagement.service.room.RoomTypeService;
 import com.dashotel.hotelmanagement.utils.JwtUtils;
@@ -48,7 +44,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -319,26 +314,14 @@ public class ReservationService {
 
 
     @Transactional
-    public ReservationResponse updateReservationIsSuccess(String reservationId) {
-        try {
-            ReservationEntity reservation = reservationRepository.findById(reservationId)
-                    .orElseThrow(() -> new CustomException(ErrorCode.BOOKING_NOT_AVAILABLE));
-            reservation.setStatus(BookingStatusEnum.PAID);
+    public ReservationResponse updateReservationStatus(String reservationId, BookingStatusEnum bookingStatus) {
+        ReservationEntity reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new CustomException(ErrorCode.BOOKING_NOT_AVAILABLE));
 
-            reservation.setReservationDate(LocalDate.now());
+        // update status reservation
+        reservation.setStatus(bookingStatus);
 
-            reservation = reservationRepository.save(reservation);
-
-            return reservationMapper.toResponse(reservation);
-        }
-        catch (IllegalArgumentException e) {
-            log.error("Lỗi với reservation {}", e.getMessage());
-            throw e;
-        }
-        catch (Exception e) {
-            log.error("Lỗi khi cập nhật reservation", e);
-            throw new RuntimeException("Lỗi server khi cập nhật");
-        }
+        return reservationMapper.toResponse(reservationRepository.save(reservation));
     }
 
     public List<ReservationHistoryResponse> getReservationHistory(String customerId) {

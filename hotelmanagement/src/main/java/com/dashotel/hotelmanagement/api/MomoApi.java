@@ -1,7 +1,7 @@
 package com.dashotel.hotelmanagement.api;
 
-import com.dashotel.hotelmanagement.dto.request.CreateMonoRequest;
-import com.dashotel.hotelmanagement.dto.response.CreateMonoResponse;
+import com.dashotel.hotelmanagement.dto.request.common.CreateMonoRequest;
+import com.dashotel.hotelmanagement.dto.response.common.CreateMonoResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

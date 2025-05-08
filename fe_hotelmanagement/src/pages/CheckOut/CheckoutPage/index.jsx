@@ -36,8 +36,8 @@ const CheckOutPage = () => {
 
     const dispatch = useDispatch();
 
-    const handleNextStep = () => {
-        if (pageState !== 2) setPageState(prevState => prevState + 1);
+    const handleNextStep = async () => {
+        await fetchCurrentStep()
     };
 
     useEffect(

@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.dto.response;
+package com.dashotel.hotelmanagement.dto.response.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class IntrospectReponse {
-    boolean valid;
+public class CreationResponse {
+    Boolean isSuccess;
+    String id;
 }

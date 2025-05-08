@@ -1,10 +1,31 @@
 
+import { use } from "react";
 import PrimaryButton from "../../../common/button/btn-primary"
 import './style.scss'
 import Form from 'react-bootstrap/Form';
 import { FaLocationArrow } from "react-icons/fa";
+import { payAtHotel } from "../../../../services/PaymentService/paymentService";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const PayLater = ({handleNextStep}) => {
+
+    const reservationId = useSelector(state => state.reservation.reservationId)
+
+    // xử lý thanh toán tại khách sạn
+    const handlePayAtHotel = async () => {
+        const data = await payAtHotel(reservationId)
+            
+        if (data && data.code && data.code === 200 && data?.result) {
+            handleNextStep()
+        } else if (data.response && data.response.data) {
+            toast.error(data.response.data.message) // thông báo lôi từ server
+        }
+        else {
+            toast.error(data?.message)
+        } 
+    }
+
     return (
         <>
 
@@ -27,7 +48,7 @@ const PayLater = ({handleNextStep}) => {
                 label={`Đồng ý với chính sách`}
             />
 
-            <PrimaryButton onClickFunc={handleNextStep} icon={<FaLocationArrow />} className={'mt-3 btn-confirm-booking'} text={'Xác nhận đặt phòng'} />
+            <PrimaryButton onClickFunc={handlePayAtHotel} icon={<FaLocationArrow />} className={'mt-3 btn-confirm-booking'} text={'Xác nhận đặt phòng'} />
         </>
     )
 }

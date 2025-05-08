@@ -1,13 +1,12 @@
 package com.dashotel.hotelmanagement.controller.auth;
 
-import com.dashotel.hotelmanagement.dto.request.AuthenticationRequest;
-import com.dashotel.hotelmanagement.dto.request.CreationUserRequest;
-import com.dashotel.hotelmanagement.dto.request.IntrospectRequest;
-import com.dashotel.hotelmanagement.dto.request.LogoutRequest;
+import com.dashotel.hotelmanagement.dto.request.common.AuthenticationRequest;
+import com.dashotel.hotelmanagement.dto.request.common.CreationUserRequest;
+import com.dashotel.hotelmanagement.dto.request.common.IntrospectRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
-import com.dashotel.hotelmanagement.dto.response.AuthenticationResponse;
-import com.dashotel.hotelmanagement.dto.response.CreationUserResponse;
-import com.dashotel.hotelmanagement.dto.response.IntrospectResponse;
+import com.dashotel.hotelmanagement.dto.response.common.AuthenticationResponse;
+import com.dashotel.hotelmanagement.dto.response.common.CreationUserResponse;
+import com.dashotel.hotelmanagement.dto.response.common.IntrospectResponse;
 import com.dashotel.hotelmanagement.service.auth.AuthenticationService;
 import com.dashotel.hotelmanagement.service.user.UserService;
 import com.nimbusds.jose.JOSEException;

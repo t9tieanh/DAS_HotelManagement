@@ -1,14 +1,13 @@
 package com.dashotel.hotelmanagement.service.payment;
 
 import com.dashotel.hotelmanagement.api.MomoApi;
-import com.dashotel.hotelmanagement.dto.request.CreateMonoRequest;
-import com.dashotel.hotelmanagement.dto.response.CreateMonoResponse;
+import com.dashotel.hotelmanagement.dto.request.common.CreateMonoRequest;
+import com.dashotel.hotelmanagement.dto.response.common.CreateMonoResponse;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;

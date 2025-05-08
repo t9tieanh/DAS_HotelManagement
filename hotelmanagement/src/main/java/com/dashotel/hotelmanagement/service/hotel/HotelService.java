@@ -2,7 +2,7 @@ package com.dashotel.hotelmanagement.service.hotel;
 
 import com.dashotel.hotelmanagement.dto.request.hotel.HotelCreationRequest;
 import com.dashotel.hotelmanagement.dto.request.hotel.HotelImageRequest;
-import com.dashotel.hotelmanagement.dto.response.CreationResponse;
+import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
 import com.dashotel.hotelmanagement.dto.response.hotel.*;
 import com.dashotel.hotelmanagement.dto.response.paging.PagingResponse;
 import com.dashotel.hotelmanagement.entity.hotel.AddressEntity;

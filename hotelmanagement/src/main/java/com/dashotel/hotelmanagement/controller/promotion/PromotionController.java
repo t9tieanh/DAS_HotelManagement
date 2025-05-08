@@ -1,7 +1,7 @@
 package com.dashotel.hotelmanagement.controller.promotion;
 import com.dashotel.hotelmanagement.dto.common.DiscountDTO;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
-import com.dashotel.hotelmanagement.dto.response.CreationResponse;
+import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
 import com.dashotel.hotelmanagement.service.promotion.DiscountService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

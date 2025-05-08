@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.dto.request;
+package com.dashotel.hotelmanagement.dto.response.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -10,6 +10,6 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class LogoutRequest {
-    String token;
+public class IntrospectResponse {
+    boolean isValid;
 }

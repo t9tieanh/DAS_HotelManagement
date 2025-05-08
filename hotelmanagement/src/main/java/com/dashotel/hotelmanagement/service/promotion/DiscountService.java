@@ -1,9 +1,7 @@
 package com.dashotel.hotelmanagement.service.promotion;
 
 import com.dashotel.hotelmanagement.dto.common.DiscountDTO;
-import com.dashotel.hotelmanagement.dto.request.reservation.initial.ApplyDiscountRequest;
-import com.dashotel.hotelmanagement.dto.response.CreationResponse;
-import com.dashotel.hotelmanagement.entity.booking.ReservationEntity;
+import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
 import com.dashotel.hotelmanagement.entity.promotion.DiscountEntity;
 import com.dashotel.hotelmanagement.entity.user.CustomerEntity;
 import com.dashotel.hotelmanagement.exception.CustomException;
@@ -11,15 +9,12 @@ import com.dashotel.hotelmanagement.exception.ErrorCode;
 import com.dashotel.hotelmanagement.mapper.DiscountMapper;
 import com.dashotel.hotelmanagement.repository.CustomerRepository;
 import com.dashotel.hotelmanagement.repository.promotion.DiscountRepository;
-import com.dashotel.hotelmanagement.repository.reservation.ReservationRepository;
-import com.dashotel.hotelmanagement.service.reservation.ReservationService;
 import com.dashotel.hotelmanagement.utils.JwtUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
