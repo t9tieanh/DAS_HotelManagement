@@ -51,10 +51,13 @@ public class CustomerService {
 
     @Transactional
     public CustomerResponseDTO getCustomerById(String customerId) {
-        CustomerEntity entity = customerRepository.findById(customerId)
+        CustomerEntity customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        return customerMapper.toDTO(entity);
+        CustomerResponseDTO response = customerMapper.toDTO(customer);
+        // lấy avartar
+        response.setImgUrl(customer.getAccount().getImgUrl());
+        return response;
     }
 
     @Transactional

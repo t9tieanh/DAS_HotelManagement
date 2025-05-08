@@ -1,5 +1,6 @@
 package com.dashotel.hotelmanagement.controller.reservation;
 
+import com.dashotel.hotelmanagement.dto.common.DiscountDTO;
 import com.dashotel.hotelmanagement.dto.common.ResponseDTO;
 import com.dashotel.hotelmanagement.dto.request.reservation.initial.ApplyDiscountRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.initial.InitialReservationRequest;
@@ -86,6 +87,18 @@ public class ReservationController {
         return ApiResponse.<ApplyDiscountResponse>builder()
                 .code(200)
                 .message("Áp dụng mã giảm giá thành công !")
+                .result(result)
+                .build();
+    }
+
+
+    @PreAuthorize("@reservationService.isOwnerOfReservation(#id, authentication.name)")
+    @GetMapping("applied-discounts/{id}")
+    ApiResponse<List<DiscountDTO>> getDiscountByReservation (@PathVariable("id") String id) {
+        List<DiscountDTO> result = reservationService.getDiscountByReservation(id);
+
+        return ApiResponse.<List<DiscountDTO>>builder()
+                .code(200)
                 .result(result)
                 .build();
     }

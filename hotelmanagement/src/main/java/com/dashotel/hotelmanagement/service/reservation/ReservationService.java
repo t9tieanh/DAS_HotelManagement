@@ -300,6 +300,16 @@ public class ReservationService {
     }
 
 
+    public List<DiscountDTO> getDiscountByReservation (String reservationId) {
+        ReservationEntity reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new CustomException(ErrorCode.BOOKING_NOT_AVAILABLE));
+
+        return reservation.getDiscounts().stream().map(
+                discountMapper::toDTO
+        ).toList();
+    }
+
+
     // dùng cho authorization
     public boolean isOwnerOfReservation (String reservationId, String username) {
         ReservationEntity reservation = reservationRepository.findById(reservationId)
