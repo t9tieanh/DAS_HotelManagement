@@ -117,8 +117,8 @@ public class AuthenticationService {
             throw new CustomException(ErrorCode.ACCOUNT_UN_ACTIVE);
         }
 
-//        boolean result = passwordEncoder.matches(request.getPassword(), account.getPassword());
-        boolean result = true;
+        boolean result = passwordEncoder.matches(request.getPassword(), account.getPassword());
+
         if (result) {
             String accessToken = jwtUtils.generateToken(account, TokenEnum.ACCESS_TOKEN);
             String refreshToken = jwtUtils.generateToken(account, TokenEnum.RESFESH_TOKEN);

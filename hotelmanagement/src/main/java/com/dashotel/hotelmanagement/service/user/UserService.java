@@ -53,9 +53,9 @@ public class UserService {
         updateAccount(request, accountEntity);
 
         //update password
-        accountEntity.setPassword(passwordEncoder.encode(request.getPassword()));
         accountEntity.setStatus(AccountStatusEnum.ACTIVE); // set status -> active
         accountMapper.updateAccountEntity(request, accountEntity);
+        accountEntity.setPassword(passwordEncoder.encode(request.getPassword())); // hash password
 
         accountRepository.save(accountEntity);
         return true;
