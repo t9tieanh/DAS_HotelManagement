@@ -1,5 +1,6 @@
-package com.dashotel.hotelmanagement.service.hotel;
+package com.dashotel.hotelmanagement.service.impl.hotel;
 
+import com.dashotel.hotelmanagement.dto.common.AddressDTO;
 import com.dashotel.hotelmanagement.dto.request.hotel.HotelCreationRequest;
 import com.dashotel.hotelmanagement.dto.request.hotel.HotelImageRequest;
 import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
@@ -20,8 +21,9 @@ import com.dashotel.hotelmanagement.mapper.HotelMapper;
 import com.dashotel.hotelmanagement.repository.HotelFacilityRepository;
 import com.dashotel.hotelmanagement.repository.hotel.HotelImageRepository;
 import com.dashotel.hotelmanagement.repository.hotel.HotelRepository;
-import com.dashotel.hotelmanagement.service.other.FileStorageService;
-import com.dashotel.hotelmanagement.service.room.RoomTypeService;
+import com.dashotel.hotelmanagement.service.hotel.IHotelService;
+import com.dashotel.hotelmanagement.service.impl.other.FileStorageService;
+import com.dashotel.hotelmanagement.service.impl.room.RoomTypeService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -39,18 +41,19 @@ import java.util.stream.Collectors;
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
-public class HotelService {
+public class HotelService implements IHotelService {
     HotelRepository hotelRepository;
     HotelFacilityRepository hotelFacilityRepository;
     HotelImageRepository hotelImageRepository;
 
     HotelMapper hotelMapper;
-    AddressMapper addressMapper;
     HotelImageMapper hotelImageMapper;
     HotelFacilityMapper hotelFacilityMapper;
+    AddressMapper addressMapper;
 
     RoomTypeService roomTypeService;
     FileStorageService fileStorageService;
+
 
     // lấy list category của tất cả image mà hotel đó có
     public List<HotelImageTypeCountReponse> getHotelImageCategory(String hotelId) {
@@ -168,7 +171,6 @@ public class HotelService {
                 .build();
     }
 
-
     public List<HotelResultResponse> getHotelBySearch(LocalDate checkIn, LocalDate checkOut, Long numAdults, Long numRooms) {
 
         List<RoomTypeEntity> roomList = roomTypeService.getRoomAvailable(checkIn, checkOut, numAdults, numRooms);
@@ -208,10 +210,19 @@ public class HotelService {
 
     }
 
-    public PagingResponse<HotelResultResponse> getHotelBySearch(LocalDate checkIn, LocalDate checkOut, Long numAdults, Long numRooms,
-                                           int page, int size) {
+    public PagingResponse<HotelResultResponse> getHotelBySearch (LocalDate checkIn, LocalDate checkOut, Long numAdults, Long numRooms,
+                                                                 int page, int size, String location) {
 
-        List<RoomTypeEntity> roomList = roomTypeService.getRoomAvailable(checkIn, checkOut, numAdults, numRooms);
+        // map chuỗi location thành object address
+        AddressDTO address = (location != null && !location.isBlank())
+                ? addressMapper.fromRawAddress(location)
+                : null;
+
+        List<RoomTypeEntity> roomList = (address != null)
+                ? roomTypeService.getRoomAvailable(checkIn, checkOut, numAdults, numRooms, address)
+                : roomTypeService.getRoomAvailable(checkIn, checkOut, numAdults, numRooms);
+
+
         if(roomList == null || roomList.isEmpty()) {
             return PagingResponse.<HotelResultResponse>builder()
                     .totalElements(0)

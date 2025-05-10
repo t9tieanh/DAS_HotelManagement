@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.service.auth;
+package com.dashotel.hotelmanagement.service.impl.auth;
 
 import com.dashotel.hotelmanagement.dto.request.common.AuthenticationRequest;
 import com.dashotel.hotelmanagement.dto.request.common.ExchanceTokenRequest;
@@ -13,7 +13,8 @@ import com.dashotel.hotelmanagement.exception.ErrorCode;
 import com.dashotel.hotelmanagement.repository.*;
 import com.dashotel.hotelmanagement.repository.httpclient.OutboundAuthenticateClient;
 import com.dashotel.hotelmanagement.repository.httpclient.OutboundUserInfoClient;
-import com.dashotel.hotelmanagement.service.user.CustomerService;
+import com.dashotel.hotelmanagement.service.auth.IAuthenticationService;
+import com.dashotel.hotelmanagement.service.impl.user.CustomerService;
 import com.dashotel.hotelmanagement.utils.JwtUtils;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jwt.SignedJWT;
@@ -34,7 +35,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class AuthenticationService {
+public class AuthenticationService implements IAuthenticationService {
 
     AccountRepository accountRepository;
     InvalidTokenRepository invalidTokenRepository;
@@ -117,8 +118,8 @@ public class AuthenticationService {
             throw new CustomException(ErrorCode.ACCOUNT_UN_ACTIVE);
         }
 
-//        boolean result = passwordEncoder.matches(request.getPassword(), account.getPassword());
-        boolean result = true;
+        boolean result = passwordEncoder.matches(request.getPassword(), account.getPassword());
+
         if (result) {
             String accessToken = jwtUtils.generateToken(account, TokenEnum.ACCESS_TOKEN);
             String refreshToken = jwtUtils.generateToken(account, TokenEnum.RESFESH_TOKEN);

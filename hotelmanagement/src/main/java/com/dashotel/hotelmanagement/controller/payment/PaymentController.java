@@ -6,7 +6,7 @@ import com.dashotel.hotelmanagement.dto.request.payment.VNPayRequest;
 import com.dashotel.hotelmanagement.dto.request.payment.VnPayCallbackRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
-import com.dashotel.hotelmanagement.service.payment.PaymentService;
+import com.dashotel.hotelmanagement.service.impl.payment.PaymentService;
 import com.dashotel.hotelmanagement.utils.VNPayUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;

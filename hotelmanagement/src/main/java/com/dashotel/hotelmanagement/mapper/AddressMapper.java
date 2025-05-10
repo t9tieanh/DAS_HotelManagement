@@ -9,4 +9,19 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface AddressMapper {
     AddressEntity toEntity (AddressDTO address);
     AddressDTO toDTO (AddressEntity entity);
+
+    default AddressDTO fromRawAddress(String fullAddress) {
+        if (fullAddress == null || fullAddress.trim().isEmpty()) {
+            return null;
+        }
+
+        String[] parts = fullAddress.split(",\\s*");
+        String district = parts.length > 0 ? parts[0].trim() : null;
+        String city = parts.length > 1 ? parts[1].trim() : null;
+
+        return AddressDTO.builder()
+                .district(district)
+                .city(city)
+                .build();
+    }
 }

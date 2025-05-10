@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.service.promotion;
+package com.dashotel.hotelmanagement.service.impl.promotion;
 
 import com.dashotel.hotelmanagement.dto.common.DiscountDTO;
 import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;

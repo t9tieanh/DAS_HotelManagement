@@ -1,7 +1,7 @@
 package com.dashotel.hotelmanagement.controller.payment;
 
 import com.dashotel.hotelmanagement.dto.response.common.CreateMonoResponse;
-import com.dashotel.hotelmanagement.service.payment.MomoService;
+import com.dashotel.hotelmanagement.service.impl.payment.MomoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

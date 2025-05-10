@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.service.user;
+package com.dashotel.hotelmanagement.service.impl.user;
 
 import com.dashotel.hotelmanagement.dto.request.common.CustomerRequestDTO;
 import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
@@ -10,7 +10,7 @@ import com.dashotel.hotelmanagement.exception.ErrorCode;
 import com.dashotel.hotelmanagement.mapper.CustomerMapper;
 import com.dashotel.hotelmanagement.repository.AccountRepository;
 import com.dashotel.hotelmanagement.repository.CustomerRepository;
-import com.dashotel.hotelmanagement.service.other.FileStorageService;
+import com.dashotel.hotelmanagement.service.impl.other.FileStorageService;
 import com.dashotel.hotelmanagement.utils.JwtUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -51,10 +51,13 @@ public class CustomerService {
 
     @Transactional
     public CustomerResponseDTO getCustomerById(String customerId) {
-        CustomerEntity entity = customerRepository.findById(customerId)
+        CustomerEntity customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        return customerMapper.toDTO(entity);
+        CustomerResponseDTO response = customerMapper.toDTO(customer);
+        // lấy avartar
+        response.setImgUrl(customer.getAccount().getImgUrl());
+        return response;
     }
 
     @Transactional

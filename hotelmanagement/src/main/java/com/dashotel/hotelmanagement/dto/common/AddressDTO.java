@@ -5,7 +5,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -15,5 +16,16 @@ public class AddressDTO {
     String concrete;
     String commune;
     String district;
+
+    @Override
+    public String toString() {
+        return "AddressDTO{" +
+                "concrete='" + concrete + '\'' +
+                ", commune='" + commune + '\'' +
+                ", district='" + district + '\'' +
+                ", city='" + city + '\'' +
+                '}';
+    }
+
     String city;
 }

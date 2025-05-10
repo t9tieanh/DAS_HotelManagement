@@ -1,7 +1,7 @@
 package com.dashotel.hotelmanagement.controller.test;
 
 import com.dashotel.hotelmanagement.dto.common.test.ImageUpload;
-import com.dashotel.hotelmanagement.service.other.FileStorageService;
+import com.dashotel.hotelmanagement.service.impl.other.FileStorageService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
