@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.service.other;
+package com.dashotel.hotelmanagement.service.impl.other;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

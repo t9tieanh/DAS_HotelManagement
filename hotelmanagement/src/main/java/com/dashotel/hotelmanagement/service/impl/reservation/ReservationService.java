@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.service.reservation;
+package com.dashotel.hotelmanagement.service.impl.reservation;
 
 import com.dashotel.hotelmanagement.dto.common.DiscountDTO;
 import com.dashotel.hotelmanagement.dto.common.ResponseDTO;
@@ -31,8 +31,8 @@ import com.dashotel.hotelmanagement.mapper.RoomOccupantMapper;
 import com.dashotel.hotelmanagement.repository.CustomerRepository;
 import com.dashotel.hotelmanagement.repository.promotion.DiscountRepository;
 import com.dashotel.hotelmanagement.repository.reservation.ReservationRepository;
-import com.dashotel.hotelmanagement.service.promotion.DiscountService;
-import com.dashotel.hotelmanagement.service.room.RoomTypeService;
+import com.dashotel.hotelmanagement.service.impl.promotion.DiscountService;
+import com.dashotel.hotelmanagement.service.impl.room.RoomTypeService;
 import com.dashotel.hotelmanagement.utils.JwtUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

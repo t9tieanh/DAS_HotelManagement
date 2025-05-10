@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.service.service;
+package com.dashotel.hotelmanagement.service.impl.service;
 
 import com.dashotel.hotelmanagement.dto.request.service.HotelFacilityRequest;
 import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;

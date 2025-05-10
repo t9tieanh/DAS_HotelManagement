@@ -1,5 +1,6 @@
-package com.dashotel.hotelmanagement.service.room;
+package com.dashotel.hotelmanagement.service.impl.room;
 
+import com.dashotel.hotelmanagement.dto.common.AddressDTO;
 import com.dashotel.hotelmanagement.dto.request.room.OpenRoomRequest;
 import com.dashotel.hotelmanagement.dto.request.room.RoomTypeCreationRequest;
 import com.dashotel.hotelmanagement.dto.request.room.RoomTypeImageRequest;
@@ -16,7 +17,8 @@ import com.dashotel.hotelmanagement.mapper.AddressMapper;
 import com.dashotel.hotelmanagement.mapper.RoomTypeMapper;
 import com.dashotel.hotelmanagement.repository.hotel.HotelRepository;
 import com.dashotel.hotelmanagement.repository.room.RoomTypeRepository;
-import com.dashotel.hotelmanagement.service.other.FileStorageService;
+import com.dashotel.hotelmanagement.service.impl.hotel.HotelSearchService;
+import com.dashotel.hotelmanagement.service.impl.other.FileStorageService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -40,6 +42,8 @@ public class RoomTypeService {
     HotelRepository hotelRepository;
     FileStorageService fileStorageService;
 
+    HotelSearchService hotelSearchService;
+
     AddressMapper addressMapper;
     RoomTypeMapper roomTypeMapper;
 
@@ -48,6 +52,20 @@ public class RoomTypeService {
         List<String> roomTypeIds = roomTypeRepository.findAvailableRooms(checkIn, checkOut, numRooms, numDays);
 
         List<RoomTypeEntity> roomList = roomTypeRepository.findAllById(roomTypeIds);
+
+        return roomList.stream()
+                .filter(room -> room.getMaxOccupation() >= numAdults && room.getRoomStatus().equals(RoomStatusEnum.AVAILABLE))
+                .collect(Collectors.toList());
+    }
+
+    public List<RoomTypeEntity> getRoomAvailable(LocalDate checkIn, LocalDate checkOut, Long numAdults, Long numRooms, AddressDTO address) {
+        // tìm kiếm hotel bằng address
+        var hotels = hotelSearchService.findByAddress(address);
+
+        // lấy số ngày liên tiếp mà khách ở
+        Long numDays = ChronoUnit.DAYS.between(checkIn, checkOut);
+
+        List<RoomTypeEntity> roomList = roomTypeRepository.findAvailableRoomsbyHotels(checkIn, checkOut, numRooms, numDays, hotels);
 
         return roomList.stream()
                 .filter(room -> room.getMaxOccupation() >= numAdults && room.getRoomStatus().equals(RoomStatusEnum.AVAILABLE))

@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.service.payment;
+package com.dashotel.hotelmanagement.service.impl.payment;
 
 import com.dashotel.hotelmanagement.api.MomoApi;
 import com.dashotel.hotelmanagement.dto.request.common.CreateMonoRequest;

@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.service.user;
+package com.dashotel.hotelmanagement.service.impl.user;
 
 import com.dashotel.hotelmanagement.dto.request.common.CreationUserRequest;
 import com.dashotel.hotelmanagement.dto.response.common.CreationUserResponse;
@@ -14,7 +14,7 @@ import com.dashotel.hotelmanagement.exception.ErrorCode;
 import com.dashotel.hotelmanagement.mapper.AccountMapper;
 import com.dashotel.hotelmanagement.mapper.UserMapper;
 import com.dashotel.hotelmanagement.repository.AccountRepository;
-import com.dashotel.hotelmanagement.service.other.FileStorageService;
+import com.dashotel.hotelmanagement.service.impl.other.FileStorageService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

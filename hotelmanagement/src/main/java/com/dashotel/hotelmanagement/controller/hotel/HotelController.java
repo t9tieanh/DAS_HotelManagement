@@ -10,8 +10,7 @@ import com.dashotel.hotelmanagement.dto.response.hotel.HotelImageTypeCountRepons
 import com.dashotel.hotelmanagement.dto.response.hotel.HotelResultResponse;
 import com.dashotel.hotelmanagement.dto.response.paging.PagingResponse;
 import com.dashotel.hotelmanagement.enums.HotelImageEnum;
-import com.dashotel.hotelmanagement.service.hotel.HotelService;
-import com.dashotel.hotelmanagement.service.other.URLDecodeService;
+import com.dashotel.hotelmanagement.service.impl.hotel.HotelService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -27,9 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class HotelController {
-
     HotelService hotelService;
-    URLDecodeService urlDecodeService;
 
     @GetMapping("/result")
     ApiResponse<List<HotelResultResponse>> getListHotelToReservation(@RequestParam LocalDate checkIn,
@@ -49,6 +46,7 @@ public class HotelController {
                                                                          @RequestParam(required = true) LocalDate checkOut,
                                                                          @RequestParam(defaultValue = "1") Long numAdults,
                                                                          @RequestParam(defaultValue = "1") Long numRooms,
+                                                                         @RequestParam(required = false) String location,
                                                                          @RequestParam(defaultValue = "0") int page,
                                                                          @RequestParam(defaultValue = "3") int size) {
 
@@ -57,7 +55,7 @@ public class HotelController {
             throw new IllegalArgumentException("Ngày check-in và check-out không hợp lệ.");
         }
 
-        PagingResponse<HotelResultResponse> hotelResult = hotelService.getHotelBySearch(checkIn, checkOut, numAdults, numRooms, page, size);
+        PagingResponse<HotelResultResponse> hotelResult = hotelService.getHotelBySearch(checkIn, checkOut, numAdults, numRooms, page, size, location);
 
         return ApiResponse.<PagingResponse<HotelResultResponse>>builder()
                 .code(HttpStatus.OK.value())

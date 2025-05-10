@@ -11,8 +11,8 @@ import com.dashotel.hotelmanagement.dto.response.reservation.ApplyDiscountRespon
 import com.dashotel.hotelmanagement.dto.response.reservation.InitialReservationResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.ReservationStepResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.history.ReservationHistoryResponse;
-import com.dashotel.hotelmanagement.service.auth.AuthenticationService;
-import com.dashotel.hotelmanagement.service.reservation.ReservationService;
+import com.dashotel.hotelmanagement.service.impl.auth.AuthenticationService;
+import com.dashotel.hotelmanagement.service.impl.reservation.ReservationService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -104,7 +104,6 @@ public class ReservationController {
     }
 
 
-
     @PreAuthorize("@reservationService.isOwnerOfReservation(#id, authentication.name)")
     @GetMapping("/current-step")
     ApiResponse<ReservationStepResponse> getCurrentStep (@RequestParam("id") String id)  {
@@ -126,5 +125,4 @@ public class ReservationController {
                 .result(result)
                 .build();
     }
-
 }

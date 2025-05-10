@@ -1,13 +1,12 @@
 package com.dashotel.hotelmanagement.controller.mail;
 
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
-import com.dashotel.hotelmanagement.service.other.EmailService;
-import com.dashotel.hotelmanagement.service.other.OtpService;
+import com.dashotel.hotelmanagement.service.impl.other.EmailService;
+import com.dashotel.hotelmanagement.service.impl.other.OtpService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

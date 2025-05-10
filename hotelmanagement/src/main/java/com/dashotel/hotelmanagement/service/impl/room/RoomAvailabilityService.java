@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.service.room;
+package com.dashotel.hotelmanagement.service.impl.room;
 
 import com.dashotel.hotelmanagement.dto.request.room.RoomAvailabilityRequest;
 import com.dashotel.hotelmanagement.dto.response.room.RoomAvailabilityResponse;

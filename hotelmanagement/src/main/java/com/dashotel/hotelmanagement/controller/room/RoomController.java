@@ -5,7 +5,7 @@ import com.dashotel.hotelmanagement.dto.request.room.RoomTypeCreationRequest;
 import com.dashotel.hotelmanagement.dto.request.room.RoomTypeImageRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
-import com.dashotel.hotelmanagement.service.room.RoomTypeService;
+import com.dashotel.hotelmanagement.service.impl.room.RoomTypeService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
