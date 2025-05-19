@@ -19,6 +19,7 @@ import com.dashotel.hotelmanagement.repository.hotel.HotelRepository;
 import com.dashotel.hotelmanagement.repository.room.RoomTypeRepository;
 import com.dashotel.hotelmanagement.service.impl.hotel.HotelSearchService;
 import com.dashotel.hotelmanagement.service.impl.other.FileStorageService;
+import com.dashotel.hotelmanagement.service.room.IRoomService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -36,7 +37,7 @@ import java.util.stream.Collectors;
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
-public class RoomTypeService {
+public class RoomTypeService implements IRoomService {
 
     RoomTypeRepository roomTypeRepository;
     HotelRepository hotelRepository;

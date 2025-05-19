@@ -5,6 +5,7 @@ import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
 import com.dashotel.hotelmanagement.entity.service.HotelFacilityEntity;
 import com.dashotel.hotelmanagement.mapper.HotelFacilityMapper;
 import com.dashotel.hotelmanagement.repository.HotelFacilityRepository;
+import com.dashotel.hotelmanagement.service.service.IFacilityService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class HotelFacilityService {
+public class HotelFacilityService implements IFacilityService {
     HotelFacilityRepository hotelFacilityRepository;
 
     HotelFacilityMapper mapper;
@@ -31,5 +32,4 @@ public class HotelFacilityService {
                 .id(hotelFacilityEntity.getId())
                 .build();
     }
-
 }

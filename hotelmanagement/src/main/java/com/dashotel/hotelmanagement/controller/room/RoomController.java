@@ -6,6 +6,7 @@ import com.dashotel.hotelmanagement.dto.request.room.RoomTypeImageRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
 import com.dashotel.hotelmanagement.service.impl.room.RoomTypeService;
+import com.dashotel.hotelmanagement.service.room.IRoomService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -18,7 +19,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RoomController {
-    RoomTypeService roomTypeService;
+    IRoomService roomTypeService;
 
     @PostMapping(consumes = "multipart/form-data")
     ApiResponse<CreationResponse> createRoom (@ModelAttribute RoomTypeCreationRequest request) throws IOException {

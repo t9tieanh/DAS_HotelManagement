@@ -3,10 +3,12 @@ import com.dashotel.hotelmanagement.dto.common.DiscountDTO;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
 import com.dashotel.hotelmanagement.service.impl.promotion.DiscountService;
+import com.dashotel.hotelmanagement.service.promotion.IDiscountService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
+import org.yaml.snakeyaml.events.Event;
 
 import java.text.ParseException;
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PromotionController {
 
-    DiscountService discountService;
+    IDiscountService discountService;
 
     // lấy những discount có sawnx
     @GetMapping(value = "/available")

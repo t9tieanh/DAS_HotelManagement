@@ -55,6 +55,10 @@ public class HotelController {
             throw new IllegalArgumentException("Ngày check-in và check-out không hợp lệ.");
         }
 
+        // tù khóa location
+        if (location.equals("all") || location.equals("Tất cả"))
+            location = null;
+
         PagingResponse<HotelResultResponse> hotelResult = hotelService.getHotelBySearch(checkIn, checkOut, numAdults, numRooms, page, size, location);
 
         return ApiResponse.<PagingResponse<HotelResultResponse>>builder()

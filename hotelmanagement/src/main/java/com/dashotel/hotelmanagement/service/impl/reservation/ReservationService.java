@@ -33,6 +33,7 @@ import com.dashotel.hotelmanagement.repository.promotion.DiscountRepository;
 import com.dashotel.hotelmanagement.repository.reservation.ReservationRepository;
 import com.dashotel.hotelmanagement.service.impl.promotion.DiscountService;
 import com.dashotel.hotelmanagement.service.impl.room.RoomTypeService;
+import com.dashotel.hotelmanagement.service.reservation.IReservationService;
 import com.dashotel.hotelmanagement.utils.JwtUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +56,7 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
 @Slf4j
-public class ReservationService {
+public class ReservationService implements IReservationService {
     ReservationRepository reservationRepository;
     CustomerRepository customerRepository;
     DiscountRepository discountRepository;
@@ -105,7 +106,7 @@ public class ReservationService {
                 .customer(customerEntity)
                 .checkIn(request.getCheckIn())
                 .checkOut(request.getCheckOut())
-                .expireDateTime(LocalDateTime.now().plusMinutes(100)) // thời gian transaction là 20 phút
+                .expireDateTime(LocalDateTime.now().plusMinutes(20)) // thời gian transaction là 20 phút
                 .status(BookingStatusEnum.CREATED) // set trạng thái mới khởi tạo
                 .build();
 
@@ -359,4 +360,7 @@ public class ReservationService {
                 }).collect(Collectors.toList());
     }
 
+    public Long getReservationCompletedCount(String customerId) {
+        return reservationRepository.countByStatusAndCustomerId(BookingStatusEnum.PAID, customerId);
+    }
 }

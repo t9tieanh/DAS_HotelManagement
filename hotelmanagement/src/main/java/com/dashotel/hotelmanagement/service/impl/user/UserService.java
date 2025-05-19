@@ -68,7 +68,7 @@ public class UserService {
                 || accountRepository.existsByEmail(request.getEmail())) {
             throw new CustomException(ErrorCode.USER_EXISTED); // user đã tồn tại
         }
-        request.setRole(RoleAccountEnum.CUSTOMER);
+
         AccountEntity accountEntity = accountMapper.toAccountEntity(request);
         // tiến hành lưu ảnh
         if(request.getImgUrl() != null) {
@@ -79,7 +79,11 @@ public class UserService {
 
         //update password
         accountEntity.setPassword(passwordEncoder.encode(accountEntity.getPassword()));
-        accountEntity.setStatus(AccountStatusEnum.ACTIVE);
+
+        // đối với account customer thì phải xác minh lại
+        AccountStatusEnum status = (request.getRole().equals(RoleAccountEnum.CUSTOMER))
+                ? AccountStatusEnum.UNVERIFIED : AccountStatusEnum.ACTIVE;
+        accountEntity.setStatus(status);
 
         return accountMapper.toResponse(accountRepository.save(accountEntity));
     }

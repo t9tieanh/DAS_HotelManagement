@@ -9,6 +9,7 @@ import com.dashotel.hotelmanagement.exception.ErrorCode;
 import com.dashotel.hotelmanagement.mapper.DiscountMapper;
 import com.dashotel.hotelmanagement.repository.CustomerRepository;
 import com.dashotel.hotelmanagement.repository.promotion.DiscountRepository;
+import com.dashotel.hotelmanagement.service.promotion.IDiscountService;
 import com.dashotel.hotelmanagement.utils.JwtUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
-public class DiscountService {
+public class DiscountService implements IDiscountService {
     DiscountRepository discountRepository;
     CustomerRepository customerRepository;
 
@@ -55,20 +56,6 @@ public class DiscountService {
         return discountRepository.findAvailabeDiscountByLoyaltPoint(customerEntity.getLoyaltyPoints()).stream()
                 .map(discountMapper::toDTO)
                 .collect(Collectors.toList());
-    }
-
-    public DiscountDTO getDiscountByCode (String code) {
-
-        DiscountEntity discount = discountRepository.findByCode(code)
-                .orElseThrow(() -> new CustomException(ErrorCode.DISCOUNT_NOT_AVAILABLE));
-
-        //check xem mã gia giá hết hạn chưa
-        if (discount.getBeginDate().isAfter(LocalDate.now()) ||
-                discount.getEndDate().isBefore(LocalDate.now())) {
-            throw new CustomException(ErrorCode.DISCOUNT_EXPIRED);
-        }
-
-        return discountMapper.toDTO(discount);
     }
 
 

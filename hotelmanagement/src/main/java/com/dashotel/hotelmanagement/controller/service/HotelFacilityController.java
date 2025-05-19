@@ -4,6 +4,7 @@ import com.dashotel.hotelmanagement.dto.request.service.HotelFacilityRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
 import com.dashotel.hotelmanagement.service.impl.service.HotelFacilityService;
+import com.dashotel.hotelmanagement.service.service.IFacilityService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class HotelFacilityController {
+    IFacilityService hotelFacilityService;
 
-    HotelFacilityService hotelFacilityService;
     @PostMapping
     ApiResponse<CreationResponse> addHotelFacility (@RequestBody HotelFacilityRequest request) {
 
