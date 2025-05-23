@@ -24,6 +24,9 @@ public interface HotelRepository extends JpaRepository<HotelEntity, String> {
     @Query("SELECT h FROM HotelEntity h WHERE h.id IN :hotelIds")
     Page<HotelEntity> findByIdIn (@Param("hotelIds") Set<String> hotelIds, Pageable pageable);
 
-    HotelEntity findOneById(String id);
 
+    @Query("SELECT h FROM HotelEntity h WHERE h.address.city = :city AND h.address.district = :district")
+    List<HotelEntity> findByCityAndDistrict(@Param("city") String city, @Param("district") String district);
+
+    List<HotelEntity> findAll();
 }

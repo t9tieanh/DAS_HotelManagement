@@ -2,8 +2,7 @@ package com.dashotel.hotelmanagement.configuration;
 
 import com.dashotel.hotelmanagement.exception.CustomException;
 import com.dashotel.hotelmanagement.exception.ErrorCode;
-import com.dashotel.hotelmanagement.service.auth.AuthenticationService;
-import com.dashotel.hotelmanagement.utils.JwtUtils;
+import com.dashotel.hotelmanagement.service.impl.auth.AuthenticationService;
 import jakarta.annotation.PostConstruct;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

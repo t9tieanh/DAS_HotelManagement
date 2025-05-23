@@ -7,8 +7,8 @@ import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.dto.response.common.AuthenticationResponse;
 import com.dashotel.hotelmanagement.dto.response.common.CreationUserResponse;
 import com.dashotel.hotelmanagement.dto.response.common.IntrospectResponse;
-import com.dashotel.hotelmanagement.service.auth.AuthenticationService;
-import com.dashotel.hotelmanagement.service.user.UserService;
+import com.dashotel.hotelmanagement.service.auth.IAuthenticationService;
+import com.dashotel.hotelmanagement.service.impl.user.UserService;
 import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import java.text.ParseException;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthController {
 
-    AuthenticationService authenticationService;
+    IAuthenticationService authenticationService;
     UserService userService;
 
     @PostMapping("outbound/authentication")

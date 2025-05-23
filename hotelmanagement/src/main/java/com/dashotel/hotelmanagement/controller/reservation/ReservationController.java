@@ -1,5 +1,6 @@
 package com.dashotel.hotelmanagement.controller.reservation;
 
+import com.dashotel.hotelmanagement.dto.common.DiscountDTO;
 import com.dashotel.hotelmanagement.dto.common.ResponseDTO;
 import com.dashotel.hotelmanagement.dto.request.reservation.initial.ApplyDiscountRequest;
 import com.dashotel.hotelmanagement.dto.request.reservation.initial.InitialReservationRequest;
@@ -10,8 +11,10 @@ import com.dashotel.hotelmanagement.dto.response.reservation.ApplyDiscountRespon
 import com.dashotel.hotelmanagement.dto.response.reservation.InitialReservationResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.ReservationStepResponse;
 import com.dashotel.hotelmanagement.dto.response.reservation.history.ReservationHistoryResponse;
-import com.dashotel.hotelmanagement.service.auth.AuthenticationService;
-import com.dashotel.hotelmanagement.service.reservation.ReservationService;
+import com.dashotel.hotelmanagement.service.auth.IAuthenticationService;
+import com.dashotel.hotelmanagement.service.impl.auth.AuthenticationService;
+import com.dashotel.hotelmanagement.service.impl.reservation.ReservationService;
+import com.dashotel.hotelmanagement.service.reservation.IReservationService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -27,8 +30,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ReservationController {
-    ReservationService reservationService;
-    AuthenticationService authService;
+    IReservationService reservationService;
+    IAuthenticationService authService;
 
     @PostMapping
     ApiResponse<InitialReservationResponse> createReservation (@RequestBody InitialReservationRequest request) throws ParseException {
@@ -59,8 +62,11 @@ public class ReservationController {
         // Gọi service để xóa reservation theo id
         ResponseDTO deleted = reservationService.cancelReservation(id);
 
+        String message = "Xác nhận hủy đặt phòng thành công !";
+
         return ApiResponse.<ResponseDTO>builder()
                 .code(200)
+                .message(message)
                 .result(deleted)
                 .build();
     }
@@ -91,6 +97,17 @@ public class ReservationController {
     }
 
 
+    @PreAuthorize("@reservationService.isOwnerOfReservation(#id, authentication.name)")
+    @GetMapping("applied-discounts/{id}")
+    ApiResponse<List<DiscountDTO>> getDiscountByReservation (@PathVariable("id") String id) {
+        List<DiscountDTO> result = reservationService.getDiscountByReservation(id);
+
+        return ApiResponse.<List<DiscountDTO>>builder()
+                .code(200)
+                .result(result)
+                .build();
+    }
+
 
     @PreAuthorize("@reservationService.isOwnerOfReservation(#id, authentication.name)")
     @GetMapping("/current-step")
@@ -114,4 +131,14 @@ public class ReservationController {
                 .build();
     }
 
+    @GetMapping("/reservations-completed-count")
+     ApiResponse<Long> getReservationCompletedCount() {
+        String customerId = authService.getCurrentUserId();
+        Long result = reservationService.getReservationCompletedCount(customerId);
+
+        return ApiResponse.<Long>builder()
+                .code(HttpStatus.OK.value())
+                .result(result)
+                .build();
+    }
 }

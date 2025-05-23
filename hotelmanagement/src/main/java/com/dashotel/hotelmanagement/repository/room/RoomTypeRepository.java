@@ -1,5 +1,6 @@
 package com.dashotel.hotelmanagement.repository.room;
 
+import com.dashotel.hotelmanagement.entity.hotel.HotelEntity;
 import com.dashotel.hotelmanagement.entity.room.RoomTypeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,6 +21,22 @@ public interface RoomTypeRepository extends JpaRepository<RoomTypeEntity, String
                                     @Param("checkOut") LocalDate checkOut,
                                     @Param("numRooms") Long numRooms,
                                     @Param("numDays") Long numDays);
+
+
+    @Query("SELECT ra.roomType FROM RoomAvailabilityEntity ra " +
+            "WHERE ra.availableDate >= :checkIn AND ra.availableDate < :checkOut " +
+            "AND (ra.totalRoom - ra.bookedRoom) >= :numRooms " +
+            "AND ra.roomType.hotel IN :hotels " +
+//            "AND ra.status = true " +
+            "GROUP BY ra.roomType " +
+            "HAVING COUNT(ra.availableDate) = :numDays")
+    List<RoomTypeEntity> findAvailableRoomsbyHotels(
+            @Param("checkIn") LocalDate checkIn,
+            @Param("checkOut") LocalDate checkOut,
+            @Param("numRooms") Long numRooms,
+            @Param("numDays") Long numDays,
+            @Param("hotels") Set<HotelEntity> hotels
+    );
 
     @Query("SELECT r FROM RoomTypeEntity r WHERE r.hotel.id = :hotelId")
     List<RoomTypeEntity> getRoomTypeEntitiesByHotelId(@Param("hotelId") String hotelId);

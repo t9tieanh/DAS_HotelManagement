@@ -20,7 +20,7 @@ public enum ErrorCode {
     PASSWORD_INVALID(1005,"password must be at least 8 characters",HttpStatus.BAD_REQUEST),
     INVALID_DOB(1008,"dob must least {min}",HttpStatus.BAD_REQUEST),
 
-    UN_AUTHENTICATED(1009,"Unauthenticated",HttpStatus.UNAUTHORIZED),
+    UN_AUTHENTICATED(1009,"Thông tin xác thực không hợp lệ !",HttpStatus.UNAUTHORIZED),
     ACCOUNT_UN_ACTIVE(1009,"Tài khoản chưa được kích hoạt !",HttpStatus.UNAUTHORIZED),
 
     OTP_SEND(1010,"Cannot send otp",HttpStatus.INTERNAL_SERVER_ERROR),

@@ -6,12 +6,14 @@ import com.dashotel.hotelmanagement.dto.request.payment.VNPayRequest;
 import com.dashotel.hotelmanagement.dto.request.payment.VnPayCallbackRequest;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;
-import com.dashotel.hotelmanagement.service.payment.PaymentService;
+import com.dashotel.hotelmanagement.service.payment.IPaymentService;
+import com.dashotel.hotelmanagement.service.payment.IVNPayPaymentService;
 import com.dashotel.hotelmanagement.utils.VNPayUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,7 +26,10 @@ import java.net.URI;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PaymentController {
-    PaymentService paymentService;
+
+    @Qualifier("payAtHotelService")
+    IPaymentService<RequestDTO, CreationResponse> payAtHotelService;
+    IVNPayPaymentService payWithVnPayService;
 
     @GetMapping("/vn-pay")
     @PreAuthorize("@reservationService.isOwnerOfReservation(#reservationId, authentication.name)")
@@ -48,7 +53,7 @@ public class PaymentController {
                 .build();
 
         // Gọi Service
-        return new ApiResponse<>(HttpStatus.OK.value(), "Success", paymentService.creatVNPayPayment(vnPayRequest));
+        return new ApiResponse<>(HttpStatus.OK.value(), "Success", payWithVnPayService.creatVNPayPayment(vnPayRequest));
     }
 
 
@@ -71,7 +76,7 @@ public class PaymentController {
 
         try {
             // 3. Gọi service để xử lý và nhận URI redirect
-            URI redirectUri = paymentService.handlePaymentWithVnPay(request);
+            URI redirectUri = payWithVnPayService.processPay(request);
 
             // 4. Trả về 302 Found với Location header
             return ResponseEntity
@@ -91,7 +96,7 @@ public class PaymentController {
     @PostMapping("/at-hotel")
     @PreAuthorize("@reservationService.isOwnerOfReservation(#requestDTO.id, authentication.name)")
     public ApiResponse<CreationResponse> payAtHotel(@RequestBody RequestDTO requestDTO) {
-        CreationResponse result = paymentService.payAtHotel(requestDTO);
+        CreationResponse result = payAtHotelService.processPay(requestDTO);
 
         String message = (result.getIsSuccess()) ? "Bạn đã thanh toán thành công !" : "Thanh toán thất bại";
 

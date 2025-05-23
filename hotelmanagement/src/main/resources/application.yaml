@@ -30,7 +30,7 @@ spring:
 
   jwt:
     signerKey: ${JWT_SIGNER_KEY}
-    access-token-expiration: 7200000    # 2 tiếng (2 * 60 * 60 * 1000 ms)
+    access-token-expiration: 21600000    # 2 tiếng (2 * 60 * 60 * 1000 ms)
     refresh-token-expiration: 604800000 # 7 ngày (7 * 24 * 60 * 60 * 1000 ms)
     short-lived-token : 3600000
 
