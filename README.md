@@ -23,7 +23,7 @@ Follow these steps to set up and run HOTELAS locally:
 
 1. **Clone the Repository**:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/t9tieanh/DAS_HotelManagement
    ```
 2. **Configure Environment**:
    - Create `.env` files for MySQL, Redis, and VNPay credentials.
