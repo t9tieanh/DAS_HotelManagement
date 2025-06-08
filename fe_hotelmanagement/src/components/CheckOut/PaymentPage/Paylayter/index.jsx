@@ -17,6 +17,8 @@ const PayLater = ({handleNextStep}) => {
         const data = await payAtHotel(reservationId)
             
         if (data && data.code && data.code === 200 && data?.result) {
+            toast.success(data?.message)
+            // chuyển sang bước tiếp theo
             handleNextStep()
         } else if (data.response && data.response.data) {
             toast.error(data.response.data.message) // thông báo lôi từ server
