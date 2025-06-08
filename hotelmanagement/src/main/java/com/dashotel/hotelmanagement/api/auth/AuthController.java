@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.controller.auth;
+package com.dashotel.hotelmanagement.api.auth;
 
 import com.dashotel.hotelmanagement.dto.request.common.AuthenticationRequest;
 import com.dashotel.hotelmanagement.dto.request.common.CreationUserRequest;

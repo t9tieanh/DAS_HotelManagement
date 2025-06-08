@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.controller.room;
+package com.dashotel.hotelmanagement.api.room;
 
 import com.dashotel.hotelmanagement.dto.request.room.OpenRoomRequest;
 import com.dashotel.hotelmanagement.dto.request.room.RoomTypeCreationRequest;

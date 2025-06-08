@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.controller.hotel;
+package com.dashotel.hotelmanagement.api.hotel;
 
 import com.dashotel.hotelmanagement.dto.request.hotel.HotelCreationRequest;
 import com.dashotel.hotelmanagement.dto.request.hotel.HotelImageRequest;

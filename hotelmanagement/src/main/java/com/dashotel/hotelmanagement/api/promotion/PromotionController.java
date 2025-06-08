@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.controller.promotion;
+package com.dashotel.hotelmanagement.api.promotion;
 import com.dashotel.hotelmanagement.dto.common.DiscountDTO;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.dto.response.common.CreationResponse;

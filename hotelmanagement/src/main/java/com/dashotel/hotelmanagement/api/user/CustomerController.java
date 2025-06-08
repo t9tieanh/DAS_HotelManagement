@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.controller.user;
+package com.dashotel.hotelmanagement.api.user;
 
 import com.dashotel.hotelmanagement.dto.request.common.CustomerRequestDTO;
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;

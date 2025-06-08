@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.controller.reservation;
+package com.dashotel.hotelmanagement.api.reservation;
 
 import com.dashotel.hotelmanagement.dto.common.DiscountDTO;
 import com.dashotel.hotelmanagement.dto.common.ResponseDTO;

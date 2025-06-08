@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.controller.payment;
+package com.dashotel.hotelmanagement.api.payment;
 
 import com.dashotel.hotelmanagement.dto.common.RequestDTO;
 import com.dashotel.hotelmanagement.dto.other.PaymentDTO;

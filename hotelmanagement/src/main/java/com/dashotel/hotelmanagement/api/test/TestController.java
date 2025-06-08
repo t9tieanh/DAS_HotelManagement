@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.controller.test;
+package com.dashotel.hotelmanagement.api.test;
 
 import com.dashotel.hotelmanagement.dto.common.test.ImageUpload;
 import com.dashotel.hotelmanagement.service.impl.other.FileStorageService;

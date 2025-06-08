@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.controller.file;
+package com.dashotel.hotelmanagement.api.file;
 
 
 import com.dashotel.hotelmanagement.service.impl.other.FileStorageService;

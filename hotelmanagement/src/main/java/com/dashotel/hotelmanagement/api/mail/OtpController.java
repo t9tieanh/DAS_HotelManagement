@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.controller.mail;
+package com.dashotel.hotelmanagement.api.mail;
 
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.dashotel.hotelmanagement.service.impl.other.EmailService;

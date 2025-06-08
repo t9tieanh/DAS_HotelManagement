@@ -1,4 +1,4 @@
-package com.dashotel.hotelmanagement.controller.address;
+package com.dashotel.hotelmanagement.api.address;
 
 import com.dashotel.hotelmanagement.dto.response.ApiResponse;
 import com.fasterxml.jackson.core.exc.StreamReadException;
