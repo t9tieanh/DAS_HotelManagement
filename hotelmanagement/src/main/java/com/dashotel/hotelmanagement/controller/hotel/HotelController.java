@@ -10,6 +10,8 @@ import com.dashotel.hotelmanagement.dto.response.hotel.HotelImageTypeCountRepons
 import com.dashotel.hotelmanagement.dto.response.hotel.HotelResultResponse;
 import com.dashotel.hotelmanagement.dto.response.paging.PagingResponse;
 import com.dashotel.hotelmanagement.enums.HotelImageEnum;
+import com.dashotel.hotelmanagement.exception.CustomException;
+import com.dashotel.hotelmanagement.exception.ErrorCode;
 import com.dashotel.hotelmanagement.service.impl.hotel.HotelService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -46,13 +48,13 @@ public class HotelController {
                                                                          @RequestParam(required = true) LocalDate checkOut,
                                                                          @RequestParam(defaultValue = "1") Long numAdults,
                                                                          @RequestParam(defaultValue = "1") Long numRooms,
-                                                                         @RequestParam(required = false) String location,
+                                                                         @RequestParam(defaultValue = "all") String location,
                                                                          @RequestParam(defaultValue = "0") int page,
                                                                          @RequestParam(defaultValue = "3") int size) {
 
 
-        if (checkIn == null || checkOut == null || checkIn.isAfter(checkOut)) {
-            throw new IllegalArgumentException("Ngày check-in và check-out không hợp lệ.");
+        if (checkIn == null || checkOut == null || checkIn.isAfter(checkOut) || numAdults < 1) {
+            throw new CustomException(ErrorCode.ROOM_NOT_FOUND);
         }
 
         // tù khóa location

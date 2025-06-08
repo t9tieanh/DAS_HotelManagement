@@ -51,12 +51,14 @@ const HotelSearchPage = () => {
     try {
 
       const data = await findRoomInHotel(checkIn.toISOString().split('T')[0], checkOut.toISOString().split('T')[0],
-        numAdults, numRooms, page, limit);
+        numAdults, numRooms, page, limit, locationValue);
+
       if (data && data.code && data.code === 200 && data.result) {
         setPageCount(data.result.totalPages)
         setHotelCount(data.result.totalElements)
         setHotels(data.result.content)
-      } else if (data.response && data.response.data) {
+      } 
+      else if (data.response && data.response.data) {
         toast.error(data.response.data.message)
         return
       }

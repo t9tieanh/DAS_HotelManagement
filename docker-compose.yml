@@ -43,7 +43,7 @@ services:
       SPRING_REDIS_HOST: redis
       SPRING_REDIS_PORT: 6379
     volumes:
-      - upload_data:/uploads
+      - upload_data:/app/uploads
 
   hotel-frontend:
     build:
