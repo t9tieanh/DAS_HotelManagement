@@ -42,18 +42,18 @@ Discover the sleek and responsive user interface of HOTELAS, crafted with ReactJ
 The homepage offers an interactive search bar and showcases featured hotels, making it easy to start your booking journey.
 
 - **Screenshots**:
-  - ![Homepage Screenshot](./screenshots/homepage.png)
-  - ![Homepage Screenshot](./screenshots/homepage1.png)
-  - ![Homepage Screenshot](./screenshots/homepage2.png)
+  ![Homepage Screenshot](./screenshots/homepage.png)
+  ![Homepage Screenshot](./screenshots/homepage1.png)
+  ![Homepage Screenshot](./screenshots/homepage2.png)
 - **Description**: A vibrant, user-friendly interface with a powerful search tool and curated hotel listings.
 
 ### 🛏️ Room Details
 Explore comprehensive room information, including high-quality images, pricing, and available discounts.
 
 - **Screenshots**:
-  - ![Room Details Screenshot](./screenshots/room-details.png)
-  - ![Room Details Screenshot](./screenshots/room-details1.png)
-  - ![Room Details Screenshot](./screenshots/room-details2.png)
+  ![Room Details Screenshot](./screenshots/room-details.png)
+  ![Room Details Screenshot](./screenshots/room-details1.png)
+  ![Room Details Screenshot](./screenshots/room-details2.png)
 - **Description**: Detailed room views with clear pricing and booking options for a seamless user experience.
 
 ### 🔄 Booking Process – 3 Simple Steps
@@ -63,48 +63,48 @@ HOTELAS simplifies booking into three intuitive steps, ensuring a smooth and sec
 Enter essential details such as full name, email, and phone number to initiate the booking.
 
 - **Screenshots**:
-  - ![Customer Info](./screenshots/booking-page.png)
-  - ![Customer Info](./screenshots/booking-page1.png)
-  - ![Customer Info](./screenshots/booking-page2.png)
+  ![Customer Info](./screenshots/booking-page.png)
+  ![Customer Info](./screenshots/booking-page1.png)
+  ![Customer Info](./screenshots/booking-page2.png)
 - **Description**: A clean, straightforward form to collect guest information.
 
 #### 🔹 Step 2: Payment
 Select a payment method, apply discount codes, and complete the transaction securely via VNPay.
 
 - **Screenshots**:
-  - ![Payment](./screenshots/step2-payment.png)
-  - ![Payment](./screenshots/step2-payment1.png)
-  - ![Payment](./screenshots/step2-payment2.png)
+  ![Payment](./screenshots/step2-payment.png)
+  ![Payment](./screenshots/step2-payment1.png)
+  ![Payment](./screenshots/step2-payment2.png)
 - **Description**: Secure and flexible payment options with real-time discount application.
 
 #### 🔹 Step 3: Payment Confirmation
 Receive instant booking confirmation with transaction status and a detailed summary.
 
 - **Screenshots**:
-  - ![Confirmation](./screenshots/step3-confirmation.png)
+  ![Confirmation](./screenshots/step3-confirmation.png)
 - **Description**: A clear, concise confirmation page to finalize the booking process.
 
 ### 🔐 Login & Google Sign-in
 Access your account securely with email/password or Google OAuth2 for a quick and safe login experience.
 
 - **Screenshots**:
-  - ![Login Screenshot](./screenshots/login.png)
-  - ![Login Screenshot](./screenshots/login1.png)
+  ![Login Screenshot](./screenshots/login.png)
+  ![Login Screenshot](./screenshots/login1.png)
 - **Description**: Fast, secure authentication with multiple login options.
 
 ### 🔎 Search Rooms
 Find available rooms by location, date range, and guest count with real-time filtering.
 
 - **Screenshots**:
-  - ![Search Screenshot](./screenshots/search.png)
-  - ![Search Screenshot](./screenshots/search1.png)
-  - ![Search Screenshot](./screenshots/search2.png)
+  ![Search Screenshot](./screenshots/search.png)
+  ![Search Screenshot](./screenshots/search1.png)
+  ![Search Screenshot](./screenshots/search2.png)
 - **Description**: A powerful search tool delivering instant results tailored to user preferences.
 
 ### 👤 Personal Profile
 Manage your profile, view booking history, and update personal details in one centralized hub.
 
 - **Screenshots**:
-  - ![Profile Screenshot](./screenshots/profile.png)
-  - ![Profile Screenshot](./screenshots/profile1.png)
+  ![Profile Screenshot](./screenshots/profile.png)
+  ![Profile Screenshot](./screenshots/profile1.png)
 - **Description**: A user-friendly interface for managing account details and tracking bookings.
